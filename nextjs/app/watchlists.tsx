@@ -132,7 +132,7 @@ export function RescreenReviews({ state, onOpen }: { state: RescreenState; onOpe
         <td><span className={`status ${entry.stage === "closed" ? "good" : "warn"}`}>{stageLabel[entry.stage]}</span></td>
         <td>{decisionText(entry.decisions, "proposed")}</td>
         <td>{decisionText(entry.decisions, "approved")}</td>
-        <td><code>{evidenceIds([...entry.evidence.V1, ...entry.evidence.V2]).join(", ")}</code></td>
+        <td className="evidence-ids">{evidenceIds([...entry.evidence.V1, ...entry.evidence.V2]).map((id) => <code key={id}>{id}</code>)}</td>
         <td>{entry.rescreenEvents.map((event) => `${event.kind} (${event.actor.name})`).join(", ") || "Not rescreened"}</td>
         <td><button className="quiet-button" type="button" onClick={() => onOpen(entry.customer)}>Open case</button></td>
       </tr>)}</tbody>

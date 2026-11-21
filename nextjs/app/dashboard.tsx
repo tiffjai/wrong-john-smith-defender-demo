@@ -78,6 +78,8 @@ export default function Dashboard({ mode, cases, benchmark, reviews, profile }: 
     } catch { /* The offline demo remains usable with a fresh history. */ }
   }, [mode]);
 
+  useEffect(() => { window.scrollTo(0, 0); }, [view]);
+
   useEffect(() => {
     if (mode !== "demo") return;
     setRescreenState(readRescreenState(localStorage.getItem(rescreenStorageKey)));
