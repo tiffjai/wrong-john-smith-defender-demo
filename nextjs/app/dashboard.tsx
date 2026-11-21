@@ -19,7 +19,7 @@ import { latestReview, reviewStage, stageLabels, type QueueStage } from "../lib/
 import WatchlistsPanel, { RescreenReviews } from "./watchlists";
 
 const modes = [
-  { id: "identity", label: "Entity resolution", icon: Fingerprint },
+  { id: "identity", label: "Identity review", icon: Fingerprint },
   { id: "queue", label: "Screening queue", icon: FileSearch },
   { id: "reviews", label: "Reviews", icon: ClipboardCheck },
   { id: "watchlists", label: "Watchlists", icon: Library },

@@ -1,6 +1,6 @@
-## Brief v3 entity-resolution workspace
+## Identity review workspace
 
-In local demo mode the default view is Entity resolution. From the repository root run `python3 system/export_dashboard.py /path/to/screening/dev output`, then start or refresh this dashboard. The server reads the ignored local snapshot from `../output/screening-dashboard.local.json`. It does not bundle raw participant data into source code. In Supabase mode the existing authenticated workflow remains the entry point.
+In local demo mode the default view is Identity review. From the repository root run `python3 system/export_dashboard.py /path/to/screening/dev output`, then start or refresh this dashboard. The server reads the ignored local snapshot from `../output/screening-dashboard.local.json`. It does not bundle raw participant data into source code. In Supabase mode the existing authenticated workflow remains the entry point.
 
 The new workspace displays decision counts per hit, alert clearance only when every hit differs, resolved customer and listed-subject facts, all ambiguous candidate pictures, linkage records, reason codes and evidence gaps. Search includes IDs, reason text and evidence IDs. Import validates JSONL fields, decision/reason compatibility and duplicate hits; imported predictions stay in page memory and do not overwrite the saved run. Predictions alone do not contain the source evidence trace. Export downloads the active results.
 

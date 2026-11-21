@@ -1,6 +1,6 @@
 # Same Person or Not? — Defender
 
-Brief v3 entity-resolution system and dashboard. The local dashboard opens on **Entity resolution**, with per-hit DIFFERENT_ENTITY / SAME_ENTITY / REVIEW outcomes, two-sided identity evidence, ambiguous candidate comparisons, alert aggregation and prediction JSONL import/export.
+Brief v3 entity-resolution system and dashboard. The local dashboard opens on **Identity review**, with per-hit DIFFERENT_ENTITY / SAME_ENTITY / REVIEW outcomes, two-sided identity evidence, ambiguous candidate comparisons, alert aggregation and prediction JSONL import/export.
 
 ## Run the system
 

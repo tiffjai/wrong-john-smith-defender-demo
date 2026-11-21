@@ -8,7 +8,7 @@ python3 /path/to/screening/validate.py --data /path/to/screening/dev --output ou
 python3 system/export_dashboard.py /path/to/screening/dev output
 ```
 
-The exporter regenerates the same predictions plus `output/screening-dashboard.local.json`. Start the Next.js dashboard with `cd nextjs && npm run dev -- --hostname 127.0.0.1`; Entity resolution opens by default in local demo mode. Refresh after regenerating the snapshot. A clean checkout without participant data shows synthetic examples. Supabase mode retains the existing authenticated case workflow and never loads this local dataset.
+The exporter regenerates the same predictions plus `output/screening-dashboard.local.json`. Start the Next.js dashboard with `cd nextjs && npm run dev -- --hostname 127.0.0.1`; Identity review opens by default in local demo mode. Refresh after regenerating the snapshot. A clean checkout without participant data shows synthetic examples. Supabase mode retains the existing authenticated case workflow and never loads this local dataset.
 
 ## Architecture
 
