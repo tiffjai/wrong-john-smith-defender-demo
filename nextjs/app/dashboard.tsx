@@ -3,17 +3,20 @@
 import { useEffect, useState, type FormEvent, type ReactNode } from "react";
 import {
   Activity, ArrowDownToLine, ChartNoAxesCombined, CircleHelp, Database, FileSearch,
-  ClipboardCheck, Fingerprint, Layers3, ListFilter, LogOut, Search, ShieldAlert, ShieldCheck,
+  ClipboardCheck, Fingerprint, Layers3, Library, ListFilter, LogOut, Search, ShieldAlert, ShieldCheck,
 } from "lucide-react";
 import { signOut } from "./login/actions";
 import type { Benchmark, Case, DashboardMode, Decision, Review } from "../lib/types";
+import { initialRescreenState, readRescreenState, rescreenStorageKey, type CustomerKey, type RescreenState } from "../lib/rescreen";
 import { DocumentEvidence, OwnershipEvidence } from "./case-evidence";
 import SanctionsDetail from "./sanctions-detail";
 import RescreenDemo from "./rescreen-demo";
+import WatchlistsPanel, { RescreenReviews } from "./watchlists";
 
 const modes = [
   { id: "queue", label: "Screening queue", icon: FileSearch },
   { id: "reviews", label: "Reviews", icon: ClipboardCheck },
+  { id: "watchlists", label: "Watchlists", icon: Library },
   { id: "rescreen", label: "V2 rescreen demo", icon: Activity },
   { id: "benchmark", label: "Matching benchmark", icon: ChartNoAxesCombined },
   { id: "feeds", label: "Data sources", icon: Database },
@@ -63,6 +66,8 @@ export default function Dashboard({ mode, cases, benchmark, reviews, profile }: 
   const [v2, setV2] = useState(false);
   const [feedMessage, setFeedMessage] = useState("");
   const [filter, setFilter] = useState("");
+  const [rescreenState, setRescreenState] = useState(initialRescreenState);
+  const [rescreenCustomer, setRescreenCustomer] = useState<CustomerKey>("A");
 
   useEffect(() => {
     if (mode !== "demo") return;
@@ -72,6 +77,21 @@ export default function Dashboard({ mode, cases, benchmark, reviews, profile }: 
       setV2(localStorage.getItem("defender-fixture-v2") === "loaded");
     } catch { /* The offline demo remains usable with a fresh history. */ }
   }, [mode]);
+
+  useEffect(() => {
+    if (mode !== "demo") return;
+    setRescreenState(readRescreenState(localStorage.getItem(rescreenStorageKey)));
+    const sync = (event: StorageEvent) => {
+      if (event.key === rescreenStorageKey) setRescreenState(readRescreenState(event.newValue));
+    };
+    window.addEventListener("storage", sync);
+    return () => window.removeEventListener("storage", sync);
+  }, [mode]);
+
+  function commitRescreen(next: RescreenState) {
+    try { localStorage.setItem(rescreenStorageKey, JSON.stringify(next)); } catch { /* Keep the in-memory rehearsal if storage is blocked. */ }
+    setRescreenState(next);
+  }
 
   function loadV2() {
     if (v2) {
@@ -106,7 +126,8 @@ export default function Dashboard({ mode, cases, benchmark, reviews, profile }: 
   const conflicts = modeCases.filter((entry) => entry.packet.case_outcome.splink_with_guard === "ANALYST_REVIEW").length;
   const subtitle = view === "queue" ? "Compare match evidence and document the analyst decision."
     : view === "reviews" ? "Track cases before and after a human decision."
-    : view === "rescreen" ? "Approve two V1 closures, then check which one V2 invalidates."
+    : view === "watchlists" ? "Load a snapshot, then manually rescreen the two enrolled customers."
+    : view === "rescreen" ? "Propose and approve the two V1 closures. Load and rescreen from Watchlists."
     : view === "benchmark" ? "Compare two matchers on the same FEBRL4 candidate pairs."
     : "Inspect the demo snapshots and the benchmark’s provenance.";
 
@@ -115,7 +136,7 @@ export default function Dashboard({ mode, cases, benchmark, reviews, profile }: 
       <div className="brand"><div className="brand-emblem"><Fingerprint size={23} /></div>
         <div>Defender<small>Identity screening</small></div></div>
       <nav aria-label="Workspace">
-        {modes.filter(({ id }) => mode === "demo" || id !== "rescreen").map(({ id, label, icon: Icon }) => <button key={id} type="button" onClick={() => setView(id)}
+        {modes.filter(({ id }) => mode === "demo" || (id !== "rescreen" && id !== "watchlists")).map(({ id, label, icon: Icon }) => <button key={id} type="button" onClick={() => setView(id)}
           className={id === view ? "nav-button active" : "nav-button"} aria-current={id === view ? "page" : undefined}>
           <Icon size={18}/><span>{label}</span>
         </button>)}
@@ -156,10 +177,14 @@ export default function Dashboard({ mode, cases, benchmark, reviews, profile }: 
         </section>
       </>}
 
-      {view === "reviews" && <ReviewsPanel cases={modeCases} history={history} openCase={(id) => {
-        setSelectedId(id); setFilter(""); setView("queue");
-      }}/>}
-      {view === "rescreen" && mode === "demo" && <RescreenDemo/>}
+      {view === "reviews" && <>
+        {mode === "demo" && <RescreenReviews state={rescreenState} onOpen={(customer) => { setRescreenCustomer(customer); setView("rescreen"); }} />}
+        <ReviewsPanel cases={modeCases} history={history} openCase={(id) => {
+          setSelectedId(id); setFilter(""); setView("queue");
+        }}/>
+      </>}
+      {view === "watchlists" && mode === "demo" && <WatchlistsPanel state={rescreenState} onState={commitRescreen} />}
+      {view === "rescreen" && mode === "demo" && <RescreenDemo state={rescreenState} onState={commitRescreen} selected={rescreenCustomer} onSelect={setRescreenCustomer} />}
       {view === "benchmark" && <BenchmarkPanel data={benchmark}/>}
       {view === "feeds" && <section className="panel feed-panel">
         <div className="panel-title"><h2>Watchlist snapshots</h2><Database size={19}/></div>
