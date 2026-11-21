@@ -6,7 +6,8 @@ import {
   ClipboardCheck, Fingerprint, Layers3, ListFilter, LogOut, Search, ShieldAlert, ShieldCheck,
 } from "lucide-react";
 import { signOut } from "./login/actions";
-import type { Benchmark, Case, DashboardMode, Decision, Review } from "../lib/types";
+import { caseNoteAuthor, newestCaseNotes, OFFLINE_NOTES_MESSAGE, prepareCaseNote } from "../lib/case-notes";
+import type { Benchmark, Case, CaseNote, DashboardMode, Decision, Review } from "../lib/types";
 import { DocumentEvidence, OwnershipEvidence } from "./case-evidence";
 import SanctionsDetail from "./sanctions-detail";
 import RescreenDemo from "./rescreen-demo";
@@ -53,13 +54,14 @@ function downloadPacket(selected: Case) {
   setTimeout(() => URL.revokeObjectURL(href), 1000);
 }
 
-export default function Dashboard({ mode, cases, benchmark, reviews, profile }: {
-  mode: DashboardMode; cases: Case[]; benchmark: Benchmark; reviews: Review[];
-  profile?: { booking_entity: string; review_role: string };
+export default function Dashboard({ mode, cases, benchmark, reviews, notes: initialNotes, profile, viewerId }: {
+  mode: DashboardMode; cases: Case[]; benchmark: Benchmark; reviews: Review[]; notes: CaseNote[];
+  profile?: { booking_entity: string; review_role: string }; viewerId?: string;
 }) {
   const [view, setView] = useState<View>("queue");
   const [selectedId, setSelectedId] = useState(cases[0]?.id);
   const [history, setHistory] = useState(reviews);
+  const [notes, setNotes] = useState(initialNotes);
   const [v2, setV2] = useState(false);
   const [feedMessage, setFeedMessage] = useState("");
   const [filter, setFilter] = useState("");
@@ -98,6 +100,17 @@ export default function Dashboard({ mode, cases, benchmark, reviews, profile }: 
       localStorage.setItem("defender-review-events", JSON.stringify(next));
       setHistory(next);
     }
+  }
+
+  async function addNote(caseId: string, body: string) {
+    if (mode !== "supabase") throw new Error(OFFLINE_NOTES_MESSAGE);
+    const response = await fetch("/api/notes", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ case_id: caseId, body }),
+    });
+    const payload = await response.json();
+    if (!response.ok) throw new Error(payload.error ?? "Could not save this note.");
+    setNotes((current) => [payload as CaseNote, ...current]);
   }
 
   const modeCases = mode === "demo" && !v2 ? cases.filter((entry) => entry.snapshot === "V1") : cases;
@@ -151,7 +164,8 @@ export default function Dashboard({ mode, cases, benchmark, reviews, profile }: 
             {feedMessage && <p className="inline-message" role="status">{feedMessage}</p>}
           </div>
           {selected ? <CaseDetail key={selected.id} selected={selected} history={history.filter((e) => e.case_id === selected.id)}
-            allowResolve={mode === "demo" || profile?.review_role === "reviewer"} onSave={saveReview}/>
+            notes={newestCaseNotes(notes, selected.id)} allowResolve={mode === "demo" || profile?.review_role === "reviewer"}
+            canAnnotate={mode === "supabase"} viewerId={viewerId} onSave={saveReview} onAddNote={addNote}/>
             : <section className="panel empty"><h2>No cases in scope</h2><p>Your booking entity has no imported screening cases.</p></section>}
         </section>
       </>}
@@ -200,15 +214,20 @@ function ReviewsPanel({ cases, history, openCase }: { cases: Case[]; history: Re
   </section>;
 }
 
-function CaseDetail({ selected, history, allowResolve, onSave }: {
-  selected: Case; history: Review[]; allowResolve: boolean;
+function CaseDetail({ selected, history, notes, allowResolve, canAnnotate, viewerId, onSave, onAddNote }: {
+  selected: Case; history: Review[]; notes: CaseNote[]; allowResolve: boolean; canAnnotate: boolean;
+  viewerId?: string;
   onSave: (id: string, decision: Decision, rationale: string) => Promise<void>;
+  onAddNote: (id: string, body: string) => Promise<void>;
 }) {
   const { packet } = selected;
   const [decision, setDecision] = useState<Decision>("awaiting_evidence");
   const [rationale, setRationale] = useState("");
   const [status, setStatus] = useState("");
   const [pending, setPending] = useState(false);
+  const [noteBody, setNoteBody] = useState("");
+  const [noteStatus, setNoteStatus] = useState("");
+  const [notePending, setNotePending] = useState(false);
 
   async function submit(event: FormEvent) {
     event.preventDefault();
@@ -217,6 +236,16 @@ function CaseDetail({ selected, history, allowResolve, onSave }: {
     try { await onSave(selected.id, decision, rationale.trim()); setRationale(""); setStatus("Review saved."); }
     catch (error) { setStatus(error instanceof Error ? error.message : "Could not save the review."); }
     finally { setPending(false); }
+  }
+
+  async function submitNote(event: FormEvent) {
+    event.preventDefault();
+    const prepared = prepareCaseNote({ case_id: selected.id, body: noteBody });
+    if (!prepared.ok) { setNoteStatus(prepared.error); return; }
+    setNotePending(true);
+    try { await onAddNote(selected.id, prepared.insert.body); setNoteBody(""); setNoteStatus("Note saved."); }
+    catch (error) { setNoteStatus(error instanceof Error ? error.message : "Could not save the note."); }
+    finally { setNotePending(false); }
   }
 
   return <section className="panel detail-panel" aria-label="Case detail">
@@ -269,6 +298,22 @@ function CaseDetail({ selected, history, allowResolve, onSave }: {
     {history.length > 0 && <section className="history"><h3>Review history</h3>{history.map((entry, index) =>
       <article key={`${entry.created_at}-${index}`}><strong>{decisionLabels[entry.decision]}</strong><time dateTime={entry.created_at}>{new Date(entry.created_at).toLocaleString()}</time><p>{entry.rationale}</p></article>
     )}</section>}
+    <section className="case-notes" aria-label="Case notes">
+      <h3>Case notes</h3>
+      {canAnnotate ? <form onSubmit={submitNote}>
+        <label>Note<textarea value={noteBody} onChange={(event) => setNoteBody(event.target.value)} rows={3} aria-describedby="note-length-hint"/></label>
+        <p id="note-length-hint" className="muted">1 to 1,000 characters. The signed-in account is recorded as the author.</p>
+        <button className="primary" disabled={notePending || !noteBody.trim()}>{notePending ? "Saving…" : "Add note"}</button>
+        {noteStatus && <span role="status" className="review-feedback">{noteStatus}</span>}
+      </form> : <p className="muted">{OFFLINE_NOTES_MESSAGE}</p>}
+      {notes.length === 0 && <p className="muted empty">No case notes yet.</p>}
+      {notes.map((note) => {
+        const author = caseNoteAuthor(note.author_id, viewerId);
+        return <article key={note.id}><strong>{author}</strong>
+          {author !== note.author_id && <code>{note.author_id}</code>}
+          <time dateTime={note.created_at}>{new Date(note.created_at).toLocaleString()}</time><p>{note.body}</p></article>;
+      })}
+    </section>
   </section>;
 }
 

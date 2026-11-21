@@ -1,0 +1,30 @@
+[
+  {
+    "id": "SYN-NOTE-1102",
+    "case_id": "CASE-11",
+    "author_id": "SYN-REVIEWER-UK",
+    "body": "Synthetic rehearsal: a reviewer left this note after the ownership packet. It does not change the human decision.",
+    "created_at": "2026-11-21T09:30:00.000Z"
+  },
+  {
+    "id": "SYN-NOTE-1101",
+    "case_id": "CASE-11",
+    "author_id": "SYN-ANALYST-UK",
+    "body": "Synthetic rehearsal: ownership links are visible and still need a person to decide.",
+    "created_at": "2026-11-20T11:00:00.000Z"
+  },
+  {
+    "id": "SYN-NOTE-0801",
+    "case_id": "CASE-08",
+    "author_id": "SYN-ANALYST-UK",
+    "body": "Synthetic rehearsal: verified full birth dates for A and C still conflict.",
+    "created_at": "2026-11-19T16:00:00.000Z"
+  },
+  {
+    "id": "SYN-NOTE-1201",
+    "case_id": "CASE-12",
+    "author_id": "SYN-ANALYST-UK",
+    "body": "Synthetic rehearsal: the document timeline shows a replacement, not a second customer.",
+    "created_at": "2026-11-18T10:15:00.000Z"
+  }
+]

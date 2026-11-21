@@ -1,9 +1,9 @@
 import { redirect } from "next/navigation";
 import { ShieldCheck } from "lucide-react";
 import benchmark from "../data/benchmark.json";
-import { fixtures } from "../lib/fixtures";
+import { demoNotes, fixtures } from "../lib/fixtures";
 import { cloudMode, config, serverClient } from "../lib/supabase";
-import type { Case, Review } from "../lib/types";
+import type { Case, CaseNote, Review } from "../lib/types";
 import Dashboard from "./dashboard";
 
 export const dynamic = "force-dynamic";
@@ -16,7 +16,7 @@ function ConnectionMessage({ title, detail }: { title: string; detail: string })
 }
 
 export default async function Page() {
-  if (!cloudMode) return <Dashboard mode="demo" cases={fixtures} benchmark={benchmark} reviews={[]} />;
+  if (!cloudMode) return <Dashboard mode="demo" cases={fixtures} benchmark={benchmark} reviews={[]} notes={demoNotes} />;
 
   const settings = config();
   if (!settings) return <ConnectionMessage title="Supabase setup required"
@@ -24,18 +24,20 @@ export default async function Page() {
 
   const supabase = await serverClient(settings);
   const { data: auth } = await supabase.auth.getClaims();
-  if (!auth?.claims.sub) redirect("/login");
+  const viewerId = auth?.claims.sub;
+  if (!viewerId) redirect("/login");
 
-  const [profile, cases, reviews] = await Promise.all([
-    supabase.from("analyst_profiles").select("booking_entity, review_role").eq("user_id", auth.claims.sub).maybeSingle(),
+  const [profile, cases, reviews, notes] = await Promise.all([
+    supabase.from("analyst_profiles").select("booking_entity, review_role").eq("user_id", viewerId).maybeSingle(),
     supabase.from("screening_cases").select("id, title, booking_entity, snapshot, packet, recommendation").order("id", { ascending: false }),
     supabase.from("review_events").select("case_id, decision, rationale, created_at").order("created_at", { ascending: false }),
+    supabase.from("case_notes").select("id, case_id, author_id, body, created_at").order("created_at", { ascending: false }),
   ]);
-  if (profile.error || cases.error || reviews.error) return <ConnectionMessage title="Could not load the screening queue"
-    detail="Check the Supabase connection and apply the project migration before trying again." />;
+  if (profile.error || cases.error || reviews.error || notes.error) return <ConnectionMessage title="Could not load the screening queue"
+    detail="Check the Supabase connection and apply the project migrations before trying again." />;
   if (!profile.data) return <ConnectionMessage title="Booking entity assignment required"
     detail="A project administrator can assign this demo account to an analyst profile in Supabase." />;
 
   return <Dashboard mode="supabase" cases={cases.data as Case[]} benchmark={benchmark}
-    reviews={reviews.data as Review[]} profile={profile.data} />;
+    reviews={reviews.data as Review[]} notes={(notes.data ?? []) as CaseNote[]} viewerId={viewerId} profile={profile.data} />;
 }

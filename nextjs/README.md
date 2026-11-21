@@ -11,7 +11,7 @@ npm run dev -- --hostname 127.0.0.1
 
 Open `http://127.0.0.1:3000`. The default is the offline demo. Start with CASE-11 for ownership review, then open CASE-12 to compare replacement history, overlapping validity and the cross-customer document-key conflict. CASE-08 and CASE-01 show the original Builder evidence and scores. Use Load V2 to surface CASE-03. The V2 control replays a local fixture and review history is stored in this browser for the offline demo.
 
-The Reviews tab moves a case from Unprocessed to Processed after the first human decision. An escalation or evidence request stays visible as the latest decision. CASE-11 preserves the original Challenger JSON as a labelled replay, separate from human decisions.
+The Reviews tab moves a case from Unprocessed to Processed after the first human decision. An escalation or evidence request stays visible as the latest decision. CASE-11 preserves the original Challenger JSON as a labelled replay, separate from human decisions. Case notes in the offline demo are synthetic and read-only. A signed-in analyst or reviewer can append a note; the author is the signed-in account.
 
 CASE-08 lists the fictional watchlist by name and shows its entry ID, linked record, historical listing, explicit removal and the last successful snapshot check. The stale-feed control keeps the last observed result visible while marking current status unconfirmed. UK format reference: [UK Sanctions List format guide](https://www.gov.uk/guidance/format-guide-for-the-uk-sanctions-list).
 
@@ -36,7 +36,7 @@ The fixed comparison weights are a documented demo configuration. Evaluate thres
 ## Supabase kickoff
 
 1. Use the team’s approved synthetic demo project. Get its API URL and publishable key from Connect in the Supabase dashboard. Copy `.env.example` to `.env.local`, set `DEFENDER_MODE=supabase`, and fill in `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY`. The app’s authenticated mode requires both settings and validates the new-style `sb_publishable_` key. Restart Next.js after changing them.
-2. Have a project admin apply `supabase/migrations/202611210001_defender_demo.sql` once with the project migration workflow or SQL Editor. Use `node scripts/seed.mjs > /tmp/defender-demo-seed.sql` and apply the generated synthetic seed in SQL Editor. It can be reapplied without duplicating cases. Existing synthetic CASE-08 records receive the listing history if it is missing.
+2. Have a project admin apply the SQL files in `supabase/migrations` in filename order, once, with the project migration workflow or SQL Editor. Use `node scripts/seed.mjs > /tmp/defender-demo-seed.sql` and apply the generated synthetic seed in SQL Editor. It can be reapplied without duplicating cases. Existing synthetic CASE-08 records receive the listing history if it is missing. Case notes are not seeded: signed-in users append them, and the database records the signed-in author.
 3. Have a project admin create two confirmed demo accounts in Authentication → Users, then use their user UUIDs in `public.analyst_profiles`. Assign a UK `reviewer` and a US `analyst`. That profile assignment stays under project administrator control.
 
 ```sql
