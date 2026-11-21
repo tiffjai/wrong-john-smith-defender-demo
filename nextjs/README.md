@@ -8,6 +8,37 @@ When a local participant snapshot is available, Screening queue uses the same cu
 
 # Wrong John Smith Defender
 
+## Deploy to Netlify
+
+Connect the repository to Netlify and use the root `netlify.toml`. It sets the
+base directory to `nextjs`, build command to `npm run build`, publish directory
+to `.next` (relative to the base), and Node.js to 22. Netlify automatically adds
+its current Next.js adapter for server rendering, API routes and Server Actions.
+Do not deploy the repository ZIP or `.next` as a static drag-and-drop site; this
+app requires the Next.js runtime. Do not add a single-page-app `/* /index.html`
+rewrite.
+
+For authenticated hosting, add these environment variables in the Netlify
+project with both build and Functions scopes, then redeploy:
+
+- `DEFENDER_MODE=supabase`
+- `SUPABASE_URL`: the project's HTTPS API URL
+- `SUPABASE_PUBLISHABLE_KEY`: its `sb_publishable_...` key
+- `TAVILY_API_KEY`: optional, for research features
+
+Local `.env.local` values are not uploaded by Git. Apply the migrations in
+`supabase/migrations/` in order and assign analyst profiles before testing cloud
+access. Set the Supabase Site URL to the deployed HTTPS origin and allow its
+`/auth/callback` URL for invitations and password recovery. Without
+`DEFENDER_MODE=supabase`, the site opens the synthetic demo; the ignored local
+participant snapshot is not included in deployment.
+
+After pushing the configuration, trigger a new deploy and check its build log.
+Verify `/login`, a signed-out redirect from `/`, sign-in, and a permitted queue
+read. If deployment fails, retain the first error and the resolved build settings
+from the log. A successful local build alone does not verify Netlify packaging
+or the production Supabase settings.
+
 ## Run the local app
 
 Use Node.js 22 or later. From this directory:
@@ -82,3 +113,62 @@ The cloud page loads its queue from Supabase under the signed-in account. It rep
 - [Supabase row-level security](https://supabase.com/docs/guides/database/postgres/row-level-security)
 - [FEBRL4 data documentation](https://recordlinkage.readthedocs.io/en/stable/ref-datasets.html#febrl-datasets)
 - [OpenSanctions data dictionary](https://www.opensanctions.org/reference/)
+
+## Supabase login and invitation setup
+
+With `DEFENDER_MODE=supabase`, `/` requires a verified Supabase session. Sign in
+at `/login`; the assigned `analyst_profiles` row selects the booking entity and
+Junior (`analyst`) or Senior (`reviewer`) workspace. Roles are never selected or
+written by the login form. Case and note access continues to use database RLS.
+
+First-time users open the Supabase invitation email and set their own password
+at `/account/set-password`. The app accepts the default Supabase fragment link,
+PKCE links at `/auth/callback`, and token-hash email templates at `/auth/confirm`.
+Credentials from fragment links are removed from browser history before
+navigation. Passwords are sent only to the authenticated Supabase update flow;
+the application does not store them in its own database.
+
+For recovery, use `/login/forgot-password`. In Supabase Authentication → URL
+Configuration, allow the exact callback URLs for each running app origin, e.g.
+`http://127.0.0.1:3000/auth/callback` and
+`http://localhost:3000/auth/callback` (configured for this local project). Use the
+same browser and host when requesting and opening PKCE recovery links. Add the
+production HTTPS callback when deploying; no hosted deployment is included here.
+Email send limits are reported in the UI; wait for the limit to reset rather
+than repeatedly requesting a link. Never disable email verification to bypass it.
+
+Authentication verification:
+`npm test -- tests/auth.test.ts` and
+`node --experimental-strip-types --test tests/auth-validation.test.mjs`.
+
+### Senior access across booking entities
+
+Migration `202611210004_senior_scope.sql` adds `analyst_profiles.data_scope`.
+Existing profiles default to `entity`. An administrator may explicitly assign
+`review_role = 'reviewer'` and `data_scope = 'all'` to a Senior who needs access
+to both UK and US cases, review history and notes. The database rejects `all`
+scope for Junior profiles. The required `booking_entity` remains the account's
+administrative home; it does not restrict an explicitly assigned all-data Senior.
+RLS remains enabled. Profiles remain administrator-managed, and ordinary clients
+cannot grant themselves broader scope. Senior access does not grant database
+administration, auth-user management, or deletion of review history.
+
+### Imported screening runs
+
+Migrations `202611210005_screening_imports.sql` and
+`202611210006_import_screening_rpc.sql` add durable imported runs and grouped
+alerts. The authenticated `/admin/import-screening` page validates the local
+`../output/screening-dashboard.local.json` and submits one atomic RPC. A content
+hash identifies each import; retries preserve the existing payload and alert
+rows. Payloads with the same identifier and different content are rejected.
+
+The Supabase dashboard reads the stored payload, not a local-file fallback.
+Screening queue offers Imported alerts and Demo cases separately. Findings,
+evidence IDs and identity traces remain unchanged; no human approval, review
+history or final closure is inferred from a model/rule result. These imports have
+no booking-entity assignment, so only an explicitly all-data Senior can read or
+import them. Entity-scoped Junior accounts retain their existing cases. Direct
+client writes to import tables remain denied.
+
+The current imported run has 440 alerts, 819 hit findings and 880 traces. It is
+the participant development set, not the separate 10,000-record FEBRL4 benchmark.

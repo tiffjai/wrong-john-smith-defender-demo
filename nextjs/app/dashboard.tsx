@@ -8,6 +8,7 @@ import {
 import EntityWorkspace from "./entity-workspace";
 import type { ScreeningRun } from "../lib/entity-resolution";
 import { signOut } from "./login/actions";
+import { accessScopeLabel, type AnalystProfile } from "../lib/access-scope";
 import type { Benchmark, Case, CaseNote, DashboardMode, Decision, Review } from "../lib/types";
 import { initialRescreenState, readRescreenState, rescreenStorageKey, type CustomerKey, type RescreenState } from "../lib/rescreen";
 import { DocumentEvidence, OwnershipEvidence } from "./case-evidence";
@@ -24,7 +25,7 @@ const modes = [
   { id: "reviews", label: "Reviews", icon: ClipboardCheck },
   { id: "watchlists", label: "Watchlists", icon: Library },
   { id: "rescreen", label: "V2 rescreen demo", icon: Activity },
-  { id: "benchmark", label: "Matching benchmark", icon: ChartNoAxesCombined },
+  { id: "benchmark", label: "FEBRL4 benchmark", icon: ChartNoAxesCombined },
   { id: "feeds", label: "Data sources", icon: Database },
 ] as const;
 type View = typeof modes[number]["id"];
@@ -67,10 +68,11 @@ function downloadPacket(selected: Case) {
 export default function Dashboard({ mode, cases, benchmark, reviews, notes: initialNotes, viewerId, profile, screeningRun }: {
   screeningRun?: ScreeningRun | null;
   mode: DashboardMode; cases: Case[]; benchmark: Benchmark; reviews: Review[]; notes: CaseNote[]; viewerId?: string;
-  profile?: { booking_entity: string; review_role: string };
+  profile?: AnalystProfile;
 }) {
   const [view, setView] = useState<View>(mode === "demo" ? "identity" : "queue");
-  const datasetQueue = mode === "demo" && !!screeningRun && !screeningRun.synthetic;
+  const [queueSource, setQueueSource] = useState<"imported" | "cases">("imported");
+  const datasetQueue = !!screeningRun && !screeningRun.synthetic && (mode === "demo" || (screeningRun.storage === "supabase" && queueSource === "imported"));
   const datasetView = view === "identity" || (view === "queue" && datasetQueue);
   const [selectedId, setSelectedId] = useState(cases[0]?.id);
   const [history, setHistory] = useState(reviews);
@@ -156,7 +158,7 @@ export default function Dashboard({ mode, cases, benchmark, reviews, notes: init
     <aside className="sidebar">
       <div className="brand"><div className="brand-emblem"><Fingerprint size={23} /></div>
         <div>Defender<small>Identity screening</small></div></div>
-      {!datasetView && <section className="role-panel" aria-label="Analyst workspace">
+      {(!datasetView || mode === "supabase") && <section className="role-panel" aria-label="Analyst workspace">
         <span className="role-caption">{mode === "demo" ? "Demo workspace" : "Your assigned workspace"}</span>
         {mode === "demo" ? <div className="role-switch" aria-label="Analyst view">
           {(["junior", "senior"] as const).map((value) => <button key={value} type="button" aria-pressed={role === value}
@@ -165,25 +167,35 @@ export default function Dashboard({ mode, cases, benchmark, reviews, notes: init
         </div> : <strong>{role === "senior" ? "Senior Analyst" : "Junior Analyst"}</strong>}
         <small>{role === "junior" ? "Investigate & escalate" : "Review & close cases"}</small>
       </section>}
-      <nav aria-label="Workspace">
-        {modes.filter(({ id }) => mode === "demo" || (id !== "identity" && id !== "rescreen" && id !== "watchlists")).map(({ id, label, icon: Icon }) => <button key={id} type="button" onClick={() => setView(id)}
+      <div className="navigation-group"><span className="navigation-label">WORKSPACE</span><nav aria-label="Workspace">
+        {modes.filter(({ id }) => mode === "demo" || (id !== "rescreen" && id !== "watchlists")).map(({ id, label, icon: Icon }) => <button key={id} type="button" onClick={() => setView(id)}
           className={id === view ? "nav-button active" : "nav-button"} aria-current={id === view ? "page" : undefined}>
           <Icon size={18}/><span>{label}</span>
         </button>)}
-      </nav>
+      </nav></div>
       <div className="sidebar-bottom">
-        <div className="workspace-tag"><Activity size={16}/>{datasetView ? "Local screening run" : mode === "demo" ? "Offline demo" : "Supabase connected"}</div>
-        <div className="workspace-caption">{profile ? `${profile.booking_entity} · ${profile.review_role}` : datasetView && screeningRun ? "Participant dataset" : "Synthetic records"}</div>
+        <div className="workspace-tag"><Activity size={16}/>{datasetView ? screeningRun?.storage === "supabase" ? "Supabase screening run" : "Local screening run" : mode === "demo" ? "Offline demo" : "Supabase connected"}</div>
+        <div className="workspace-caption">{profile ? `${accessScopeLabel(profile)} · ${role === "senior" ? "Senior Analyst" : "Junior Analyst"}` : datasetView && screeningRun ? "Participant dataset" : "Synthetic records"}</div>
         {mode === "supabase" && <form action={signOut}><button className="signout"><LogOut size={16}/>Sign out</button></form>}
       </div>
     </aside>
 
     <main className="workspace">
-      <header className="workspace-header"><div>
+      <div className="workspace-topbar"><div><ShieldCheck size={16}/><span>Defender workspace</span><span className="topbar-divider">/</span><strong>{modes.find((entry) => entry.id === view)?.label}</strong></div><span className="workspace-security"><span/> Evidence-led screening</span></div>
+      <header className="workspace-header"><div><span className="workspace-eyebrow">IDENTITY INTELLIGENCE</span>
         <h1>{modes.find((entry) => entry.id === view)?.label}</h1><p>{subtitle}</p>
-      </div><span className="synthetic-tag"><ShieldCheck size={16}/>{datasetView && screeningRun && !screeningRun.synthetic ? "Local participant data" : "Synthetic data"}</span></header>
+      </div><span className="synthetic-tag"><ShieldCheck size={16}/>{datasetView && screeningRun && !screeningRun.synthetic ? (screeningRun.storage === "supabase" ? "Imported participant data" : "Local participant data") : "Synthetic data"}</span></header>
 
-      {view === "identity" && mode === "demo" && <EntityWorkspace key={screeningRun?.generatedAt} initialRun={screeningRun}/>}
+      {view === "identity" && <>
+        {mode === "supabase" && <p className="demo-banner" role="note">{screeningRun
+          ? "This screening run is stored in Supabase. Automated findings and evidence are preserved; no human approvals or closures were imported. FEBRL4 remains a separate linkage benchmark."
+          : "No screening run is assigned to this workspace. Identity review starts with a synthetic walkthrough; your Supabase cases remain in Screening queue."} This view does not change live case decisions.</p>}
+        <EntityWorkspace key={screeningRun?.generatedAt} initialRun={screeningRun}/>
+      </>}
+      {view === "queue" && screeningRun?.storage === "supabase" && <div className="review-switch" aria-label="Screening queue source">
+        <button className={queueSource === "imported" ? "selected" : ""} aria-pressed={queueSource === "imported"} onClick={() => setQueueSource("imported")}>Imported alerts ({new Set(screeningRun.predictions.map(hit => hit.alert_id)).size})</button>
+        <button className={queueSource === "cases" ? "selected" : ""} aria-pressed={queueSource === "cases"} onClick={() => setQueueSource("cases")}>Demo cases ({modeCases.length})</button>
+      </div>}
       {view === "queue" && datasetQueue && <EntityWorkspace key={screeningRun?.generatedAt} initialRun={screeningRun} queueMode/>}
       {view === "queue" && !datasetQueue && <>
         <section className="metrics" aria-label="Case review summary">
@@ -191,7 +203,7 @@ export default function Dashboard({ mode, cases, benchmark, reviews, notes: init
           <Metric icon={<ShieldAlert size={21}/>} label="Escalated for review" value={countStage("escalated")} detail="Senior / specialist attention · View reviews →" onClick={() => openReviews("escalated")}/>
           <Metric icon={<ClipboardCheck size={21}/>} label="Completed cases" value={countStage("resolved")} detail="Closed by a senior analyst · View history →" onClick={() => openReviews("resolved")}/>
         </section>
-        <div className="queue-context"><p><strong>{modeCases.length} screening alerts</strong> · {mode === "demo" ? `Snapshot ${v2 ? "V2" : "V1"}` : "Your booking entity"}. Automated screening has run; open alerts still need a human decision.</p>
+        <div className="queue-context"><p><strong>{modeCases.length} screening alerts</strong> · {mode === "demo" ? `Snapshot ${v2 ? "V2" : "V1"}` : profile ? accessScopeLabel(profile) : "Your booking entity"}. Automated screening has run; open alerts still need a human decision.</p>
           <button className="text-button" onClick={() => setView("benchmark")}>View separate matching benchmark →</button></div>
         <section className="case-grid">
           <div className="panel queue-panel">

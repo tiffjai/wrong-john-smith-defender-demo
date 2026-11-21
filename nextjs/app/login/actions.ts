@@ -8,12 +8,12 @@ export async function signIn(_: string, form: FormData) {
   if (!settings) return "Supabase connection is not configured.";
   const email = form.get("email");
   const password = form.get("password");
-  if (typeof email !== "string" || typeof password !== "string" || !email.trim() || !password) {
+  if (typeof email !== "string" || typeof password !== "string" || !email.trim() || !password || email.length > 254 || password.length > 1024) {
     return "Enter your email and password.";
   }
   const supabase = await serverClient(settings);
   const { error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
-  if (error) return "Sign-in failed. Check the account details and Supabase connection.";
+  if (error) return "Sign-in failed. Check your email and password, or use the password setup link below.";
   redirect("/");
 }
 

@@ -8,6 +8,8 @@ import { demoNotes, fixtures } from "../lib/fixtures";
 import { cloudMode, config, serverClient } from "../lib/supabase";
 import type { Case, CaseNote, Review } from "../lib/types";
 import Dashboard from "./dashboard";
+import { signOut } from "./login/actions";
+import { hasAllDataAccess } from "../lib/access-scope";
 
 export const dynamic = "force-dynamic";
 
@@ -15,6 +17,7 @@ function ConnectionMessage({ title, detail }: { title: string; detail: string })
   return <main className="login-shell"><section className="login-card">
     <div className="brand-emblem"><ShieldCheck size={22} /></div>
     <h1>{title}</h1><p>{detail}</p>
+    {cloudMode && <form action={signOut}><button className="quiet-button auth-back">Sign out</button></form>}
   </section></main>;
 }
 
@@ -36,7 +39,7 @@ export default async function Page() {
   if (!auth?.claims.sub) redirect("/login");
 
   const [profile, cases, reviews, notes] = await Promise.all([
-    supabase.from("analyst_profiles").select("booking_entity, review_role").eq("user_id", auth.claims.sub).maybeSingle(),
+    supabase.from("analyst_profiles").select("*").eq("user_id", auth.claims.sub).maybeSingle(),
     supabase.from("screening_cases").select("id, title, booking_entity, snapshot, packet, recommendation").order("id", { ascending: false }),
     supabase.from("review_events").select("case_id, decision, rationale, created_at").order("created_at", { ascending: false }),
     supabase.from("case_notes").select("id, case_id, author_id, body, created_at").order("created_at", { ascending: false }),
@@ -46,6 +49,17 @@ export default async function Page() {
   if (!profile.data) return <ConnectionMessage title="Booking entity assignment required"
     detail="A project administrator can assign this demo account to an analyst profile in Supabase." />;
 
+  // Cloud imports are independently protected by all-data Senior RLS.
+  let screeningRun: ScreeningRun | null = null;
+  if (hasAllDataAccess(profile.data)) {
+    const imported = await supabase.from("screening_imports").select("payload")
+      .order("imported_at", { ascending: false }).limit(1).maybeSingle();
+    if (!imported.error && imported.data?.payload) {
+      screeningRun = { ...imported.data.payload, storage: "supabase" } as ScreeningRun;
+    }
+  }
+
   return <Dashboard mode="supabase" cases={cases.data as Case[]} benchmark={benchmark}
-    reviews={reviews.data as Review[]} notes={(notes.data ?? []) as CaseNote[]} viewerId={auth.claims.sub} profile={profile.data} />;
+    reviews={reviews.data as Review[]} notes={(notes.data ?? []) as CaseNote[]} viewerId={auth.claims.sub} screeningRun={screeningRun}
+    profile={{ booking_entity: profile.data.booking_entity, review_role: profile.data.review_role, data_scope: profile.data.data_scope ?? "entity" }} />;
 }
