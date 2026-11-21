@@ -2,7 +2,8 @@ export const identityDecisions = ["DIFFERENT_ENTITY", "SAME_ENTITY", "REVIEW"] a
 export type IdentityDecision = typeof identityDecisions[number];
 export type Prediction = { hit_id: string; alert_id: string; decision: IdentityDecision; reason_code: string; customer_record_id: string | null; reason: string; evidence: string[] };
 export type IdentityTrace = { customer: { name: string; dob: number[] | null; countries: string[]; verified: boolean; records: string[] }; watchlist: { name: string; dobs: number[][]; countries: string[]; report: number[] | null }; path: string[]; gaps: string[] };
-export type ScreeningRun = { storage?: "supabase" | "local"; source: string; synthetic: boolean; predictions: Prediction[]; traces: Record<string, IdentityTrace>; generatedAt?: string; durationSeconds?: number };
+export type AlertReview = { alert_id: string; rationale: string; created_at: string };
+export type ScreeningRun = { importId?: string; reviews?: AlertReview[]; storage?: "supabase" | "local"; source: string; synthetic: boolean; predictions: Prediction[]; traces: Record<string, IdentityTrace>; generatedAt?: string; durationSeconds?: number };
 const codes: Record<IdentityDecision, string[]> = {
   DIFFERENT_ENTITY: ["TEMPORAL_IMPOSSIBILITY", "DOB_MISMATCH", "LOCATION_MISMATCH", "NAME_MISMATCH_VERIFIED", "ENTITY_TYPE_MISMATCH", "DECEASED"],
   SAME_ENTITY: ["NAME_DOB_LOCATION_MATCH", "NAME_DOB_MATCH", "NAME_LOCATION_MATCH"],

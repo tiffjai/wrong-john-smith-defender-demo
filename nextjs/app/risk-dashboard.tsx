@@ -1,0 +1,56 @@
+"use client";
+
+import { useMemo, useState } from "react";
+import { ArrowDownToLine, ArrowUpRight, ShieldAlert, SlidersHorizontal } from "lucide-react";
+import { riskBands, riskCsv, riskModelVersion, riskSummary, type RiskBand, type RiskItem } from "../lib/risk";
+
+export function RiskBadge({ score, band }: { score: number; band: RiskBand }) {
+  return <span className={`risk-badge risk-${band.toLowerCase()}`}>{band} risk <strong>{score}/100</strong></span>;
+}
+export function RiskMethodology() {
+  return <details className="risk-method"><summary>How risk scores work</summary><p>These are rule-based screening triage scores, not calibrated probabilities or final compliance decisions. High: 70–100. Medium: 35–69. Low: 0–34.</p>
+    <ul><li>Identity agreement starts at 75; unresolved identity at 40; evidence-supported exclusion at 10.</li><li>For unresolved or matching hits: customer ambiguity adds 15; distinct evidence gaps add 5 each (maximum 15); unavailable source traces or unverified identity add 10; missing evidence IDs add 10. Total is capped at 100.</li><li>An alert uses its highest-scoring hit. Filtering hits never reduces its alert score. Senior closure changes workflow status and preserves the score and automated findings.</li><li>For demo cases, the screening outcome supplies the starting score; documented evidence gaps add up to 15 and a list entry requiring review adds 15. Trace coverage means scored candidate pairs for demo cases and source comparisons for imported alerts.</li></ul><small>Model: {riskModelVersion} · Scores use only the current snapshot. Historical trends and review deadlines are unavailable.</small></details>;
+}
+export default function RiskDashboard({ items, source, onOpen }: { items: RiskItem[]; source: string; onOpen: (id: string) => void }) {
+  const [band, setBand] = useState<RiskBand | "All">("All");
+  const [status, setStatus] = useState("All");
+  const [query, setQuery] = useState("");
+  const [sort, setSort] = useState("risk");
+  const [selectedId, setSelectedId] = useState<string>();
+  const summary = useMemo(() => riskSummary(items), [items]);
+  const rows = useMemo(() => items.filter(item => (band === "All" || item.band === band) && (status === "All" || item.status === status) && `${item.id} ${item.title} ${item.findings.join(" ")}`.toLowerCase().includes(query.trim().toLowerCase())).sort((a, b) => sort === "gaps" ? b.gaps - a.gaps || b.score - a.score || a.id.localeCompare(b.id) : sort === "coverage" ? a.traceCoverage - b.traceCoverage || b.score - a.score || a.id.localeCompare(b.id) : sort === "name" ? a.title.localeCompare(b.title) || a.id.localeCompare(b.id) : b.score - a.score || a.id.localeCompare(b.id)), [items, band, status, query, sort]);
+  const filterKey = JSON.stringify([band, status, query, sort]);
+  const [pagination, setPagination] = useState({ key: filterKey, page: 0 });
+  const pageCount = Math.max(1, Math.ceil(rows.length / 25));
+  const page = pagination.key === filterKey ? Math.min(pagination.page, pageCount - 1) : 0;
+  const pageRows = rows.slice(page * 25, (page + 1) * 25);
+  const selected = pageRows.find(item => item.id === selectedId) ?? pageRows[0];
+  function reset() { setBand("All"); setStatus("All"); setQuery(""); setSort("risk"); }
+  function exportCsv() {
+    const href = URL.createObjectURL(new Blob([riskCsv(rows)], { type: "text/csv;charset=utf-8" }));
+    const anchor = document.createElement("a"); anchor.href = href; anchor.download = "screening-risk-report.csv"; anchor.click(); setTimeout(() => URL.revokeObjectURL(href), 1000);
+  }
+  const percent = (n: number) => summary.total ? Math.round(100 * n / summary.total) : 0;
+  return <div className="risk-dashboard">
+    <section className="risk-hero"><div><span className="workspace-eyebrow">SCREENING OVERSIGHT</span><h2>Risk dashboard</h2><p>Prioritise investigations, identify evidence gaps and inspect every score.</p><small>{source} · {summary.total} alerts · Current snapshot</small></div><button className="quiet-button" onClick={exportCsv} disabled={!rows.length}><ArrowDownToLine size={16}/>Export filtered risk report</button></section>
+    <section className="risk-cards" aria-label="Risk levels">{riskBands.map(level => <button key={level} className={`risk-card risk-${level.toLowerCase()} ${band === level ? "is-selected" : ""}`} aria-pressed={band === level} onClick={() => setBand(band === level ? "All" : level)}><span>{level} risk</span><strong>{summary.bands[level].total}</strong><small>{summary.bands[level].open} open · {percent(summary.bands[level].total)}% of alerts</small><span className="risk-card-range">{level === "High" ? "70–100" : level === "Medium" ? "35–69" : "0–34"} score</span></button>)}</section>
+    <section className="risk-stats" aria-label="Risk operations summary">
+      <button onClick={() => { setStatus("Open"); setBand("All"); }}><span>Open investigations</span><strong>{summary.open}</strong><small>{summary.highOpen} high risk</small></button>
+      <div><span>Average risk score</span><strong>{summary.total ? summary.average : "—"}<small>/100</small></strong><small>All current alerts</small></div>
+      <div><span>Unresolved hits</span><strong>{summary.unresolved}</strong><small>Identity evidence needed</small></div>
+      <button onClick={() => { setStatus("Closed"); setBand("All"); }}><span>Senior closures</span><strong>{summary.closed}</strong><small>{summary.clear} additional alerts automatically clear</small></button>
+    </section>
+    <div className="risk-overview-grid">
+      <section className="panel risk-distribution"><div className="panel-title"><h2>Risk distribution</h2><span>{summary.total} alerts</span></div><div className="risk-stack" role="img" aria-label={riskBands.map(level => `${level}: ${summary.bands[level].total}`).join(", ")}>{riskBands.map(level => <span key={level} className={`risk-fill-${level.toLowerCase()}`} style={{ width: `${summary.total ? 100 * summary.bands[level].total / summary.total : 0}%` }}/>)}</div><div className="risk-distribution-rows">{riskBands.map(level => <button key={level} onClick={() => setBand(level)}><span><i className={`risk-dot risk-fill-${level.toLowerCase()}`}/>{level}</span><strong>{summary.bands[level].total}</strong><span>{percent(summary.bands[level].total)}%</span></button>)}</div></section>
+      <section className="panel risk-attention"><div className="panel-title"><h2>Attention required</h2><ShieldAlert size={18}/></div><button onClick={() => { setBand("High"); setStatus("Open"); }}><strong>{summary.highOpen}</strong><span>High-risk alerts awaiting a decision<small>Review strongest identity agreements and unresolved evidence first.</small></span><ArrowUpRight size={16}/></button><button onClick={() => { reset(); setSort("coverage"); }}><strong>{summary.missingTrace}</strong><span>Alerts with incomplete source coverage<small>Inspect the underlying records before concluding a review.</small></span><ArrowUpRight size={16}/></button><p>Closing a review preserves its original risk score for oversight.</p></section>
+    </div>
+    <section className="panel risk-register"><div className="panel-title"><h2>Risk register</h2><span>{rows.length} of {items.length} alerts</span></div>
+      <div className="risk-controls"><label>Search risk register<input value={query} onChange={event => setQuery(event.target.value)} placeholder="Customer, alert or finding…"/></label><label>Risk level<select aria-label="Risk level" value={band} onChange={event => setBand(event.target.value as typeof band)}><option>All</option>{riskBands.map(level => <option key={level}>{level}</option>)}</select></label><label>Review status<select aria-label="Review status" value={status} onChange={event => setStatus(event.target.value)}>{["All", "Open", "Clear", "Closed"].map(value => <option key={value}>{value}</option>)}</select></label><label>Sort alerts<select aria-label="Sort alerts" value={sort} onChange={event => setSort(event.target.value)}><option value="risk">Highest risk first</option><option value="gaps">Most evidence gaps</option><option value="coverage">Lowest source coverage</option><option value="name">Customer name</option></select></label><button className="quiet-button" onClick={reset}><SlidersHorizontal size={15}/>Reset</button></div>
+      <div className="table-scroll"><table><thead><tr><th>Alert / customer</th><th>Risk score</th><th>Status</th><th>Hits</th><th>Source coverage</th><th>Action</th></tr></thead><tbody>{pageRows.map(item => <tr key={item.id} className={selected?.id === item.id ? "risk-row-selected" : ""}><th scope="row"><button className="text-button" onClick={() => setSelectedId(item.id)} aria-label={`Inspect risk ${item.id}`}><strong>{item.title}</strong><small>{item.id}</small></button></th><td><RiskBadge score={item.score} band={item.band}/><div className="risk-score-track"><span className={`risk-fill-${item.band.toLowerCase()}`} style={{ width: `${item.score}%` }}/></div></td><td><span className={`status ${item.status === "Open" ? "warn" : "good"}`}>{item.status}</span></td><td>{item.hits}<small className="risk-table-note">{item.unresolved} unresolved</small></td><td>{item.traceCoverage}%<small className="risk-table-note">{item.evidence} evidence IDs</small></td><td><button className="quiet-button" onClick={() => onOpen(item.id)}>Open review</button></td></tr>)}</tbody></table></div>
+      {!rows.length && <div className="empty"><p>No alerts match these filters.</p><button className="quiet-button" onClick={reset}>Reset filters</button></div>}
+      {rows.length > 0 && <div className="risk-pagination"><span>{page * 25 + 1}–{Math.min((page + 1) * 25, rows.length)} of {rows.length} matching alerts</span><div><button className="quiet-button" disabled={page === 0} onClick={() => setPagination({ key: filterKey, page: page - 1 })}>Previous</button><span>Page {page + 1} of {pageCount}</span><button className="quiet-button" disabled={page + 1 >= pageCount} onClick={() => setPagination({ key: filterKey, page: page + 1 })}>Next</button></div></div>}
+    </section>
+    {selected && <section className="panel risk-explanation" aria-label="Risk score explanation"><div className="panel-title"><div><span className="identity-eyebrow">SCORE EXPLANATION · {selected.id}</span><h2>{selected.title}</h2></div><RiskBadge score={selected.score} band={selected.band}/></div><p>The alert takes the highest-scoring hit. Contributing factors:</p><div className="risk-drivers">{selected.drivers.map(driver => <article key={driver.label}><strong>+{driver.points}</strong><div><h3>{driver.label}</h3><p>{driver.detail}</p></div></article>)}</div><p className="risk-cap-note">Total: {selected.drivers.reduce((sum, driver) => sum + driver.points, 0)} points{selected.drivers.reduce((sum, driver) => sum + driver.points, 0) > 100 ? " · Capped at 100/100" : ` · Final score ${selected.score}/100`}</p><div className="risk-next-action"><strong>Suggested next step</strong><p>{selected.status === "Closed" ? "Review the recorded closure rationale and evidence if further oversight is needed." : selected.nextAction}</p><button className="quiet-button" onClick={() => onOpen(selected.id)}>Open full evidence <ArrowUpRight size={15}/></button></div></section>}
+    <RiskMethodology/>
+  </div>;
+}

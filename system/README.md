@@ -37,13 +37,15 @@ The watchlist resolver uses all structured dates, then first-paragraph age evide
 
 Decisions carry the seven required fields, reason codes and exact source IDs. The optional local dashboard snapshot separately records the two identities, linkage IDs, missing evidence and the policy file hash. It is not part of the submitted JSONL contract. An alert is clear only when all its hits are `DIFFERENT_ENTITY`.
 
-## Three illustrative cases
+## Three verified development outcomes
 
-These examples are invented; the implementation does not contain dataset-specific IDs or answers.
+The following outcomes were checked against the supplied practice labels and underlying evidence on 21 November 2026. IDs identify the local evidence without reproducing names, dates, document numbers or source records. These examples document evaluation; the runtime does not contain case IDs or practice answers.
 
-- **Clear mismatch:** an approved check gives 14 March 1988; the hit gives birth year 1952. Every listed date contradicts the customer beyond the one-year tolerance, so `DOB_MISMATCH` clears the hit. Cite the customer, approved check and hit.
-- **Match:** the verified name and full DOB agree with one hit name and date, and there is no location or other identity contradiction. `NAME_DOB_MATCH` retains the alert; a common country permits `NAME_DOB_LOCATION_MATCH`.
-- **Review:** the customer and hit share a name but the hit has no usable DOB or location. `INSUFFICIENT_DATA` keeps the hit open. A second cleared hit in the same alert does not close it.
+- **Different entity — H-58A39C:** resolve the joint account to `CUS-604925`, then use approved `KYC-232AE0`; the rejected check is excluded. The approved customer date and the hit's full date contradict beyond the policy tolerance, producing `DIFFERENT_ENTITY / DOB_MISMATCH`.
+- **Same entity — H-582410:** resolve to `CUS-377745` and verify the successful identity note `NOTE-14E25A`. The verified name and date agree with the hit at its supplied precision, the countries overlap, and no decisive contradiction is found, producing `SAME_ENTITY / NAME_DOB_LOCATION_MATCH`.
+- **Review — H-FA9F83:** resolve to `CUS-783545`; approved `KYC-80B445` establishes the customer's date. The listed subject has no usable date, so the missing comparison cannot clear or confirm the hit, producing `REVIEW / INSUFFICIENT_DATA`.
+
+Reproduce the checks locally with `SCREENING_DATA=/path/to/screening/dev python3 -m unittest discover -s system/tests -v`, then run the official validator above. An alert closes only if every hit is `DIFFERENT_ENTITY`; either of the other outcomes keeps it open. Public demonstrations can use the explicitly labelled synthetic walkthrough to avoid showing participant source records; that walkthrough is separate from these verified development results.
 
 ## Reproducibility, runtime and cost
 

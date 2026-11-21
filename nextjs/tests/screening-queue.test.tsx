@@ -1,5 +1,5 @@
-import { cleanup, fireEvent, render, screen, within } from "@testing-library/react";
-import { afterEach, describe, expect, it } from "vitest";
+import { cleanup, fireEvent, render, screen, within, waitFor } from "@testing-library/react";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import EntityWorkspace from "../app/entity-workspace";
 import type { Prediction, ScreeningRun } from "../lib/entity-resolution";
 
@@ -24,7 +24,33 @@ describe("latest dataset screening queue", () => {
     fireEvent.change(screen.getByRole("textbox", { name: "Search screening hits" }), { target: { value: "Alex Latest" } });
     expect(screen.getByText("1 alerts")).toBeDefined();
     fireEvent.click(screen.getByRole("button", { name: "LATEST-H2 · Needs review" }));
-    expect(within(screen.getByLabelText("Identity evidence")).getByText("A date is missing.")).toBeDefined();
+    expect(within(screen.getByLabelText("Identity evidence")).getByText("A date is missing.", { selector: "p" })).toBeDefined();
     expect(screen.queryByRole("button", { name: "Import predictions" })).toBeNull();
   });
+});
+
+it("allows seniors to close a mixed alert without changing identity findings", async () => {
+  render(<EntityWorkspace initialRun={run} queueMode allowClose/>);
+  const close = screen.getByRole("button", { name: "Close review — no escalation required" });
+  expect((close as HTMLButtonElement).disabled).toBe(true);
+  fireEvent.change(screen.getByLabelText("Closure rationale"), { target: { value: "All hits reviewed; no suspicion or escalation needed." } });
+  fireEvent.click(close);
+  await waitFor(() => expect(screen.getByText("Closed — no escalation required")).toBeDefined());
+  expect(screen.getByRole("button", { name: /LATEST-A.*Closed.*2 hits/ })).toBeDefined();
+  expect(screen.getByRole("button", { name: "LATEST-H2 · Needs review" })).toBeDefined();
+  fireEvent.change(screen.getByLabelText("Alert status"), { target: { value: "OPEN" } });
+  expect(screen.queryByRole("button", { name: /LATEST-A.*2 hits/ })).toBeNull();
+});
+it("keeps closure unavailable to junior users", () => {
+  render(<EntityWorkspace initialRun={run} queueMode/>);
+  expect(screen.queryByRole("button", { name: "Close review — no escalation required" })).toBeNull();
+});
+it("does not mark the alert closed when cloud saving fails", async () => {
+  vi.stubGlobal("fetch", vi.fn().mockResolvedValue({ ok: false, json: async () => ({ error: "Could not close the review." }) }));
+  render(<EntityWorkspace initialRun={{ ...run, storage: "supabase", importId: "a".repeat(64) }} queueMode allowClose/>);
+  fireEvent.change(screen.getByLabelText("Closure rationale"), { target: { value: "No suspicion found." } });
+  fireEvent.click(screen.getByRole("button", { name: "Close review — no escalation required" }));
+  await waitFor(() => expect(screen.getByRole("status").textContent).toBe("Could not close the review."));
+  expect(screen.getByRole("button", { name: /LATEST-A.*Open.*2 hits/ })).toBeDefined();
+  vi.unstubAllGlobals();
 });

@@ -1,12 +1,14 @@
 "use client";
 
-import { useEffect, useState, type FormEvent, type ReactNode } from "react";
+import { useEffect, useMemo, useState, type FormEvent, type ReactNode } from "react";
 import {
   Activity, ArrowDownToLine, ChartNoAxesCombined, CircleHelp, Database, FileSearch,
   ClipboardCheck, Fingerprint, Layers3, Library, ListFilter, LogOut, Search, ShieldAlert, ShieldCheck,
 } from "lucide-react";
 import EntityWorkspace from "./entity-workspace";
-import type { ScreeningRun } from "../lib/entity-resolution";
+import RiskDashboard, { RiskBadge } from "./risk-dashboard";
+import { assessAlerts, assessCases } from "../lib/risk";
+import type { AlertReview, ScreeningRun } from "../lib/entity-resolution";
 import { signOut } from "./login/actions";
 import { accessScopeLabel, type AnalystProfile } from "../lib/access-scope";
 import type { Benchmark, Case, CaseNote, DashboardMode, Decision, Review } from "../lib/types";
@@ -20,6 +22,7 @@ import { latestReview, reviewStage, stageLabels, type QueueStage } from "../lib/
 import WatchlistsPanel, { RescreenReviews } from "./watchlists";
 
 const modes = [
+  { id: "risk", label: "Risk dashboard", icon: ShieldAlert },
   { id: "identity", label: "Identity review", icon: Fingerprint },
   { id: "queue", label: "Screening queue", icon: FileSearch },
   { id: "reviews", label: "Reviews", icon: ClipboardCheck },
@@ -32,7 +35,7 @@ type View = typeof modes[number]["id"];
 
 const decisionLabels: Record<Decision, string> = {
   awaiting_evidence: "Awaiting evidence", escalated_mlro: "Escalated to MLRO", escalated_sanctions: "Escalated to Sanctions (historical)",
-  escalated_legal: "Escalated to Legal", resolved: "Resolved",
+  escalated_legal: "Escalated to Legal", resolved: "Closed — no escalation required",
 };
 const matchLabels: Record<string, string> = {
   LINK: "Link", REVIEW: "Review", NO_LINK: "No link", NOT_SCORED: "Unscored",
@@ -70,10 +73,12 @@ export default function Dashboard({ mode, cases, benchmark, reviews, notes: init
   mode: DashboardMode; cases: Case[]; benchmark: Benchmark; reviews: Review[]; notes: CaseNote[]; viewerId?: string;
   profile?: AnalystProfile;
 }) {
-  const [view, setView] = useState<View>(mode === "demo" ? "identity" : "queue");
+  const [view, setView] = useState<View>("risk");
+  const [alertReviews, setAlertReviews] = useState<AlertReview[]>(screeningRun?.reviews ?? []);
+  const [selectedAlertId, setSelectedAlertId] = useState<string>();
   const [queueSource, setQueueSource] = useState<"imported" | "cases">("imported");
   const datasetQueue = !!screeningRun && !screeningRun.synthetic && (mode === "demo" || (screeningRun.storage === "supabase" && queueSource === "imported"));
-  const datasetView = view === "identity" || (view === "queue" && datasetQueue);
+  const datasetView = (view === "risk" && !!screeningRun && !screeningRun.synthetic) || view === "identity" || (view === "queue" && datasetQueue);
   const [selectedId, setSelectedId] = useState(cases[0]?.id);
   const [history, setHistory] = useState(reviews);
   const [notes, setNotes] = useState(initialNotes);
@@ -139,13 +144,21 @@ export default function Dashboard({ mode, cases, benchmark, reviews, notes: init
     }
   }
 
-  const modeCases = mode === "demo" && !v2 ? cases.filter((entry) => entry.snapshot === "V1") : cases;
+  const modeCases = useMemo(() => mode === "demo" && !v2 ? cases.filter((entry) => entry.snapshot === "V1") : cases, [mode, v2, cases]);
+  const riskItems = useMemo(() => screeningRun && !screeningRun.synthetic ? assessAlerts(screeningRun, alertReviews) : assessCases(modeCases, history), [screeningRun, alertReviews, modeCases, history]);
+  function openRiskReview(id: string) {
+    if (screeningRun && !screeningRun.synthetic) { setQueueSource("imported"); setSelectedAlertId(id); }
+    else { setQueueSource("cases"); setSelectedId(id); setQueueFilter("all"); setFilter(""); }
+    setView("queue");
+  }
+  const recordAlertReview = (review: AlertReview) => setAlertReviews(current => [review, ...current.filter(item => item.alert_id !== review.alert_id)]);
+
   const rows = modeCases.filter((entry) => (queueFilter === "all" || reviewStage(history, entry.id) === queueFilter)
     && `${entry.id} ${entry.title} ${entry.booking_entity}`.toLowerCase().includes(filter.trim().toLowerCase()));
   const selected = rows.find((entry) => entry.id === selectedId) ?? rows[0];
   const countStage = (stage: QueueStage) => modeCases.filter((entry) => reviewStage(history, entry.id) === stage).length;
   function openReviews(stage: QueueStage) { setReviewFilter(stage); setView("reviews"); }
-  const subtitle = view === "identity" ? "Per-hit identity decisions, linked records and traceable evidence." : view === "queue" ? datasetQueue ? "Latest screening dataset · Alerts grouped with per-hit findings and supporting evidence." : role === "junior"
+  const subtitle = view === "risk" ? "Screening risk scores, investigation priorities and evidence coverage across your assigned workspace." : view === "identity" ? "Per-hit identity decisions, linked records and traceable evidence." : view === "queue" ? datasetQueue ? "Latest screening dataset · Alerts grouped with per-hit findings and supporting evidence." : role === "junior"
     ? "Junior analyst · Investigate screening alerts, gather evidence and escalate cases."
     : "Senior analyst · Review escalations, challenge the evidence and make the final decision."
     : view === "reviews" ? "Track open work, escalations and completed decisions. Open a case to review its evidence."
@@ -186,17 +199,18 @@ export default function Dashboard({ mode, cases, benchmark, reviews, notes: init
         <h1>{modes.find((entry) => entry.id === view)?.label}</h1><p>{subtitle}</p>
       </div><span className="synthetic-tag"><ShieldCheck size={16}/>{datasetView && screeningRun && !screeningRun.synthetic ? (screeningRun.storage === "supabase" ? "Imported participant data" : "Local participant data") : "Synthetic data"}</span></header>
 
+      {view === "risk" && <RiskDashboard items={riskItems} source={screeningRun && !screeningRun.synthetic ? screeningRun.source : "Synthetic demo cases"} onOpen={openRiskReview}/>}
       {view === "identity" && <>
         {mode === "supabase" && <p className="demo-banner" role="note">{screeningRun
           ? "This screening run is stored in Supabase. Automated findings and evidence are preserved; no human approvals or closures were imported. FEBRL4 remains a separate linkage benchmark."
           : "No screening run is assigned to this workspace. Identity review starts with a synthetic walkthrough; your Supabase cases remain in Screening queue."} This view does not change live case decisions.</p>}
-        <EntityWorkspace key={screeningRun?.generatedAt} initialRun={screeningRun}/>
+        <EntityWorkspace key={screeningRun?.generatedAt} initialRun={screeningRun} savedReviews={alertReviews} onReviewClosed={recordAlertReview} initialAlertId={selectedAlertId} allowClose={role === "senior"}/>
       </>}
       {view === "queue" && screeningRun?.storage === "supabase" && <div className="review-switch" aria-label="Screening queue source">
         <button className={queueSource === "imported" ? "selected" : ""} aria-pressed={queueSource === "imported"} onClick={() => setQueueSource("imported")}>Imported alerts ({new Set(screeningRun.predictions.map(hit => hit.alert_id)).size})</button>
         <button className={queueSource === "cases" ? "selected" : ""} aria-pressed={queueSource === "cases"} onClick={() => setQueueSource("cases")}>Demo cases ({modeCases.length})</button>
       </div>}
-      {view === "queue" && datasetQueue && <EntityWorkspace key={screeningRun?.generatedAt} initialRun={screeningRun} queueMode/>}
+      {view === "queue" && datasetQueue && <EntityWorkspace key={screeningRun?.generatedAt} initialRun={screeningRun} savedReviews={alertReviews} onReviewClosed={recordAlertReview} initialAlertId={selectedAlertId} allowClose={role === "senior"} queueMode/>}
       {view === "queue" && !datasetQueue && <>
         <section className="metrics" aria-label="Case review summary">
           <Metric icon={<Layers3 size={21}/>} label="Pending analyst action" value={countStage("pending")} detail="New alerts or awaiting evidence · View reviews →" onClick={() => openReviews("pending")}/>
@@ -335,6 +349,7 @@ function CaseDetail({ selected, history, allowResolve, onSave, notes, canAnnotat
       </li>)}</ul>{pair.guard.reasons.map((reason) => <p key={reason}>{reason}</p>)}
     </details>)}</div></>}
 
+    <div className="case-risk-summary"><span>Screening triage score</span><RiskBadge {...assessCases([selected], history)[0]}/><small>Rule-based priority · Review evidence before deciding</small></div>
     <CaseNotes caseId={selected.id} notes={notes} canAnnotate={canAnnotate} viewerId={viewerId} onCreated={onNoteCreated}/>
     <ResearchPanel key={selected.id} selected={selected}/>
     <form className="review-form" onSubmit={submit}>
@@ -342,7 +357,7 @@ function CaseDetail({ selected, history, allowResolve, onSave, notes, canAnnotat
         <option value="awaiting_evidence">Request more evidence</option>
         <option value="escalated_mlro">Escalate to MLRO</option>
         <option value="escalated_legal">Escalate to Legal</option>
-        {allowResolve && <option value="resolved">Resolve</option>}
+        {allowResolve && <option value="resolved">Close review — no suspicion or escalation required</option>}
       </select></label>
       <label>Rationale<textarea value={rationale} onChange={(e) => setRationale(e.target.value)} rows={2} maxLength={1000} required/></label>
       <button className="primary" disabled={pending || !rationale.trim()}>{pending ? "Saving…" : allowResolve ? "Save senior decision" : "Save assessment"}</button>

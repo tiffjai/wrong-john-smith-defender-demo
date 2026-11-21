@@ -52,10 +52,11 @@ export default async function Page() {
   // Cloud imports are independently protected by all-data Senior RLS.
   let screeningRun: ScreeningRun | null = null;
   if (hasAllDataAccess(profile.data)) {
-    const imported = await supabase.from("screening_imports").select("payload")
+    const imported = await supabase.from("screening_imports").select("id, payload")
       .order("imported_at", { ascending: false }).limit(1).maybeSingle();
     if (!imported.error && imported.data?.payload) {
-      screeningRun = { ...imported.data.payload, storage: "supabase" } as ScreeningRun;
+      const closures = await supabase.from("screening_alert_reviews").select("alert_id, rationale, created_at").eq("import_id", imported.data.id).order("created_at", { ascending: false });
+      screeningRun = { ...imported.data.payload, importId: imported.data.id, reviews: closures.data ?? [], storage: "supabase" } as ScreeningRun;
     }
   }
 

@@ -172,3 +172,30 @@ client writes to import tables remain denied.
 
 The current imported run has 440 alerts, 819 hit findings and 880 traces. It is
 the participant development set, not the separate 10,000-record FEBRL4 benchmark.
+
+### Screening risk dashboard
+
+The workspace opens on **Risk dashboard**. It scores the latest assigned screening
+run, or the visible demo cases when no participant run is assigned. The dashboard
+includes High / Medium / Low counts, risk distribution, open investigation and
+closure counts, source coverage, a searchable and paginated risk register, score
+explanations, evidence drilldown and a CSV export of every matching row.
+
+`lib/risk.ts` defines the versioned `screening-triage-v1` rules. Scores are
+operational priorities, not calibrated probabilities or final compliance findings.
+High is 70–100, Medium 35–69, Low 0–34. Identity agreement starts at 75,
+unresolved identity at 40, and exclusion at 10. For matching/unresolved hits,
+customer ambiguity adds 15, distinct evidence gaps add 5 each (maximum 15),
+unavailable traces or unverified customer identity add 10, and absent evidence
+IDs add 10. Scores cap at 100. The alert takes its highest hit score, independent
+of UI filters; missing evidence never supports exclusion. Case fixtures use the
+screening outcome, documented evidence gaps and list-entry review signals as
+explained in the dashboard methodology.
+
+Senior closure changes workflow status without reducing the automated score.
+Closure counts sync between the risk dashboard and review workspace during the
+session; cloud closures reload from the review table. Risk scoring itself needs
+no additional database migration. Cloud closure storage still requires migration
+`202611210007_screening_review_closure.sql` from the preceding change. Demo
+closures remain session-only. No historical risk trend, SLA deadline or transaction
+risk is inferred from data the run does not contain.
