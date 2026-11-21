@@ -65,7 +65,8 @@ export type IdentityDocument = {
 export type Recommendation = { case_id: string; evidence_ids: string[]; review_priority: string; suggested_next_check: string;
   contradictions: { finding: string; evidence_ids: string[] }[]; missing_evidence: { finding: string; evidence_ids: string[] }[] };
 export type Case = { id: string; title: string; booking_entity: string; snapshot: string; packet: Packet; recommendation?: Recommendation | null };
-export type Decision = "awaiting_evidence" | "escalated_sanctions" | "escalated_legal" | "resolved";
+export type Decision = "awaiting_evidence" | "escalated_mlro" | "escalated_legal" | "resolved" | "escalated_sanctions";
 export type Review = { case_id: string; decision: Decision; rationale: string; created_at: string };
+export type CaseNote = { id: string; case_id: string; author_id: string; body: string; created_at: string };
 export type DashboardMode = "demo" | "supabase";
 export type Benchmark = typeof import("../data/benchmark.json");

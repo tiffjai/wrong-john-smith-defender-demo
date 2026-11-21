@@ -4,8 +4,9 @@ import case08 from "../data/evidence_packet_CASE-08.json";
 import case11 from "../data/evidence_packet_CASE-11.json";
 import case12 from "../data/evidence_packet_CASE-12.json";
 import caseIndex from "../data/case-index.json";
+import demoNoteFixtures from "../data/case-notes.json";
 import ownershipReplay from "../data/recommendation_CASE-11.json";
-import type { Case, Packet } from "./types";
+import type { Case, CaseNote, Packet } from "./types";
 
 const packets: Record<string, Packet> = {
   "CASE-01": case01, "CASE-03": case03, "CASE-08": case08, "CASE-11": case11, "CASE-12": case12,
@@ -13,3 +14,4 @@ const packets: Record<string, Packet> = {
 export const fixtures: Case[] = caseIndex.map((entry) => ({
   ...entry, packet: packets[entry.id], recommendation: entry.id === "CASE-11" ? ownershipReplay : null,
 }));
+export const demoNotes: CaseNote[] = demoNoteFixtures;

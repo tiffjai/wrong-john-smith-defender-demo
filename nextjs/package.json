@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
+    "test": "node --import tsx --test lib/case-notes.test.ts lib/rescreen.test.ts",
     "benchmark": "uv run --script scripts/benchmark.py",
     "rescreen:scores": "uv run --script scripts/rescreen-scores.py"
   },
@@ -22,6 +23,7 @@
     "@types/node": "^22.0.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
+    "tsx": "^4.23.15",
     "typescript": "^5.9.0"
   },
   "engines": { "node": ">=22.0.0" }

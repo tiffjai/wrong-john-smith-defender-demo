@@ -6,7 +6,8 @@ import {
   ClipboardCheck, Fingerprint, Layers3, ListFilter, LogOut, Search, ShieldAlert, ShieldCheck,
 } from "lucide-react";
 import { signOut } from "./login/actions";
-import type { Benchmark, Case, DashboardMode, Decision, Review } from "../lib/types";
+import type { Benchmark, Case, CaseNote, DashboardMode, Decision, Review } from "../lib/types";
+import { CaseNotes } from "./case-notes";
 import { DocumentEvidence, OwnershipEvidence } from "./case-evidence";
 import SanctionsDetail from "./sanctions-detail";
 import RescreenDemo from "./rescreen-demo";
@@ -21,8 +22,8 @@ const modes = [
 type View = typeof modes[number]["id"];
 
 const decisionLabels: Record<Decision, string> = {
-  awaiting_evidence: "Awaiting evidence", escalated_sanctions: "Escalated to Sanctions",
-  escalated_legal: "Escalated to Legal", resolved: "Resolved",
+  awaiting_evidence: "Awaiting evidence", escalated_mlro: "Escalated to MLRO",
+  escalated_sanctions: "Escalated to Sanctions", escalated_legal: "Escalated to Legal", resolved: "Resolved",
 };
 const matchLabels: Record<string, string> = {
   LINK: "Link", REVIEW: "Review", NO_LINK: "No link", NOT_SCORED: "Unscored",
@@ -53,13 +54,14 @@ function downloadPacket(selected: Case) {
   setTimeout(() => URL.revokeObjectURL(href), 1000);
 }
 
-export default function Dashboard({ mode, cases, benchmark, reviews, profile }: {
-  mode: DashboardMode; cases: Case[]; benchmark: Benchmark; reviews: Review[];
-  profile?: { booking_entity: string; review_role: string };
+export default function Dashboard({ mode, cases, benchmark, reviews, notes: initialNotes, profile, viewerId }: {
+  mode: DashboardMode; cases: Case[]; benchmark: Benchmark; reviews: Review[]; notes: CaseNote[];
+  profile?: { booking_entity: string; review_role: string }; viewerId?: string;
 }) {
   const [view, setView] = useState<View>("queue");
   const [selectedId, setSelectedId] = useState(cases[0]?.id);
   const [history, setHistory] = useState(reviews);
+  const [notes, setNotes] = useState(initialNotes);
   const [v2, setV2] = useState(false);
   const [feedMessage, setFeedMessage] = useState("");
   const [filter, setFilter] = useState("");
@@ -151,7 +153,9 @@ export default function Dashboard({ mode, cases, benchmark, reviews, profile }: 
             {feedMessage && <p className="inline-message" role="status">{feedMessage}</p>}
           </div>
           {selected ? <CaseDetail key={selected.id} selected={selected} history={history.filter((e) => e.case_id === selected.id)}
-            allowResolve={mode === "demo" || profile?.review_role === "reviewer"} onSave={saveReview}/>
+            notes={notes} allowResolve={mode === "demo" || profile?.review_role === "reviewer"}
+            canAnnotate={mode === "supabase"} viewerId={viewerId} onSave={saveReview}
+            onNoteCreated={(note) => setNotes((current) => [note, ...current])}/>
             : <section className="panel empty"><h2>No cases in scope</h2><p>Your booking entity has no imported screening cases.</p></section>}
         </section>
       </>}
@@ -200,9 +204,11 @@ function ReviewsPanel({ cases, history, openCase }: { cases: Case[]; history: Re
   </section>;
 }
 
-function CaseDetail({ selected, history, allowResolve, onSave }: {
-  selected: Case; history: Review[]; allowResolve: boolean;
+function CaseDetail({ selected, history, notes, allowResolve, canAnnotate, viewerId, onSave, onNoteCreated }: {
+  selected: Case; history: Review[]; notes: CaseNote[]; allowResolve: boolean; canAnnotate: boolean;
+  viewerId?: string;
   onSave: (id: string, decision: Decision, rationale: string) => Promise<void>;
+  onNoteCreated: (note: CaseNote) => void;
 }) {
   const { packet } = selected;
   const [decision, setDecision] = useState<Decision>("awaiting_evidence");
@@ -258,7 +264,7 @@ function CaseDetail({ selected, history, allowResolve, onSave }: {
     <form className="review-form" onSubmit={submit}>
       <h3>Analyst decision</h3><label>Disposition<select value={decision} onChange={(e) => setDecision(e.target.value as Decision)}>
         <option value="awaiting_evidence">Request more evidence</option>
-        <option value="escalated_sanctions">Escalate to Sanctions</option>
+        <option value="escalated_mlro">Escalate to MLRO</option>
         <option value="escalated_legal">Escalate to Legal</option>
         {allowResolve && <option value="resolved">Resolve</option>}
       </select></label>
@@ -269,6 +275,7 @@ function CaseDetail({ selected, history, allowResolve, onSave }: {
     {history.length > 0 && <section className="history"><h3>Review history</h3>{history.map((entry, index) =>
       <article key={`${entry.created_at}-${index}`}><strong>{decisionLabels[entry.decision]}</strong><time dateTime={entry.created_at}>{new Date(entry.created_at).toLocaleString()}</time><p>{entry.rationale}</p></article>
     )}</section>}
+    <CaseNotes caseId={selected.id} notes={notes} canAnnotate={canAnnotate} viewerId={viewerId} onCreated={onNoteCreated}/>
   </section>;
 }
 

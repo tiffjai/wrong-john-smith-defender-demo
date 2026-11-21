@@ -10,7 +10,7 @@ export async function POST(request: Request) {
   const content = await request.json().catch(() => null);
   const rationale = typeof content?.rationale === "string" ? content.rationale.trim() : "";
   if (typeof content?.case_id !== "string" || !/^CASE-\d{2}$/.test(content.case_id) ||
-      !["awaiting_evidence", "escalated_sanctions", "escalated_legal", "resolved"].includes(content.decision) || !rationale || rationale.length > 1000) {
+      !["awaiting_evidence", "escalated_mlro", "escalated_legal", "resolved"].includes(content.decision) || !rationale || rationale.length > 1000) {
     return Response.json({ error: "Choose a decision and provide a rationale (up to 1,000 characters)." }, { status: 400 });
   }
 
