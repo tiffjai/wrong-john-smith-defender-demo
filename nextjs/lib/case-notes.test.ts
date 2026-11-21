@@ -5,7 +5,8 @@ import caseIndex from "../data/case-index.json";
 import demoNotes from "../data/case-notes.json";
 import { caseNoteAuthor, caseNoteWriteError, newestCaseNotes, NOTE_MAX_LENGTH, prepareCaseNote } from "./case-notes";
 
-const migrationPath = new URL("../supabase/migrations/202611210002_case_notes.sql", import.meta.url);
+const migrationPath = new URL("../supabase/migrations/202611210003_case_notes.sql", import.meta.url);
+const mlroPath = new URL("../supabase/migrations/202611210002_mlro_disposition.sql", import.meta.url);
 const reviewMigrationPath = new URL("../supabase/migrations/202611210001_defender_demo.sql", import.meta.url);
 
 test("accepts a trimmed note and drops any client author", () => {
@@ -81,6 +82,8 @@ test("case notes are append-only on the screening case and ignore client authors
   assert.match(sql, /references public\.screening_cases\(id\)/);
   assert.match(sql, /author_id uuid not null default auth\.uid\(\)/);
   assert.match(sql, /char_length\(trim\(body\)\) between 1 and 1000/);
+  assert.match(sql, /drop policy if exists note_entity/);
+  assert.match(sql, /drop policy if exists note_append/);
   assert.match(sql, /enable row level security/);
   assert.match(sql, /revoke all on public\.case_notes from public, anon, authenticated/);
   assert.match(sql, /grant insert \(case_id, body\) on public\.case_notes to authenticated/);
@@ -105,6 +108,21 @@ test("the note route attributes the author from the session insert default", () 
   assert.doesNotMatch(source, /author_id:\s*content/);
   assert.doesNotMatch(source, /author_id:\s*.*claims/);
   assert.doesNotMatch(source, /content\.author/);
+});
+
+test("mlro disposition keeps legacy sanctions and adds escalated_mlro", () => {
+  const sql = readFileSync(mlroPath, "utf8");
+  assert.match(sql, /drop constraint if exists review_events_decision_check/);
+  assert.match(sql, /add constraint review_events_decision_check/);
+  assert.match(sql, /'awaiting_evidence', 'escalated_mlro', 'escalated_legal', 'resolved', 'escalated_sanctions'/);
+  assert.doesNotMatch(sql, /delete from/i);
+  assert.doesNotMatch(sql, /drop table/i);
+});
+
+test("new reviews can escalate to MLRO and do not offer legacy sanctions", () => {
+  const source = readFileSync(new URL("../app/api/reviews/route.ts", import.meta.url), "utf8");
+  assert.match(source, /escalated_mlro/);
+  assert.doesNotMatch(source, /"escalated_sanctions"/);
 });
 
 test("existing review history stays append-only", () => {

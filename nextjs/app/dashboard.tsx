@@ -6,8 +6,8 @@ import {
   ClipboardCheck, Fingerprint, Layers3, ListFilter, LogOut, Search, ShieldAlert, ShieldCheck,
 } from "lucide-react";
 import { signOut } from "./login/actions";
-import { caseNoteAuthor, newestCaseNotes, OFFLINE_NOTES_MESSAGE, prepareCaseNote } from "../lib/case-notes";
 import type { Benchmark, Case, CaseNote, DashboardMode, Decision, Review } from "../lib/types";
+import { CaseNotes } from "./case-notes";
 import { DocumentEvidence, OwnershipEvidence } from "./case-evidence";
 import SanctionsDetail from "./sanctions-detail";
 import RescreenDemo from "./rescreen-demo";
@@ -22,8 +22,8 @@ const modes = [
 type View = typeof modes[number]["id"];
 
 const decisionLabels: Record<Decision, string> = {
-  awaiting_evidence: "Awaiting evidence", escalated_sanctions: "Escalated to Sanctions",
-  escalated_legal: "Escalated to Legal", resolved: "Resolved",
+  awaiting_evidence: "Awaiting evidence", escalated_mlro: "Escalated to MLRO",
+  escalated_sanctions: "Escalated to Sanctions", escalated_legal: "Escalated to Legal", resolved: "Resolved",
 };
 const matchLabels: Record<string, string> = {
   LINK: "Link", REVIEW: "Review", NO_LINK: "No link", NOT_SCORED: "Unscored",
@@ -102,17 +102,6 @@ export default function Dashboard({ mode, cases, benchmark, reviews, notes: init
     }
   }
 
-  async function addNote(caseId: string, body: string) {
-    if (mode !== "supabase") throw new Error(OFFLINE_NOTES_MESSAGE);
-    const response = await fetch("/api/notes", {
-      method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ case_id: caseId, body }),
-    });
-    const payload = await response.json();
-    if (!response.ok) throw new Error(payload.error ?? "Could not save this note.");
-    setNotes((current) => [payload as CaseNote, ...current]);
-  }
-
   const modeCases = mode === "demo" && !v2 ? cases.filter((entry) => entry.snapshot === "V1") : cases;
   const selected = modeCases.find((entry) => entry.id === selectedId) ?? modeCases[0];
   const rows = modeCases.filter((entry) => `${entry.id} ${entry.title} ${entry.booking_entity}`.toLowerCase().includes(filter.trim().toLowerCase()));
@@ -164,8 +153,9 @@ export default function Dashboard({ mode, cases, benchmark, reviews, notes: init
             {feedMessage && <p className="inline-message" role="status">{feedMessage}</p>}
           </div>
           {selected ? <CaseDetail key={selected.id} selected={selected} history={history.filter((e) => e.case_id === selected.id)}
-            notes={newestCaseNotes(notes, selected.id)} allowResolve={mode === "demo" || profile?.review_role === "reviewer"}
-            canAnnotate={mode === "supabase"} viewerId={viewerId} onSave={saveReview} onAddNote={addNote}/>
+            notes={notes} allowResolve={mode === "demo" || profile?.review_role === "reviewer"}
+            canAnnotate={mode === "supabase"} viewerId={viewerId} onSave={saveReview}
+            onNoteCreated={(note) => setNotes((current) => [note, ...current])}/>
             : <section className="panel empty"><h2>No cases in scope</h2><p>Your booking entity has no imported screening cases.</p></section>}
         </section>
       </>}
@@ -214,20 +204,17 @@ function ReviewsPanel({ cases, history, openCase }: { cases: Case[]; history: Re
   </section>;
 }
 
-function CaseDetail({ selected, history, notes, allowResolve, canAnnotate, viewerId, onSave, onAddNote }: {
+function CaseDetail({ selected, history, notes, allowResolve, canAnnotate, viewerId, onSave, onNoteCreated }: {
   selected: Case; history: Review[]; notes: CaseNote[]; allowResolve: boolean; canAnnotate: boolean;
   viewerId?: string;
   onSave: (id: string, decision: Decision, rationale: string) => Promise<void>;
-  onAddNote: (id: string, body: string) => Promise<void>;
+  onNoteCreated: (note: CaseNote) => void;
 }) {
   const { packet } = selected;
   const [decision, setDecision] = useState<Decision>("awaiting_evidence");
   const [rationale, setRationale] = useState("");
   const [status, setStatus] = useState("");
   const [pending, setPending] = useState(false);
-  const [noteBody, setNoteBody] = useState("");
-  const [noteStatus, setNoteStatus] = useState("");
-  const [notePending, setNotePending] = useState(false);
 
   async function submit(event: FormEvent) {
     event.preventDefault();
@@ -236,16 +223,6 @@ function CaseDetail({ selected, history, notes, allowResolve, canAnnotate, viewe
     try { await onSave(selected.id, decision, rationale.trim()); setRationale(""); setStatus("Review saved."); }
     catch (error) { setStatus(error instanceof Error ? error.message : "Could not save the review."); }
     finally { setPending(false); }
-  }
-
-  async function submitNote(event: FormEvent) {
-    event.preventDefault();
-    const prepared = prepareCaseNote({ case_id: selected.id, body: noteBody });
-    if (!prepared.ok) { setNoteStatus(prepared.error); return; }
-    setNotePending(true);
-    try { await onAddNote(selected.id, prepared.insert.body); setNoteBody(""); setNoteStatus("Note saved."); }
-    catch (error) { setNoteStatus(error instanceof Error ? error.message : "Could not save the note."); }
-    finally { setNotePending(false); }
   }
 
   return <section className="panel detail-panel" aria-label="Case detail">
@@ -287,7 +264,7 @@ function CaseDetail({ selected, history, notes, allowResolve, canAnnotate, viewe
     <form className="review-form" onSubmit={submit}>
       <h3>Analyst decision</h3><label>Disposition<select value={decision} onChange={(e) => setDecision(e.target.value as Decision)}>
         <option value="awaiting_evidence">Request more evidence</option>
-        <option value="escalated_sanctions">Escalate to Sanctions</option>
+        <option value="escalated_mlro">Escalate to MLRO</option>
         <option value="escalated_legal">Escalate to Legal</option>
         {allowResolve && <option value="resolved">Resolve</option>}
       </select></label>
@@ -298,22 +275,7 @@ function CaseDetail({ selected, history, notes, allowResolve, canAnnotate, viewe
     {history.length > 0 && <section className="history"><h3>Review history</h3>{history.map((entry, index) =>
       <article key={`${entry.created_at}-${index}`}><strong>{decisionLabels[entry.decision]}</strong><time dateTime={entry.created_at}>{new Date(entry.created_at).toLocaleString()}</time><p>{entry.rationale}</p></article>
     )}</section>}
-    <section className="case-notes" aria-label="Case notes">
-      <h3>Case notes</h3>
-      {canAnnotate ? <form onSubmit={submitNote}>
-        <label>Note<textarea value={noteBody} onChange={(event) => setNoteBody(event.target.value)} rows={3} aria-describedby="note-length-hint"/></label>
-        <p id="note-length-hint" className="muted">1 to 1,000 characters. The signed-in account is recorded as the author.</p>
-        <button className="primary" disabled={notePending || !noteBody.trim()}>{notePending ? "Saving…" : "Add note"}</button>
-        {noteStatus && <span role="status" className="review-feedback">{noteStatus}</span>}
-      </form> : <p className="muted">{OFFLINE_NOTES_MESSAGE}</p>}
-      {notes.length === 0 && <p className="muted empty">No case notes yet.</p>}
-      {notes.map((note) => {
-        const author = caseNoteAuthor(note.author_id, viewerId);
-        return <article key={note.id}><strong>{author}</strong>
-          {author !== note.author_id && <code>{note.author_id}</code>}
-          <time dateTime={note.created_at}>{new Date(note.created_at).toLocaleString()}</time><p>{note.body}</p></article>;
-      })}
-    </section>
+    <CaseNotes caseId={selected.id} notes={notes} canAnnotate={canAnnotate} viewerId={viewerId} onCreated={onNoteCreated}/>
   </section>;
 }
 
