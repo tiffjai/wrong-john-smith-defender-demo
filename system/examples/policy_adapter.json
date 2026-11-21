@@ -1,0 +1,7 @@
+{
+  "review_code": "INSUFFICIENT_EVIDENCE",
+  "dob_mismatch_code": "DOB_MISMATCH",
+  "same_entity_code": "VERIFIED_IDENTITY_MATCH",
+  "allow_verified_dob_exclusion": true,
+  "allow_exact_name_full_dob_match": true
+}

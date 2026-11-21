@@ -1,0 +1,13 @@
+#!/usr/bin/env python3
+"""Deterministic, folder-scoped screening entry point (Python standard library)."""
+from pathlib import Path
+import sys
+from resolver import execute
+
+if __name__ == '__main__':
+    if len(sys.argv) != 3:
+        sys.exit('Usage: system/run <data folder> <output file>')
+    try:
+        execute(Path(sys.argv[1]), Path(sys.argv[2]))
+    except (ValueError, OSError) as error:
+        sys.exit(f'Screening failed: {error}')

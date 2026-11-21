@@ -1,0 +1,3 @@
+{"alert_id": "DEMO-ALERT-01", "account_id": "ACC-01", "hit_ids": ["HIT-01", "HIT-02"]}
+{"alert_id": "DEMO-ALERT-02", "login_id": "login-li", "hit_ids": ["HIT-03"]}
+{"alert_id": "DEMO-ALERT-03", "email": "anna@example.invalid", "hit_ids": ["HIT-04"]}

@@ -7,8 +7,10 @@
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
+    "test:research": "node --experimental-strip-types --test tests/tavily.test.mjs",
     "benchmark": "uv run --script scripts/benchmark.py",
-    "rescreen:scores": "uv run --script scripts/rescreen-scores.py"
+    "rescreen:scores": "uv run --script scripts/rescreen-scores.py",
+    "test": "vitest run"
   },
   "dependencies": {
     "@supabase/ssr": "0.12.7",
@@ -22,7 +24,12 @@
     "@types/node": "^22.0.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
-    "typescript": "^5.9.0"
+    "typescript": "^5.9.0",
+    "@testing-library/react": "^16.3.3",
+    "jsdom": "^31.0.1",
+    "vitest": "^5.1.1"
   },
-  "engines": { "node": ">=22.0.0" }
+  "engines": {
+    "node": ">=22.0.0"
+  }
 }

@@ -1,0 +1,3 @@
+{"check_id": "KYC-01", "applicant_id": "APP-01", "result": "passed", "verified_name": "Mohammed Ali", "verified_dob": "1988-03-14"}
+{"check_id": "KYC-02", "applicant_id": "APP-02", "result": "passed", "verified_name": "Li Wei", "verified_dob": "1975-02-18"}
+{"check_id": "KYC-REJECTED", "applicant_id": "APP-01", "result": "rejected", "verified_dob": "1952-03-14"}

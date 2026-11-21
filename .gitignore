@@ -14,3 +14,15 @@ __pycache__/
 /tmp/
 wrong-john-smith-defender/reviews/*
 !wrong-john-smith-defender/reviews/.gitkeep
+
+# Raw participant data, local snapshots and private acceptance records stay local.
+dev/
+output/dev.jsonl
+output/*local.json
+output/practice-score.txt
+screening-dev-browse.xlsx
+
+# Acceptance evidence and recording preparation are local only.
+output/uat-*
+output/track-2-uat*
+output/demo-video-*

@@ -13,3 +13,7 @@ const packets: Record<string, Packet> = {
 export const fixtures: Case[] = caseIndex.map((entry) => ({
   ...entry, packet: packets[entry.id], recommendation: entry.id === "CASE-11" ? ownershipReplay : null,
 }));
+
+import noteFixtures from "../data/case-notes.json";
+import type { CaseNote } from "./types";
+export const demoNotes: CaseNote[] = noteFixtures;
