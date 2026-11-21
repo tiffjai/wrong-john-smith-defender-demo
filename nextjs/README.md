@@ -4,7 +4,7 @@ In local demo mode the default view is Identity review. From the repository root
 
 The new workspace displays decision counts per hit, alert clearance only when every hit differs, resolved customer and listed-subject facts, all ambiguous candidate pictures, linkage records, reason codes and evidence gaps. Search includes IDs, reason text and evidence IDs. Import validates JSONL fields, decision/reason compatibility and duplicate hits; imported predictions stay in page memory and do not overwrite the saved run. Predictions alone do not contain the source evidence trace. Export downloads the active results.
 
-The existing Screening queue, Reviews, Watchlists, V2 rescreen demo and FEBRL benchmark remain separate exercises; their counts and dispositions are not combined with the Brief v3 run.
+When a local participant snapshot is available, Screening queue uses the same current run as Identity review, groups its hits into alerts, and supports open/clear status filtering, customer-name search and per-hit evidence inspection. Its source banner records the snapshot generation time in London time. Regenerate the snapshot with the exporter and reload the page after changing the supplied data. Without a participant snapshot the queue retains the synthetic case exercise. Authenticated Supabase queues continue to load their scoped cases. Reviews, Watchlists, V2 rescreen demo and FEBRL benchmark remain separate exercises.
 
 # Wrong John Smith Defender
 

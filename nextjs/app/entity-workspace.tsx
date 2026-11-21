@@ -11,19 +11,27 @@ const synthetic: Prediction[] = [
   { alert_id: "DEMO-01", hit_id: "HIT-02", customer_record_id: "CRM-01", decision: "REVIEW", reason_code: "INSUFFICIENT_DATA", reason: "The second namesake has no usable birth date or location. The evidence cannot settle this hit, so the whole alert remains open.", evidence: ["CRM-01", "HIT-02"] },
   { alert_id: "DEMO-02", hit_id: "HIT-03", customer_record_id: "CRM-02", decision: "SAME_ENTITY", reason_code: "NAME_DOB_MATCH", reason: "The verified name Li Wei and full DOB 1975-02-18 agree with the listed subject. No contradiction is present in this synthetic example.", evidence: ["CRM-02", "KYC-02", "HIT-03"] },
 ];
-export default function EntityWorkspace({ initialRun }: { initialRun?: ScreeningRun | null }) {
+export default function EntityWorkspace({ initialRun, queueMode = false }: { initialRun?: ScreeningRun | null; queueMode?: boolean }) {
   const baseline = useMemo<ScreeningRun>(() => initialRun ?? { source: "Synthetic walkthrough", synthetic: true, predictions: synthetic, traces: {} }, [initialRun]);
   const [run, setRun] = useState<ScreeningRun>(baseline);
   const [selectedId, setSelectedId] = useState(run.predictions[0]?.hit_id);
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<IdentityDecision | "ALL">("ALL");
+  const [alertFilter, setAlertFilter] = useState<"ALL" | "OPEN" | "CLEAR">("ALL");
   const [error, setError] = useState("");
   const fileInput = useRef<HTMLInputElement>(null);
   const alerts = useMemo(() => groupAlerts(run.predictions), [run]);
-  const rows = useMemo(() => run.predictions.filter(row => (filter === "ALL" || row.decision === filter) && `${row.alert_id} ${row.hit_id} ${row.customer_record_id} ${row.reason_code} ${row.reason} ${row.evidence.join(" ")}`.toLowerCase().includes(query.toLowerCase())), [run, query, filter]);
-  const selected = rows.find(row => row.hit_id === selectedId) ?? rows[0];
+  const tracesByHit = useMemo(() => {
+    const index = new Map<string, IdentityTrace[]>();
+    Object.entries(run.traces).forEach(([key, trace]) => { const hitId = key.split(":")[0]; index.set(hitId, [...(index.get(hitId) ?? []), trace]); });
+    return index;
+  }, [run]);
+  const rows = useMemo(() => run.predictions.filter(row => (filter === "ALL" || row.decision === filter) && `${row.alert_id} ${row.hit_id} ${row.customer_record_id} ${(tracesByHit.get(row.hit_id) ?? []).map(trace => `${trace.customer.name} ${trace.watchlist.name}`).join(" ")} ${row.reason_code} ${row.reason} ${row.evidence.join(" ")}`.toLowerCase().includes(query.toLowerCase())), [run, query, filter, tracesByHit]);
+  const visibleAlerts = alerts.filter(alert => alert.hits.some(hit => rows.includes(hit)) && (alertFilter === "ALL" || (alertFilter === "CLEAR" ? alert.closed : !alert.closed)));
+  const visibleRows = queueMode ? rows.filter(row => visibleAlerts.some(alert => alert.id === row.alert_id)) : rows;
+  const selected = visibleRows.find(row => row.hit_id === selectedId) ?? visibleRows[0];
   const alert = alerts.find(a => a.id === selected?.alert_id);
-  const traces = selected ? Object.entries(run.traces).filter(([key]) => key.startsWith(`${selected.hit_id}:`)).map(([,trace]) => trace) : [];
+  const traces = selected ? (tracesByHit.get(selected.hit_id) ?? []) : [];
   const trace = traces[0];
   const counts = (decision: IdentityDecision) => run.predictions.filter(row => row.decision === decision).length;
   const exportRun = () => {
@@ -31,22 +39,27 @@ export default function EntityWorkspace({ initialRun }: { initialRun?: Screening
     const anchor = document.createElement("a"); anchor.href = href; anchor.download = run.synthetic ? "synthetic-predictions.jsonl" : "predictions.jsonl"; anchor.click(); setTimeout(() => URL.revokeObjectURL(href), 1000);
   };
   return <div className="identity-workspace">
-    <div className="identity-intro"><div><span className="identity-eyebrow">IDENTITY REVIEW</span><h2>Same person or not?</h2><p>Resolve the customer. Resolve the listed subject. Compare the evidence.</p></div><div className="rescreen-actions"><button className="quiet-button" onClick={() => fileInput.current?.click()}><FileUp size={16}/>Import predictions</button><button className="primary" onClick={exportRun}><ArrowDownToLine size={16}/>Export JSONL</button></div></div>
+    <div className="identity-intro"><div><span className="identity-eyebrow">{queueMode ? "SCREENING QUEUE" : "IDENTITY REVIEW"}</span><h2>{queueMode ? "Review screening alerts" : "Same person or not?"}</h2><p>{queueMode ? "Open an alert to inspect its hits, customer identity and supporting evidence." : "Resolve the customer. Resolve the listed subject. Compare the evidence."}</p></div><div className="rescreen-actions">{!queueMode && <button className="quiet-button" onClick={() => fileInput.current?.click()}><FileUp size={16}/>Import predictions</button>}<button className="primary" onClick={exportRun}><ArrowDownToLine size={16}/>Export JSONL</button></div></div>
     <input ref={fileInput} type="file" accept=".jsonl,.ndjson" hidden aria-label="Import prediction JSONL" onChange={async event => {
       const file = event.target.files?.[0]; if (!file) return;
       try { if (file.size > 20 * 1024 * 1024) throw new Error("Choose a prediction file smaller than 20 MB."); const predictions = parsePredictions(await file.text()); setRun({ source: file.name, synthetic: false, predictions, traces: {} }); setSelectedId(predictions[0].hit_id); setFilter("ALL"); setQuery(""); setError(""); } catch (e) { setError(e instanceof Error ? e.message : "Could not import predictions."); } finally { event.target.value = ""; }
     }}/>
     {error && <p className="conflict-banner" role="alert">{error}</p>}
-    <div className="identity-source"><span className="source-dot"/><strong>{run.source}</strong><span>{run.synthetic ? "Invented examples" : run === baseline ? "Participant data · local workspace" : "Imported file · source unverified"}</span><span>{run.predictions.length} hits · {alerts.length} alerts{run.durationSeconds != null ? ` · ${run.durationSeconds}s run` : ""}</span>{run !== baseline && <button className="text-button" onClick={() => { setRun(baseline); setFilter("ALL"); setQuery(""); }}>Restore workspace results</button>}</div>
+    <div className="identity-source"><span className="source-dot"/><strong>{run.source}</strong><span>{run.synthetic ? "Invented examples" : run === baseline ? "Participant data · local workspace" : "Imported file · source unverified"}</span><span>{run.predictions.length} hits · {alerts.length} alerts{run.durationSeconds != null ? ` · ${run.durationSeconds}s run` : ""}</span>{run.generatedAt && <span>Updated {new Date(run.generatedAt).toLocaleString("en-GB", { timeZone: "Europe/London" })} (London)</span>}{run !== baseline && <button className="text-button" onClick={() => { setRun(baseline); setFilter("ALL"); setQuery(""); }}>Restore workspace results</button>}</div>
     <section className="metrics identity-metrics" aria-label="Identity outcomes">
       {identityDecisions.map(decision => <button key={decision} className={`metric metric-link ${filter === decision ? "metric-selected" : ""}`} onClick={() => setFilter(filter === decision ? "ALL" : decision)} aria-pressed={filter === decision}><div className={`metric-icon outcome-${decision}`}>{decision === "DIFFERENT_ENTITY" ? <CheckCheck size={22}/> : decision === "SAME_ENTITY" ? <Users size={22}/> : <ShieldAlert size={22}/>}</div><div><p>{labels[decision]}</p><strong>{counts(decision)}</strong><small>{decision === "DIFFERENT_ENTITY" ? "Evidence supports exclusion" : decision === "SAME_ENTITY" ? "Identity agrees · retain alert" : "Human judgment required"}</small></div></button>)}
     </section>
     <div className="identity-progress"><CheckCheck size={17}/><strong>{alerts.filter(a => a.closed).length} of {alerts.length} alerts clear</strong><span>Every hit must be different to clear an alert.</span><span className="identity-principle">Identity findings are separate from compliance decisions.</span></div>
     <div className="identity-grid">
-      <section className="panel identity-results"><div className="panel-title"><h2>Screening hits</h2><span>{rows.length} shown</span></div>
+      <section className="panel identity-results"><div className="panel-title"><h2>{queueMode ? "Screening alerts" : "Screening hits"}</h2><span>{queueMode ? `${visibleAlerts.length} alerts` : `${rows.length} shown`}</span></div>
         <label className="search"><Search size={17}/><input aria-label="Search screening hits" placeholder="Search alerts, hits or evidence…" value={query} onChange={e => setQuery(e.target.value)}/></label>
+        {queueMode && <label className="queue-filter">Alert status<select value={alertFilter} onChange={e => setAlertFilter(e.target.value as typeof alertFilter)}><option value="ALL">All alerts ({alerts.length})</option><option value="OPEN">Open ({alerts.filter(a => !a.closed).length})</option><option value="CLEAR">Clear ({alerts.filter(a => a.closed).length})</option></select></label>}
         <label className="queue-filter identity-filter">Identity decision<select value={filter} onChange={e => setFilter(e.target.value as typeof filter)}><option value="ALL">All decisions</option>{identityDecisions.map(d => <option key={d} value={d}>{labels[d]}</option>)}</select></label>
-        <div className="identity-hit-list">{rows.map(row => <button key={row.hit_id} className={`identity-hit ${selected?.hit_id === row.hit_id ? "selected" : ""}`} onClick={() => setSelectedId(row.hit_id)} aria-pressed={selected?.hit_id === row.hit_id}><span className="case-ref">{row.alert_id}</span><strong>{row.hit_id}<ArrowRight size={15}/></strong><span className={`status ${statusClass[row.decision]}`}>{labels[row.decision]}</span><small>{row.reason_code.replaceAll("_", " ").toLowerCase()}</small></button>)}{!rows.length && <p className="empty muted">No matching hits. Change the decision filter or search.</p>}</div>
+        <div className="identity-hit-list">{queueMode ? visibleAlerts.map(item => {
+          const hit = item.hits.find(h => visibleRows.includes(h))!;
+          const names = [...new Set(item.hits.flatMap(h => tracesByHit.get(h.hit_id) ?? []).map(trace => trace.customer.name))];
+          return <button key={item.id} className={`identity-hit ${selected?.alert_id === item.id ? "selected" : ""}`} onClick={() => setSelectedId(hit.hit_id)} aria-pressed={selected?.alert_id === item.id}><span className="case-ref">{item.id}</span><strong>{names.join(" / ") || hit.customer_record_id || "Unresolved customer"}<ArrowRight size={15}/></strong><span className={`status ${item.closed ? "good" : "warn"}`}>{item.closed ? "Clear" : "Open"}</span><small>{item.hits.length} hits · {item.hits.filter(h => h.decision === "SAME_ENTITY").length} same · {item.hits.filter(h => h.decision === "REVIEW").length} need review</small></button>;
+        }) : rows.map(row => <button key={row.hit_id} className={`identity-hit ${selected?.hit_id === row.hit_id ? "selected" : ""}`} onClick={() => setSelectedId(row.hit_id)} aria-pressed={selected?.hit_id === row.hit_id}><span className="case-ref">{row.alert_id}</span><strong>{row.hit_id}<ArrowRight size={15}/></strong><span className={`status ${statusClass[row.decision]}`}>{labels[row.decision]}</span><small>{row.reason_code.replaceAll("_", " ").toLowerCase()}</small></button>)}{!(queueMode ? visibleAlerts.length : rows.length) && <p className="empty muted">No matching hits. Change the decision filter or search.</p>}</div>
       </section>
       {selected && <section className="panel detail-panel identity-detail" aria-label="Identity evidence">
         <div className="case-top"><div><p className="identity-eyebrow">{selected.alert_id} / {selected.hit_id}</p><h2>{selected.customer_record_id === "AMBIGUOUS" ? "Ambiguous customer identity" : trace?.customer.name ?? selected.customer_record_id ?? "Unresolved customer"}</h2><p className="muted">Compared with {trace?.watchlist.name ?? "listed subject"}</p></div><span className={`status ${statusClass[selected.decision]}`}>{labels[selected.decision]}</span></div>

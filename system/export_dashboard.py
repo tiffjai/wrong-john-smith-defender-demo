@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Generate predictions and a local-only dashboard evidence snapshot."""
+from datetime import datetime, timezone
 import hashlib
 import json
 from pathlib import Path
@@ -18,7 +19,7 @@ def export(folder, output):
     rows = engine.run()
     output.mkdir(parents=True, exist_ok=True)
     (output / 'dev.jsonl').write_text(''.join(json.dumps(r, ensure_ascii=False, sort_keys=True) + '\n' for r in rows))
-    snapshot = {'source':'Development set · local participant data', 'synthetic':False, 'predictions':rows,
+    snapshot = {'generatedAt':datetime.now(timezone.utc).isoformat(), 'source':'Development set · local participant data', 'synthetic':False, 'predictions':rows,
                 'traces':engine.trace, 'durationSeconds':round(time.monotonic()-start, 2),
                 'policySha256':hashlib.sha256((folder/'POLICY.md').read_bytes()).hexdigest()}
     (output / 'screening-dashboard.local.json').write_text(json.dumps(snapshot, ensure_ascii=False))

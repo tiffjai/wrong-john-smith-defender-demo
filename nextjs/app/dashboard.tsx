@@ -70,6 +70,8 @@ export default function Dashboard({ mode, cases, benchmark, reviews, notes: init
   profile?: { booking_entity: string; review_role: string };
 }) {
   const [view, setView] = useState<View>(mode === "demo" ? "identity" : "queue");
+  const datasetQueue = mode === "demo" && !!screeningRun && !screeningRun.synthetic;
+  const datasetView = view === "identity" || (view === "queue" && datasetQueue);
   const [selectedId, setSelectedId] = useState(cases[0]?.id);
   const [history, setHistory] = useState(reviews);
   const [notes, setNotes] = useState(initialNotes);
@@ -141,7 +143,7 @@ export default function Dashboard({ mode, cases, benchmark, reviews, notes: init
   const selected = rows.find((entry) => entry.id === selectedId) ?? rows[0];
   const countStage = (stage: QueueStage) => modeCases.filter((entry) => reviewStage(history, entry.id) === stage).length;
   function openReviews(stage: QueueStage) { setReviewFilter(stage); setView("reviews"); }
-  const subtitle = view === "identity" ? "Per-hit identity decisions, linked records and traceable evidence." : view === "queue" ? role === "junior"
+  const subtitle = view === "identity" ? "Per-hit identity decisions, linked records and traceable evidence." : view === "queue" ? datasetQueue ? "Latest screening dataset · Alerts grouped with per-hit findings and supporting evidence." : role === "junior"
     ? "Junior analyst · Investigate screening alerts, gather evidence and escalate cases."
     : "Senior analyst · Review escalations, challenge the evidence and make the final decision."
     : view === "reviews" ? "Track open work, escalations and completed decisions. Open a case to review its evidence."
@@ -154,7 +156,7 @@ export default function Dashboard({ mode, cases, benchmark, reviews, notes: init
     <aside className="sidebar">
       <div className="brand"><div className="brand-emblem"><Fingerprint size={23} /></div>
         <div>Defender<small>Identity screening</small></div></div>
-      {view !== "identity" && <section className="role-panel" aria-label="Analyst workspace">
+      {!datasetView && <section className="role-panel" aria-label="Analyst workspace">
         <span className="role-caption">{mode === "demo" ? "Demo workspace" : "Your assigned workspace"}</span>
         {mode === "demo" ? <div className="role-switch" aria-label="Analyst view">
           {(["junior", "senior"] as const).map((value) => <button key={value} type="button" aria-pressed={role === value}
@@ -170,8 +172,8 @@ export default function Dashboard({ mode, cases, benchmark, reviews, notes: init
         </button>)}
       </nav>
       <div className="sidebar-bottom">
-        <div className="workspace-tag"><Activity size={16}/>{view === "identity" ? "Local resolution run" : mode === "demo" ? "Offline demo" : "Supabase connected"}</div>
-        <div className="workspace-caption">{profile ? `${profile.booking_entity} · ${profile.review_role}` : view === "identity" && screeningRun ? "Participant dataset" : "Synthetic records"}</div>
+        <div className="workspace-tag"><Activity size={16}/>{datasetView ? "Local screening run" : mode === "demo" ? "Offline demo" : "Supabase connected"}</div>
+        <div className="workspace-caption">{profile ? `${profile.booking_entity} · ${profile.review_role}` : datasetView && screeningRun ? "Participant dataset" : "Synthetic records"}</div>
         {mode === "supabase" && <form action={signOut}><button className="signout"><LogOut size={16}/>Sign out</button></form>}
       </div>
     </aside>
@@ -179,10 +181,11 @@ export default function Dashboard({ mode, cases, benchmark, reviews, notes: init
     <main className="workspace">
       <header className="workspace-header"><div>
         <h1>{modes.find((entry) => entry.id === view)?.label}</h1><p>{subtitle}</p>
-      </div><span className="synthetic-tag"><ShieldCheck size={16}/>{view === "identity" && screeningRun && !screeningRun.synthetic ? "Local participant data" : "Synthetic data"}</span></header>
+      </div><span className="synthetic-tag"><ShieldCheck size={16}/>{datasetView && screeningRun && !screeningRun.synthetic ? "Local participant data" : "Synthetic data"}</span></header>
 
-      {view === "identity" && mode === "demo" && <EntityWorkspace initialRun={screeningRun}/>}
-      {view === "queue" && <>
+      {view === "identity" && mode === "demo" && <EntityWorkspace key={screeningRun?.generatedAt} initialRun={screeningRun}/>}
+      {view === "queue" && datasetQueue && <EntityWorkspace key={screeningRun?.generatedAt} initialRun={screeningRun} queueMode/>}
+      {view === "queue" && !datasetQueue && <>
         <section className="metrics" aria-label="Case review summary">
           <Metric icon={<Layers3 size={21}/>} label="Pending analyst action" value={countStage("pending")} detail="New alerts or awaiting evidence · View reviews →" onClick={() => openReviews("pending")}/>
           <Metric icon={<ShieldAlert size={21}/>} label="Escalated for review" value={countStage("escalated")} detail="Senior / specialist attention · View reviews →" onClick={() => openReviews("escalated")}/>
