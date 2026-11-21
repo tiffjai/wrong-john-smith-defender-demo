@@ -1,0 +1,14 @@
+{
+  "case_id":"CASE-12", "synthetic":true, "schema_version":"1.0", "case_type":"documents",
+  "case_outcome":{"name_only":"CANDIDATE_VISIBLE","splink":"CANDIDATE_VISIBLE","splink_with_guard":"ANALYST_REVIEW"},
+  "records":[], "candidate_pairs":[],
+  "documents":[
+    {"evidence_id":"EV-ID-001","customer_id":"SYN-CLIENT-A","name":"Lina Example","issuer":"Fictional jurisdiction A","display_number":"•••• 1001","document_key":"DEMO-DOC-A1","issued":"2006-01-14","expires":"2011-01-13","verified_dob":"1985-06-08","verification_source":"Synthetic archive scan","replaces":null,"superseded_on":"2010-11-02"},
+    {"evidence_id":"EV-ID-002","customer_id":"SYN-CLIENT-A","name":"Lina Exampleson","issuer":"Fictional jurisdiction A","display_number":"•••• 1002","document_key":"DEMO-DOC-A2","issued":"2010-11-02","expires":"2016-11-01","verified_dob":"1985-06-08","verification_source":"Synthetic name-change and replacement record","replaces":"EV-ID-001","superseded_on":"2016-10-12"},
+    {"evidence_id":"EV-ID-003","customer_id":"SYN-CLIENT-A","name":"Lina Example","issuer":"Fictional jurisdiction A","display_number":"•••• 1003","document_key":"DEMO-DOC-A3","issued":"2016-10-12","expires":"2021-10-11","verified_dob":"1985-06-08","verification_source":"Synthetic replacement record","replaces":"EV-ID-002","superseded_on":"2021-07-25"},
+    {"evidence_id":"EV-ID-004","customer_id":"SYN-CLIENT-A","name":"Lina Example","issuer":"Fictional jurisdiction A","display_number":"•••• 1004","document_key":"DEMO-DOC-A4","issued":"2021-07-25","expires":"2031-07-24","verified_dob":"1985-06-08","verification_source":"Synthetic currently verified identity record","replaces":"EV-ID-003","superseded_on":null},
+    {"evidence_id":"EV-ID-005","customer_id":"SYN-CLIENT-A","name":"Lina Example","issuer":"Fictional jurisdiction B","display_number":"•••• 2217","document_key":"DEMO-DOC-B7","issued":"2022-03-24","expires":"2032-03-23","verified_dob":"1985-06-08","verification_source":"Synthetic KYC recheck","replaces":null,"superseded_on":null},
+    {"evidence_id":"EV-ID-006","customer_id":"SYN-CLIENT-B","name":"Leanne Sample","issuer":"Fictional jurisdiction B","display_number":"•••• 2217","document_key":"DEMO-DOC-B7","issued":"2022-03-24","expires":"2032-03-23","verified_dob":"1990-02-17","verification_source":"Synthetic identity recheck for second customer","replaces":null,"superseded_on":null},
+    {"evidence_id":"EV-ID-007","customer_id":"SYN-CLIENT-B","name":"Leanne Sample","issuer":"Fictional jurisdiction A","display_number":"•••• 4291","document_key":"DEMO-DOC-C1","issued":"2019-05-20","expires":"2029-05-19","verified_dob":"1990-02-17","verification_source":"Synthetic secondary document check","replaces":null,"superseded_on":null}
+  ]
+}

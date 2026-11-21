@@ -1,0 +1,7 @@
+GET /api/health:
+ok rescreen-contract/1.0 grok_live= False
+HTTP 200
+GET /api/cases:
+[('RESCREEN-A', 'OPEN'), ('RESCREEN-B', 'OPEN')]
+POST /api/feeds/load V2:
+ACTIVATED SNAP-FICT-UK-SL-V2-50c30ade

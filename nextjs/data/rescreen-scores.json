@@ -1,0 +1,26 @@
+{
+  "V1": {
+    "A": {
+      "retrieved": true,
+      "rapidfuzz": 91.6667,
+      "splink": 0.005833842
+    },
+    "B": {
+      "retrieved": true,
+      "rapidfuzz": 91.6667,
+      "splink": 0.005833842
+    }
+  },
+  "V2": {
+    "A": {
+      "retrieved": true,
+      "rapidfuzz": 91.6667,
+      "splink": 0.106207981
+    },
+    "B": {
+      "retrieved": true,
+      "rapidfuzz": 91.6667,
+      "splink": 0.999905061
+    }
+  }
+}

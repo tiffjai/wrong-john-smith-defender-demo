@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "rescreen-contract/1.0/challenger_handoff.schema.json",
+  "title": "challenger_handoff",
+  "type": "object",
+  "required": [
+    "contract_version",
+    "packet_type",
+    "synthetic",
+    "case_id",
+    "changed_fields",
+    "approval_basis",
+    "evidence_ids",
+    "requested_output"
+  ],
+  "properties": {
+    "packet_type": {
+      "const": "challenger-handoff"
+    },
+    "changed_fields": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "subject_type",
+          "field",
+          "before",
+          "after"
+        ],
+        "properties": {}
+      }
+    },
+    "approval_basis": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "decision_id",
+          "type",
+          "statement",
+          "cited_evidence_ids"
+        ],
+        "properties": {}
+      }
+    },
+    "evidence_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^EV-[0-9a-f]{12}$"
+      }
+    },
+    "contract_version": {
+      "const": "rescreen-contract/1.0"
+    },
+    "synthetic": {
+      "const": true
+    },
+    "case_id": {
+      "type": "string"
+    },
+    "requested_output": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": false
+}

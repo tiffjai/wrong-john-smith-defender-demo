@@ -1,0 +1,23 @@
+{
+  "_notice": "FICTIONAL policies, entities, measures and overlays for the demo. Not legal advice and not a description of any real law.",
+  "entities": {
+    "FICT-BANK-UK": {"name": "Fictional Bank plc (London)", "jurisdiction": "UK"},
+    "FICT-BANK-US": {"name": "Fictional Bank NA (New York intermediary)", "jurisdiction": "US"},
+    "FICT-BANK-SH": {"name": "Fictional Bank (Shanghai branch)", "jurisdiction": "CN"}
+  },
+  "sources": {"UK": "FICT-UK-SL", "US": "FICT-US-SL", "CN": "FICT-CN-ML"},
+  "overlays": {
+    "UK": {"default_queue": "Sanctions (2nd line)", "rule": "False-positive closure needs a different senior reviewer.", "order": ["UK", "US", "CN"]},
+    "US": {"default_queue": "Sanctions (US intermediary desk)", "rule": "Flag any USD clearing through the US intermediary for review.", "order": ["US", "UK", "CN"]},
+    "CN": {"default_queue": "Legal (potential conflict)", "rule": "A potential conflict needs a specific measure plus a factual nexus and goes to Legal.", "order": ["CN", "UK", "US"]}
+  },
+  "case_facts": {
+    "SYN-CUST-A": {"booking_entity": "FICT-BANK-UK", "nexus": {"UK": "booked in FICT-BANK-UK", "US": null, "CN": null}},
+    "SYN-CUST-B": {"booking_entity": "FICT-BANK-UK",
+                   "nexus": {"UK": "booked in FICT-BANK-UK",
+                             "US": "USD payments cleared through FICT-BANK-US intermediary (synthetic fact)",
+                             "CN": "relationship serviced by FICT-BANK-SH (synthetic fact)"},
+                   "cn_measure_link": {"measure_id": "CN-FM-07", "targets_foreign_listing": "FICT-UK-SL/DEMO-WL-410",
+                                       "note": "Synthetic: the fictional CN measure names this foreign listing, so a specific measure exists."}}
+  }
+}

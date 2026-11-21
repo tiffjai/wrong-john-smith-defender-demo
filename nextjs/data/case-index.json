@@ -1,0 +1,7 @@
+[
+  {"id":"CASE-08","title":"Indirect chain conflict","booking_entity":"UK","snapshot":"V1"},
+  {"id":"CASE-11","title":"Indirect ownership exposure","booking_entity":"UK","snapshot":"V1"},
+  {"id":"CASE-12","title":"Identity document timeline","booking_entity":"UK","snapshot":"V1"},
+  {"id":"CASE-03","title":"Documented alias","booking_entity":"UK","snapshot":"V2"},
+  {"id":"CASE-01","title":"Same-name collision","booking_entity":"US","snapshot":"V1"}
+]

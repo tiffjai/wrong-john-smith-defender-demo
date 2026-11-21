@@ -1,0 +1,7 @@
+4bd4c27b95b3b3a409e3ee88208439ff02351b78b59065b5e1471c9c0b1847aa  exports/evidence_packet_CASE-01.json
+b532c01961cf48f169c0168abd2f150eea5fc56aab320ea26e539b442c96de28  exports/evidence_packet_CASE-03.json
+937e8f724ca1cb58f54d6442818f73502f6839a4a399ca76b254c8dd3ea63ab4  exports/evidence_packet_CASE-08.json
+exports/evidence_packet_CASE-01.json: OK
+exports/evidence_packet_CASE-03.json: OK
+exports/evidence_packet_CASE-08.json: OK
+sha256sum: WARNING: 3 lines are improperly formatted

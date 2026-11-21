@@ -1,0 +1,23 @@
+{
+  "watchlistEntryId": "DEMO-WL-410",
+  "watchlistName": "Synthetic UK-style Sanctions List",
+  "watchlistSource": "Synthetic watchlist correction notice",
+  "independentExclusion": {
+    "id": "RS-A-REGISTRY-01", "source": "Synthetic independent civil registry attestation",
+    "value": "The verified customer and the subject of DEMO-WL-410 are separate registry identities."
+  },
+  "versions": {
+    "V1": {"published": "2026-11-19", "name": "陳偉民 / Chan Wai Mun", "nameId": "RS-WL-NAME-01", "alias": null,
+      "dob": "1987-09-03", "dobId": "RS-WL-DOB-V1", "precision": "Full · verified"},
+    "V2": {"published": "2026-11-20", "name": "陳偉民 / Chan Wai Mun", "nameId": "RS-WL-NAME-01",
+      "alias": {"value":"Chan Wai Man","id":"RS-WL-ALIAS-V2","source":"Synthetic Cantonese romanisation added in V2"},
+      "dob": "1991-06-14", "dobId": "RS-WL-DOB-V2", "precision": "Full · verified correction"}
+  },
+  "customers": {
+    "A": {"id":"RESCREEN-A","name":"陳偉文 / Chan Wai Man","nameId":"RS-A-NAME-01","alias":null,
+      "dob":"1979-04-11","dobId":"RS-A-DOB-01","precision":"Full · verified","source":"Synthetic verified KYC and registry check A"},
+    "B": {"id":"RESCREEN-B","name":"陳偉民 / Chan Wai-Man","nameId":"RS-B-NAME-01",
+      "alias":{"value":"Chan Wai Man","id":"RS-B-ALIAS-01","source":"Synthetic KYC alias register B"},
+      "dob":"1991-06-14","dobId":"RS-B-DOB-01","precision":"Full · verified","source":"Synthetic verified KYC B"}
+  }
+}

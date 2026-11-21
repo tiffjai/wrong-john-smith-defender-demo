@@ -1,0 +1,77 @@
+{
+  "contract_version": "rescreen-contract/1.0",
+  "synthetic": true,
+  "fictional_measures_notice": "FICTIONAL policies, entities, measures and overlays for the demo. Not legal advice and not a description of any real law.",
+  "case_id": "RESCREEN-B",
+  "primary_view": "CN",
+  "ordering": [
+    "CN",
+    "UK",
+    "US"
+  ],
+  "default_queue": "Legal (potential conflict)",
+  "booking_entity": "FICT-BANK-UK",
+  "rows": [
+    {
+      "jurisdiction": "CN",
+      "source_id": "FICT-CN-ML",
+      "snapshot_id": "SNAP-FICT-CN-ML-V1-28f94799",
+      "coverage": "OK",
+      "check_status": "NO_HIT_COMPLETE",
+      "measures": [],
+      "identity_evidence": null,
+      "factual_nexus": "relationship serviced by FICT-BANK-SH (synthetic fact)",
+      "applicability": "in scope (factual nexus recorded)",
+      "previous_finding": null,
+      "local_overlay": "A potential conflict needs a specific measure plus a factual nexus and goes to Legal.",
+      "list_difference": "LIST_DIFFERENCE: hit on FICT-UK-SL/DEMO-WL-410; completed search of FICT-CN-ML found none (coverage difference, not a conflict)"
+    },
+    {
+      "jurisdiction": "UK",
+      "source_id": "FICT-UK-SL",
+      "snapshot_id": "SNAP-FICT-UK-SL-V2-50c30ade",
+      "coverage": "DEGRADED: serving last-good SNAP-FICT-UK-SL-V2-50c30ade",
+      "check_status": "HIT",
+      "measures": [
+        {
+          "measure_id": "UK-FM-12",
+          "description": "Fictional asset freeze (synthetic)",
+          "evidence_id": "EV-cedcb55b1140"
+        }
+      ],
+      "identity_evidence": {
+        "name": "supporting",
+        "documented_alias": "supporting",
+        "dob": "supporting",
+        "national_id": "missing",
+        "nationality": "supporting"
+      },
+      "factual_nexus": "booked in FICT-BANK-UK",
+      "applicability": "in scope (factual nexus recorded)",
+      "previous_finding": "AWAITING_EVIDENCE",
+      "local_overlay": "False-positive closure needs a different senior reviewer.",
+      "list_difference": null
+    },
+    {
+      "jurisdiction": "US",
+      "source_id": "FICT-US-SL",
+      "snapshot_id": "SNAP-FICT-US-SL-V1-00f72fe1",
+      "coverage": "OK",
+      "check_status": "NO_HIT_COMPLETE",
+      "measures": [],
+      "identity_evidence": null,
+      "factual_nexus": "USD payments cleared through FICT-BANK-US intermediary (synthetic fact)",
+      "applicability": "in scope (factual nexus recorded)",
+      "previous_finding": null,
+      "local_overlay": "Flag any USD clearing through the US intermediary for review.",
+      "list_difference": "LIST_DIFFERENCE: hit on FICT-UK-SL/DEMO-WL-410; completed search of FICT-US-SL found none (coverage difference, not a conflict)"
+    }
+  ],
+  "potential_conflict": {
+    "specific_measure": "CN-FM-07",
+    "factual_nexus": "relationship serviced by FICT-BANK-SH (synthetic fact)",
+    "status": "POTENTIAL_CONFLICT_ROUTE_TO_LEGAL",
+    "rule": "Potential conflict requires a specific measure AND a factual nexus.",
+    "route_to": "Legal"
+  }
+}

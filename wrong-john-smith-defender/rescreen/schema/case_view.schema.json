@@ -1,0 +1,581 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "rescreen-contract/1.0/case_view.schema.json",
+  "title": "case_view",
+  "type": "object",
+  "required": [
+    "contract_version",
+    "synthetic",
+    "case",
+    "names",
+    "current_screening",
+    "screening_history",
+    "evidence_side_by_side",
+    "current_evidence",
+    "earlier_rationale_and_decisions",
+    "ai",
+    "events",
+    "allowed_actions"
+  ],
+  "properties": {
+    "contract_version": {
+      "const": "rescreen-contract/1.0"
+    },
+    "synthetic": {
+      "const": true
+    },
+    "case": {
+      "type": "object",
+      "required": [
+        "case_id",
+        "alert_id",
+        "customer_id",
+        "alert_key",
+        "state",
+        "disposition",
+        "reopen_count"
+      ],
+      "properties": {
+        "case_id": {
+          "type": "string"
+        },
+        "state": {
+          "enum": [
+            "OPEN",
+            "IN_REVIEW",
+            "AWAITING_EVIDENCE",
+            "ESCALATED",
+            "RESOLVED"
+          ]
+        },
+        "disposition": {
+          "type": "string"
+        },
+        "reopen_count": {
+          "type": "integer"
+        },
+        "alert_key": {
+          "type": "object",
+          "required": [
+            "customer_id",
+            "source_id",
+            "entry_id"
+          ],
+          "properties": {}
+        }
+      }
+    },
+    "current_screening": {
+      "type": "object",
+      "required": [
+        "retrieval",
+        "name_only",
+        "splink",
+        "guard",
+        "raise_alert",
+        "evidence_classification"
+      ],
+      "properties": {
+        "retrieval": {
+          "type": "object",
+          "required": [
+            "blocking_rules"
+          ],
+          "properties": {
+            "blocking_rules": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "name_only": {
+          "type": "object",
+          "required": [
+            "score",
+            "decision"
+          ],
+          "properties": {
+            "score": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "decision": {
+              "enum": [
+                "LINK",
+                "REVIEW",
+                "NO_LINK"
+              ]
+            }
+          }
+        },
+        "splink": {
+          "type": "object",
+          "required": [
+            "match_probability",
+            "match_weight",
+            "decision",
+            "field_contributions"
+          ],
+          "properties": {
+            "match_probability": {
+              "type": "number"
+            },
+            "match_weight": {
+              "type": "number"
+            },
+            "decision": {
+              "enum": [
+                "LINK",
+                "REVIEW",
+                "NO_LINK"
+              ]
+            },
+            "field_contributions": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "field",
+                  "level_key",
+                  "bayes_factor",
+                  "match_weight"
+                ],
+                "properties": {}
+              }
+            }
+          }
+        },
+        "guard": {
+          "type": "object",
+          "required": [
+            "decision",
+            "outcome",
+            "reasons",
+            "dob_check_status"
+          ],
+          "properties": {
+            "decision": {
+              "enum": [
+                "LINK",
+                "REVIEW",
+                "NO_LINK"
+              ]
+            },
+            "outcome": {
+              "type": "string"
+            },
+            "dob_check_status": {
+              "enum": [
+                "contradiction",
+                "consistent",
+                "not_assessable"
+              ]
+            }
+          }
+        },
+        "raise_alert": {
+          "type": "boolean"
+        },
+        "evidence_classification": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "dimension",
+              "classification",
+              "evidence_ids"
+            ],
+            "properties": {
+              "dimension": {
+                "type": "string"
+              },
+              "classification": {
+                "enum": [
+                  "supporting",
+                  "conflicting",
+                  "missing",
+                  "neutral"
+                ]
+              },
+              "evidence_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^EV-[0-9a-f]{12}$"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "screening_history": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "retrieval",
+          "name_only",
+          "splink",
+          "guard",
+          "raise_alert",
+          "evidence_classification"
+        ],
+        "properties": {
+          "retrieval": {
+            "type": "object",
+            "required": [
+              "blocking_rules"
+            ],
+            "properties": {
+              "blocking_rules": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "name_only": {
+            "type": "object",
+            "required": [
+              "score",
+              "decision"
+            ],
+            "properties": {
+              "score": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "decision": {
+                "enum": [
+                  "LINK",
+                  "REVIEW",
+                  "NO_LINK"
+                ]
+              }
+            }
+          },
+          "splink": {
+            "type": "object",
+            "required": [
+              "match_probability",
+              "match_weight",
+              "decision",
+              "field_contributions"
+            ],
+            "properties": {
+              "match_probability": {
+                "type": "number"
+              },
+              "match_weight": {
+                "type": "number"
+              },
+              "decision": {
+                "enum": [
+                  "LINK",
+                  "REVIEW",
+                  "NO_LINK"
+                ]
+              },
+              "field_contributions": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "field",
+                    "level_key",
+                    "bayes_factor",
+                    "match_weight"
+                  ],
+                  "properties": {}
+                }
+              }
+            }
+          },
+          "guard": {
+            "type": "object",
+            "required": [
+              "decision",
+              "outcome",
+              "reasons",
+              "dob_check_status"
+            ],
+            "properties": {
+              "decision": {
+                "enum": [
+                  "LINK",
+                  "REVIEW",
+                  "NO_LINK"
+                ]
+              },
+              "outcome": {
+                "type": "string"
+              },
+              "dob_check_status": {
+                "enum": [
+                  "contradiction",
+                  "consistent",
+                  "not_assessable"
+                ]
+              }
+            }
+          },
+          "raise_alert": {
+            "type": "boolean"
+          },
+          "evidence_classification": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "dimension",
+                "classification",
+                "evidence_ids"
+              ],
+              "properties": {
+                "dimension": {
+                  "type": "string"
+                },
+                "classification": {
+                  "enum": [
+                    "supporting",
+                    "conflicting",
+                    "missing",
+                    "neutral"
+                  ]
+                },
+                "evidence_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "pattern": "^EV-[0-9a-f]{12}$"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "evidence_side_by_side": {
+      "type": "object",
+      "required": [
+        "columns",
+        "rows"
+      ],
+      "properties": {
+        "columns": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "rows": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "subject_type",
+              "field",
+              "values",
+              "changed"
+            ],
+            "properties": {}
+          }
+        }
+      }
+    },
+    "current_evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "evidence_id",
+          "subject_type",
+          "subject_id",
+          "field",
+          "observed_value",
+          "precision",
+          "status",
+          "verification",
+          "source_id",
+          "source_snapshot_id"
+        ],
+        "properties": {
+          "evidence_id": {
+            "type": "string",
+            "pattern": "^EV-[0-9a-f]{12}$"
+          },
+          "subject_type": {
+            "enum": [
+              "customer",
+              "list_entry"
+            ]
+          },
+          "subject_id": {
+            "type": "string"
+          },
+          "field": {
+            "type": "string"
+          },
+          "precision": {
+            "enum": [
+              "full",
+              "year_month",
+              "year",
+              "unknown",
+              "unparseable",
+              "exact"
+            ]
+          },
+          "status": {
+            "enum": [
+              "known",
+              "unknown",
+              "placeholder"
+            ]
+          },
+          "verification": {
+            "type": "object",
+            "required": [
+              "status"
+            ],
+            "properties": {
+              "status": {
+                "enum": [
+                  "verified",
+                  "unverified",
+                  "unknown",
+                  "documented"
+                ]
+              }
+            }
+          },
+          "source_id": {
+            "type": "string"
+          },
+          "source_snapshot_id": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "earlier_rationale_and_decisions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "decision_id",
+          "decision",
+          "validity",
+          "decided_at",
+          "reviewer",
+          "reviewer_role",
+          "proposer",
+          "rationale",
+          "evidence_ids_used",
+          "basis",
+          "snapshots_at_decision"
+        ],
+        "properties": {
+          "decision": {
+            "enum": [
+              "APPROVED",
+              "RETURNED"
+            ]
+          },
+          "validity": {
+            "enum": [
+              "CURRENT",
+              "INVALIDATED",
+              "N/A"
+            ]
+          },
+          "evidence_ids_used": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^EV-[0-9a-f]{12}$"
+            }
+          },
+          "basis": {
+            "type": "object",
+            "required": [
+              "type",
+              "field",
+              "customer_evidence_id",
+              "list_evidence_id",
+              "statement"
+            ],
+            "properties": {
+              "type": {
+                "enum": [
+                  "verified_identifier_conflict",
+                  "verified_full_dob_conflict"
+                ]
+              },
+              "customer_evidence_id": {
+                "type": "string",
+                "pattern": "^EV-[0-9a-f]{12}$"
+              },
+              "list_evidence_id": {
+                "type": "string",
+                "pattern": "^EV-[0-9a-f]{12}$"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ai": {
+      "type": "object",
+      "required": [
+        "challenger",
+        "suggestions_recorded",
+        "human_responses"
+      ],
+      "properties": {
+        "challenger": {
+          "type": "object",
+          "required": [
+            "live",
+            "replay",
+            "workflow_blocked"
+          ],
+          "properties": {
+            "workflow_blocked": {
+              "const": false
+            }
+          }
+        }
+      }
+    },
+    "events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "event_id",
+          "seq",
+          "type",
+          "payload",
+          "at"
+        ],
+        "properties": {}
+      }
+    },
+    "allowed_actions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "_notice": "SYNTHETIC KYC snapshot. Customers, documents and the bank are fictional.",
+  "kyc_snapshot_id": "KYC-SNAP-2026-11-01",
+  "source_id": "SYN-KYC",
+  "source_name": "Synthetic KYC system extract (fictional bank)",
+  "customers": [
+    {
+      "customer_id": "SYN-CUST-A",
+      "case_suffix": "A",
+      "customer_type": "individual",
+      "names": [{"value": "Chan Wai Man", "type": "primary", "family": "Chan", "given": "Wai Man", "script": "Latin"}],
+      "original_script_name": null,
+      "aliases": [],
+      "dob": {"value": "1979-04-11", "verification": {"status": "verified", "method": "synthetic identity-card inspection (fictional)", "document_ref": "DOC-SYN-A-01"}},
+      "national_id": {"value": "SYN-HKID-A-552019", "verification": {"status": "verified", "method": "synthetic identity-card inspection (fictional)", "document_ref": "DOC-SYN-A-01"}},
+      "nationality": "HK",
+      "address": {"value": "12 Fictional Road, Testloon", "from": "2015-03-01", "to": null},
+      "booking_entity": "FICT-BANK-UK",
+      "business": {"occupation": "Synthetic logistics clerk", "employer": null},
+      "related_parties": []
+    },
+    {
+      "customer_id": "SYN-CUST-B",
+      "case_suffix": "B",
+      "customer_type": "individual",
+      "names": [{"value": "Chan Wei Man", "type": "primary", "family": "Chan", "given": "Wei Man", "script": "Latin"}],
+      "original_script_name": null,
+      "aliases": [{"value": "Chan Wai Mun", "type": "documented_alias", "scheme": "Cantonese romanisation (fictional)", "document_ref": "DOC-SYN-B-02"}],
+      "dob": {"value": "1991-06-14", "verification": {"status": "verified", "method": "synthetic passport inspection (fictional)", "document_ref": "DOC-SYN-B-01"}},
+      "national_id": {"value": null, "verification": {"status": "unknown", "method": null, "document_ref": null}},
+      "nationality": "HK",
+      "address": {"value": "8 Synthetic Lane, Testloon", "from": "2021-07-01", "to": null},
+      "booking_entity": "FICT-BANK-UK",
+      "business": {"occupation": "Synthetic trading assistant", "employer": "Fictional Trading Co"},
+      "related_parties": [{"party_id": "SYN-RP-B-1", "relationship": "employer", "name": "Fictional Trading Co"}]
+    }
+  ]
+}

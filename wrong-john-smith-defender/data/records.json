@@ -1,0 +1,56 @@
+{
+  "_notice": "SYNTHETIC DATA ONLY. Every person, name, date, ID, place and source in this file is fictional and invented for the Wrong John Smith Defender demo. No evaluation labels are stored here.",
+  "records": [
+    {
+      "record_id": "SYN-01-A", "case_id": "CASE-01", "tag": "A", "synthetic": true,
+      "source": {"source_id": "SRC-SYN-CRM-001", "source_name": "Synthetic onboarding CRM extract (fictional)", "source_type": "customer record"},
+      "name": {"raw": "John Smith", "family": "Smith", "given": "John"},
+      "dob": {"raw": "1980-03-14", "verification": {"status": "verified", "method": "synthetic passport image check (fictional)", "source_id": "SRC-SYN-DOC-001"}},
+      "country": {"raw": "GB"}, "city": {"raw": "Testford"}
+    },
+    {
+      "record_id": "SYN-01-B", "case_id": "CASE-01", "tag": "B", "synthetic": true,
+      "source": {"source_id": "SRC-SYN-WL-001", "source_name": "Synthetic watchlist extract 1 (fictional)", "source_type": "watchlist entry"},
+      "name": {"raw": "John Smith", "family": "Smith", "given": "John"},
+      "dob": {"raw": "02 Nov 1974", "verification": {"status": "verified", "method": "synthetic national ID extract (fictional)", "source_id": "SRC-SYN-DOC-002"}},
+      "country": {"raw": "GB"}, "city": {"raw": "Testford"}
+    },
+
+    {
+      "record_id": "SYN-03-A", "case_id": "CASE-03", "tag": "A", "synthetic": true,
+      "source": {"source_id": "SRC-SYN-CRM-001", "source_name": "Synthetic onboarding CRM extract (fictional)", "source_type": "customer record"},
+      "name": {"raw": "Wong Siu Ming", "family": "Wong", "given": "Siu Ming"},
+      "dob": {"raw": "1988-07-21", "verification": {"status": "verified", "method": "synthetic passport image check (fictional)", "source_id": "SRC-SYN-DOC-003"}},
+      "country": {"raw": "HK"}, "city": {"raw": "Testloon"}
+    },
+    {
+      "record_id": "SYN-03-B", "case_id": "CASE-03", "tag": "B", "synthetic": true,
+      "source": {"source_id": "SRC-SYN-WL-002", "source_name": "Synthetic watchlist extract 2 (fictional)", "source_type": "watchlist entry"},
+      "name": {"raw": "Huang Xiaoming", "family": "Huang", "given": "Xiaoming"},
+      "dob": {"raw": "Jul 1988", "verification": {"status": "unverified", "method": null, "source_id": null}},
+      "country": {"raw": "HK"}, "city": {"raw": null}
+    },
+
+    {
+      "record_id": "SYN-08-A", "case_id": "CASE-08", "tag": "A", "synthetic": true,
+      "source": {"source_id": "SRC-SYN-CRM-002", "source_name": "Synthetic onboarding CRM extract 2 (fictional)", "source_type": "customer record"},
+      "name": {"raw": "Maria Testova", "family": "Testova", "given": "Maria"},
+      "dob": {"raw": "1979-05-02", "verification": {"status": "verified", "method": "synthetic passport image check (fictional)", "source_id": "SRC-SYN-DOC-004"}},
+      "country": {"raw": "TL"}, "city": {"raw": "Alpha Town"}
+    },
+    {
+      "record_id": "SYN-08-B", "case_id": "CASE-08", "tag": "B", "synthetic": true,
+      "source": {"source_id": "SRC-SYN-UTIL-001", "source_name": "Synthetic utility-account extract (fictional)", "source_type": "utility record"},
+      "name": {"raw": "Maria Testova", "family": "Testova", "given": "Maria"},
+      "dob": {"raw": null, "verification": {"status": "unknown", "method": null, "source_id": null}},
+      "country": {"raw": "TL"}, "city": {"raw": null}
+    },
+    {
+      "record_id": "SYN-08-C", "case_id": "CASE-08", "tag": "C", "synthetic": true,
+      "source": {"source_id": "SRC-SYN-WL-003", "source_name": "Synthetic watchlist extract 3 (fictional)", "source_type": "watchlist entry"},
+      "name": {"raw": "Maria Testova", "family": "Testova", "given": "Maria"},
+      "dob": {"raw": "30/09/1991", "verification": {"status": "verified", "method": "synthetic national ID extract (fictional)", "source_id": "SRC-SYN-DOC-005"}},
+      "country": {"raw": "TL"}, "city": {"raw": "Beta Ville"}
+    }
+  ]
+}

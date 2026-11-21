@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "rescreen-contract/1.0/feeds_status.schema.json",
+  "title": "feeds_status",
+  "type": "object",
+  "required": [
+    "contract_version",
+    "feeds"
+  ],
+  "properties": {
+    "feeds": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "source_id",
+          "jurisdiction",
+          "active_snapshot_id",
+          "last_check_result",
+          "coverage",
+          "checks"
+        ],
+        "properties": {
+          "last_check_result": {
+            "enum": [
+              "ACTIVATED",
+              "NO_UPDATE",
+              "FAILED_VALIDATION",
+              "STALE_SOURCE"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

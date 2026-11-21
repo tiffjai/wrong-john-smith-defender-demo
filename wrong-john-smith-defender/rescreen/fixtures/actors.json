@@ -1,0 +1,11 @@
+{
+  "_notice": "SIMULATED SIGN-IN. Seeded demo roles; access is enforced in application code only.",
+  "actors": [
+    {"actor_id": "ana.analyst",   "display_name": "Ana (screening analyst, synthetic)",  "role": "analyst",          "entity": "FICT-BANK-UK"},
+    {"actor_id": "sam.analyst",   "display_name": "Sam (screening analyst, synthetic)",  "role": "analyst",          "entity": "FICT-BANK-UK"},
+    {"actor_id": "rio.senior",    "display_name": "Rio (senior sanctions reviewer, synthetic)", "role": "senior_reviewer", "entity": "FICT-BANK-UK"},
+    {"actor_id": "kai.senior",    "display_name": "Kai (senior sanctions reviewer, synthetic)", "role": "senior_reviewer", "entity": "FICT-BANK-UK"},
+    {"actor_id": "lee.legal",     "display_name": "Lee (Legal reviewer, synthetic)",     "role": "legal_reviewer",   "entity": "FICT-GROUP"},
+    {"actor_id": "adm.screening", "display_name": "Adm (screening administrator, synthetic)", "role": "screening_admin", "entity": "FICT-GROUP"}
+  ]
+}

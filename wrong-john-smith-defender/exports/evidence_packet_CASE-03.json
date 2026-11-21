@@ -1,0 +1,471 @@
+{
+  "schema_version": "1.0",
+  "packet_type": "wrong-john-smith-defender/evidence-packet",
+  "synthetic": true,
+  "synthetic_notice": "All records are fictional synthetic data for a demo. An analyst makes the final screening decision.",
+  "case_id": "CASE-03",
+  "case_outcome": {
+    "name_only": "NO_CANDIDATE",
+    "splink": "CANDIDATE_VISIBLE",
+    "splink_with_guard": "CANDIDATE_VISIBLE",
+    "route_meaning": {
+      "ANALYST_REVIEW": "at least one pair needs an analyst",
+      "CANDIDATE_VISIBLE": "at least one pair is a visible candidate link; none need review",
+      "NO_CANDIDATE": "no pair was surfaced"
+    }
+  },
+  "records": [
+    {
+      "record_id": "SYN-03-A",
+      "tag": "A",
+      "synthetic": true,
+      "source": {
+        "source_id": "SRC-SYN-CRM-001",
+        "source_name": "Synthetic onboarding CRM extract (fictional)",
+        "source_type": "customer record"
+      },
+      "fields": {
+        "name": {
+          "evidence_id": "EV-1ebb50f0ed0e",
+          "raw_value": "Wong Siu Ming",
+          "family_name_raw": "Wong",
+          "given_name_raw": "Siu Ming",
+          "normalised_value": "wong siu ming",
+          "status": "known",
+          "alias_group": "ALIAS-0001"
+        },
+        "dob": {
+          "evidence_id": "EV-2ef4a0937819",
+          "raw_value": "1988-07-21",
+          "normalised_value": "1988-07-21",
+          "date_precision": "full",
+          "parsed": {
+            "year": 1988,
+            "month": 7,
+            "day": 21
+          },
+          "status": "known",
+          "verification": {
+            "status": "verified",
+            "method": "synthetic passport image check (fictional)",
+            "source_id": "SRC-SYN-DOC-003"
+          }
+        },
+        "country": {
+          "evidence_id": "EV-458ab2525f81",
+          "raw_value": "HK",
+          "normalised_value": "hk",
+          "status": "known"
+        },
+        "city": {
+          "evidence_id": "EV-31018035d40a",
+          "raw_value": "Testloon",
+          "normalised_value": "testloon",
+          "status": "known"
+        }
+      }
+    },
+    {
+      "record_id": "SYN-03-B",
+      "tag": "B",
+      "synthetic": true,
+      "source": {
+        "source_id": "SRC-SYN-WL-002",
+        "source_name": "Synthetic watchlist extract 2 (fictional)",
+        "source_type": "watchlist entry"
+      },
+      "fields": {
+        "name": {
+          "evidence_id": "EV-6d7bfad047d6",
+          "raw_value": "Huang Xiaoming",
+          "family_name_raw": "Huang",
+          "given_name_raw": "Xiaoming",
+          "normalised_value": "huang xiaoming",
+          "status": "known",
+          "alias_group": "ALIAS-0001"
+        },
+        "dob": {
+          "evidence_id": "EV-439707a8eb7b",
+          "raw_value": "Jul 1988",
+          "normalised_value": "1988-07",
+          "date_precision": "year_month",
+          "parsed": {
+            "year": 1988,
+            "month": 7,
+            "day": null
+          },
+          "status": "known",
+          "verification": {
+            "status": "unverified",
+            "method": null,
+            "source_id": null
+          }
+        },
+        "country": {
+          "evidence_id": "EV-18bf386d979d",
+          "raw_value": "HK",
+          "normalised_value": "hk",
+          "status": "known"
+        },
+        "city": {
+          "evidence_id": "EV-022b7b097643",
+          "raw_value": null,
+          "normalised_value": null,
+          "status": "unknown"
+        }
+      }
+    }
+  ],
+  "candidate_pairs": [
+    {
+      "pair_id": "SYN-03-A|SYN-03-B",
+      "left_record_id": "SYN-03-A",
+      "right_record_id": "SYN-03-B",
+      "pair_name": "A-B",
+      "edge_type": "splink_link_edge",
+      "candidate_generation": {
+        "blocking_rules": [
+          "same_alias_group"
+        ],
+        "alias_derived_candidate": true
+      },
+      "alias_evidence": {
+        "alias_group": "ALIAS-0001",
+        "source_id": "SRC-SYN-ALIAS-001",
+        "source_name": "Synthetic Cantonese-Pinyin name concordance (fictional)",
+        "description": "Cantonese romanisation / Mandarin Hanyu Pinyin / Chinese-script forms of one fictional personal name",
+        "forms": [
+          {
+            "form": "Wong Siu Ming",
+            "scheme": "Cantonese romanisation (Jyutping-like, fictional)"
+          },
+          {
+            "form": "Huang Xiaoming",
+            "scheme": "Hanyu Pinyin"
+          },
+          {
+            "form": "黃小明",
+            "scheme": "Traditional Chinese script"
+          },
+          {
+            "form": "黄小明",
+            "scheme": "Simplified Chinese script"
+          }
+        ],
+        "used_by_comparison": true,
+        "evidence_ids": [
+          "EV-1ebb50f0ed0e",
+          "EV-6d7bfad047d6"
+        ]
+      },
+      "scores": {
+        "name_only": {
+          "scorer": "rapidfuzz.fuzz.token_sort_ratio",
+          "score": 51.8519,
+          "decision": "NO_LINK",
+          "compared": [
+            "wong siu ming",
+            "huang xiaoming"
+          ],
+          "thresholds": {
+            "link": 90.0,
+            "review": 75.0
+          },
+          "evidence_ids": [
+            "EV-1ebb50f0ed0e",
+            "EV-6d7bfad047d6"
+          ]
+        },
+        "splink": {
+          "match_weight": 9.27502712,
+          "match_probability": 0.998388471,
+          "prior_probability": 0.01,
+          "prior_match_weight": -6.62935662,
+          "decision": "LINK",
+          "thresholds": {
+            "link_probability": 0.8,
+            "review_probability": 0.3
+          },
+          "field_contributions": [
+            {
+              "pair_evidence_id": "PE-76de92db4a90",
+              "field": "name",
+              "left": {
+                "evidence_id": "EV-1ebb50f0ed0e",
+                "raw_value": "Wong Siu Ming"
+              },
+              "right": {
+                "evidence_id": "EV-6d7bfad047d6",
+                "raw_value": "Huang Xiaoming"
+              },
+              "comparison_level": "alias",
+              "level_description": "Documented alias (sourced alias table)",
+              "m_probability": 0.08,
+              "u_probability": 0.0002,
+              "bayes_factor": 400.0,
+              "match_weight": 8.64385619,
+              "effect": "supports match"
+            },
+            {
+              "pair_evidence_id": "PE-ac28feed2756",
+              "field": "dob",
+              "left": {
+                "evidence_id": "EV-2ef4a0937819",
+                "raw_value": "1988-07-21"
+              },
+              "right": {
+                "evidence_id": "EV-439707a8eb7b",
+                "raw_value": "Jul 1988"
+              },
+              "comparison_level": "year_month",
+              "level_description": "Year+month agree (at least one date lacks a day)",
+              "m_probability": 0.06,
+              "u_probability": 0.0008,
+              "bayes_factor": 75.0,
+              "match_weight": 6.22881869,
+              "effect": "supports match"
+            },
+            {
+              "pair_evidence_id": "PE-66446cae2ca4",
+              "field": "country",
+              "left": {
+                "evidence_id": "EV-458ab2525f81",
+                "raw_value": "HK"
+              },
+              "right": {
+                "evidence_id": "EV-18bf386d979d",
+                "raw_value": "HK"
+              },
+              "comparison_level": "same",
+              "level_description": "Same country",
+              "m_probability": 0.92,
+              "u_probability": 0.45,
+              "bayes_factor": 2.044444444,
+              "match_weight": 1.03170886,
+              "effect": "supports match"
+            },
+            {
+              "pair_evidence_id": "PE-4a40d545aec2",
+              "field": "city",
+              "left": {
+                "evidence_id": "EV-31018035d40a",
+                "raw_value": "Testloon"
+              },
+              "right": {
+                "evidence_id": "EV-022b7b097643",
+                "raw_value": null
+              },
+              "comparison_level": "null",
+              "level_description": "city unknown on at least one record (neutral: not imputed, not a mismatch)",
+              "m_probability": null,
+              "u_probability": null,
+              "bayes_factor": 1.0,
+              "match_weight": 0.0,
+              "effect": "neutral (unknown field: not imputed, not a mismatch)"
+            }
+          ]
+        }
+      },
+      "guard": {
+        "outcome": "PASS_NO_CONTRADICTION",
+        "decision_after_guard": "LINK",
+        "changed_by_guard": false,
+        "reasons": [
+          "no verified full-DOB contradiction applies to this pair (DOB check not assessable: right date of birth has year_month precision, not full; right date of birth is unverified, not verified)"
+        ],
+        "dob_check": {
+          "status": "not_assessable",
+          "reasons": [
+            "right date of birth has year_month precision, not full",
+            "right date of birth is unverified, not verified"
+          ],
+          "left": {
+            "record_id": "SYN-03-A",
+            "raw": "1988-07-21",
+            "value": "1988-07-21",
+            "precision": "full",
+            "verification": "verified",
+            "evidence_id": "EV-2ef4a0937819"
+          },
+          "right": {
+            "record_id": "SYN-03-B",
+            "raw": "Jul 1988",
+            "value": "1988-07",
+            "precision": "year_month",
+            "verification": "unverified",
+            "evidence_id": "EV-439707a8eb7b"
+          }
+        },
+        "linked_component": [
+          "SYN-03-A",
+          "SYN-03-B"
+        ]
+      },
+      "decisions": {
+        "name_only": "NO_LINK",
+        "splink": "LINK",
+        "splink_with_guard": "LINK"
+      }
+    }
+  ],
+  "chain_analysis": {
+    "method": "connected components over Splink LINK edges; every candidate pair inside a component is checked for a verified full-DOB contradiction",
+    "components": [
+      {
+        "records": [
+          "SYN-03-A",
+          "SYN-03-B"
+        ],
+        "contradicting_pairs": [],
+        "has_contradiction": false
+      }
+    ]
+  },
+  "model": {
+    "config_sha256": "6353b1ed1f7698c9f56902671e0e24d1def78df666228b8edebe4f8a5ebce8d8",
+    "frozen_at": "2026-11-20T21:12:37+00:00",
+    "inputs_sha256": {
+      "records": "56c27e26ec0682614bbd1f4453ab318f3957ac244cdf5be61f0fa9eecdd8cb9c",
+      "alias_table": "b5ebb51d26927274152fda5f5d8176c28a7789735f04d9fdf58f571a44332e0b"
+    },
+    "parameters": {
+      "name_only": {
+        "scorer": "rapidfuzz.fuzz.token_sort_ratio",
+        "link_threshold": 90.0,
+        "review_threshold": 75.0
+      },
+      "splink": {
+        "link_threshold_probability": 0.8,
+        "review_threshold_probability": 0.3,
+        "probability_two_random_records_match": 0.01,
+        "training": "none: fixed, documented m/u probabilities (see README: 5 synthetic records are far too few for EM)",
+        "comparisons": {
+          "name": {
+            "column": "name_norm",
+            "levels": [
+              {
+                "key": "exact",
+                "description": "Exact normalised name",
+                "m": 0.78,
+                "u": 0.002
+              },
+              {
+                "key": "alias",
+                "description": "Documented alias (sourced alias table)",
+                "m": 0.08,
+                "u": 0.0002
+              },
+              {
+                "key": "jw_092",
+                "description": "Jaro-Winkler >= 0.92",
+                "m": 0.08,
+                "u": 0.003
+              },
+              {
+                "key": "jw_080",
+                "description": "Jaro-Winkler >= 0.80",
+                "m": 0.04,
+                "u": 0.02
+              },
+              {
+                "key": "else",
+                "description": "All other comparisons",
+                "m": 0.02,
+                "u": 0.9748
+              }
+            ]
+          },
+          "dob": {
+            "column": "dob_year/dob_month/dob_day",
+            "levels": [
+              {
+                "key": "full_exact",
+                "description": "Full date exact match",
+                "m": 0.8,
+                "u": 5e-05
+              },
+              {
+                "key": "year_month",
+                "description": "Year+month agree (at least one date lacks a day)",
+                "m": 0.06,
+                "u": 0.0008
+              },
+              {
+                "key": "year_only",
+                "description": "Year agrees (at least one date lacks a month)",
+                "m": 0.04,
+                "u": 0.012
+              },
+              {
+                "key": "mismatch",
+                "description": "Differ at the precision both dates share",
+                "m": 0.1,
+                "u": 0.98715
+              }
+            ]
+          },
+          "country": {
+            "column": "country_norm",
+            "levels": [
+              {
+                "key": "same",
+                "description": "Same country",
+                "m": 0.92,
+                "u": 0.45
+              },
+              {
+                "key": "else",
+                "description": "Different country",
+                "m": 0.08,
+                "u": 0.55
+              }
+            ]
+          },
+          "city": {
+            "column": "city_norm",
+            "levels": [
+              {
+                "key": "same",
+                "description": "Same city",
+                "m": 0.75,
+                "u": 0.08
+              },
+              {
+                "key": "else",
+                "description": "Different city",
+                "m": 0.25,
+                "u": 0.92
+              }
+            ]
+          }
+        },
+        "blocking_rules": [
+          {
+            "key": "same_family_name",
+            "sql": "l.case_id = r.case_id AND l.family_key = r.family_key"
+          },
+          {
+            "key": "same_alias_group",
+            "sql": "l.case_id = r.case_id AND l.alias_group IS NOT NULL AND l.alias_group = r.alias_group"
+          }
+        ]
+      },
+      "guard": {
+        "rule": "A verified FULL-precision date of birth on both records that differs is a contradiction. Partial-precision, unverified or unknown dates are never contradictions.",
+        "apply_to_decisions": [
+          "LINK",
+          "REVIEW"
+        ],
+        "chain_check": true
+      }
+    },
+    "how_to_recompute": "match_weight = log2(prior/(1-prior)) + sum(log2(m/u) of the chosen level per field); null levels contribute 0; match_probability = 2^w/(1+2^w)",
+    "versions": {
+      "splink": "4.0.17",
+      "duckdb": "2.0.1",
+      "rapidfuzz": "3.14.6",
+      "streamlit": "1.67.0"
+    }
+  },
+  "guard_rule": "A verified FULL-precision date of birth on both records that differs is a contradiction. Partial-precision, unverified or unknown dates are never contradictions."
+}

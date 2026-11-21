@@ -1,0 +1,26 @@
+{
+  "case_id": "RESCREEN-B",
+  "evidence_ids": ["RS-B-DOB-01", "RS-WL-DOB-V1", "RS-WL-DOB-V2", "RS-WL-ALIAS-V2", "RS-B-ALIAS-01"],
+  "contradictions": [
+    {
+      "finding": "The V1 false-positive closure (DEMO-REVIEWER-2) relied on a verified DOB conflict, customer 1991-06-14 versus watchlist 1987-09-03. The V2 verified correction gives the watchlist DOB as 1991-06-14, which matches the customer, so the approved V1 rationale no longer holds.",
+      "evidence_ids": ["RS-B-DOB-01", "RS-WL-DOB-V1", "RS-WL-DOB-V2"]
+    },
+    {
+      "finding": "The V2 watchlist alias 'Chan Wai Man' matches the customer's verified KYC alias, which adds a second point of agreement against the V1 closure.",
+      "evidence_ids": ["RS-WL-ALIAS-V2", "RS-B-ALIAS-01"]
+    }
+  ],
+  "missing_evidence": [
+    {
+      "finding": "The packet has no evidence ID for the correction notice itself, and no date, issuer or reason for the V2 correction.",
+      "evidence_ids": ["RS-WL-DOB-V2", "RS-WL-ALIAS-V2"]
+    },
+    {
+      "finding": "There's no independent identifier, such as a document number or nationality, to confirm the match beyond DOB and alias.",
+      "evidence_ids": ["RS-B-DOB-01", "RS-B-ALIAS-01"]
+    }
+  ],
+  "suggested_next_check": "Request the original synthetic watchlist correction notice for DEMO-WL-410 (behind RS-WL-DOB-V2 and RS-WL-ALIAS-V2) to confirm that it supersedes the V1 DOB (RS-WL-DOB-V1). Then the reviewer should reassess the V1 closure against verified KYC B (RS-B-DOB-01).",
+  "review_priority": "high"
+}

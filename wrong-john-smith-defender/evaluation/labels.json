@@ -1,0 +1,15 @@
+{
+  "_notice": "EVALUATION LABELS (synthetic). Read ONLY by evaluation/ code and by the dashboard's Evaluation tab. Scoring (defender/), evidence export and packets never import or read this file; tests/test_separation.py enforces that.",
+  "scenarios": {
+    "CASE-01": {"scenario_no": "#01", "title": "Same-name decoy with conflicting verified full dates of birth"},
+    "CASE-03": {"scenario_no": "#03", "title": "Plausible match found via a sourced Cantonese/Pinyin alias"},
+    "CASE-08": {"scenario_no": "#08", "title": "Misleading A-B-C links; A and C have contradictory verified full dates of birth"}
+  },
+  "pair_labels": [
+    {"case_id": "CASE-01", "left": "SYN-01-A", "right": "SYN-01-B", "truth": "non_match", "note": "different person who shares a common name"},
+    {"case_id": "CASE-03", "left": "SYN-03-A", "right": "SYN-03-B", "truth": "match",     "note": "same person under a Cantonese vs Pinyin romanisation"},
+    {"case_id": "CASE-08", "left": "SYN-08-A", "right": "SYN-08-B", "truth": "match",     "note": "B is a sparse record of the same person as A"},
+    {"case_id": "CASE-08", "left": "SYN-08-B", "right": "SYN-08-C", "truth": "non_match", "note": "sparse record B bridges to a different person C"},
+    {"case_id": "CASE-08", "left": "SYN-08-A", "right": "SYN-08-C", "truth": "non_match", "note": "A and C are different people"}
+  ]
+}

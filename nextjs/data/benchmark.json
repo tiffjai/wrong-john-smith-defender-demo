@@ -1,0 +1,238 @@
+{
+  "dataset": "FEBRL4",
+  "revision": "b93d97641952f8c85106be5794ca93b1f1298fbc",
+  "sourceHashes": [
+    "07c7cb3f0a8d88180e80317f2a60499dee4e8324a44c38059f4e7fed0a8b4488",
+    "2eed76c99fa2237be3ec013a123427926d4158abcb3a8f65874d6c7f1358cf2c"
+  ],
+  "leftRecords": 5000,
+  "rightRecords": 5000,
+  "labelledTrue": 5000,
+  "possiblePairs": 25000000,
+  "candidatePairs": 88579,
+  "retrievedTrue": 4936,
+  "retrievalMisses": 64,
+  "seconds": 0.883,
+  "versions": {
+    "splink": "4.0.17",
+    "duckdb": "2.0.1",
+    "rapidfuzz": "3.14.6"
+  },
+  "configuration": {
+    "prior": 0.0002,
+    "nameThreshold": 90,
+    "splinkThreshold": 0.8,
+    "blocking": [
+      "Exact surname",
+      "Exact full date of birth",
+      "Exact postcode and given-name initial"
+    ]
+  },
+  "methods": {
+    "nameOnly": {
+      "trueLinks": 3835,
+      "falseLinks": 487,
+      "missedTrue": 1165,
+      "selected": 4322,
+      "missesAfterRetrieval": 1101
+    },
+    "splink": {
+      "trueLinks": 4622,
+      "falseLinks": 3,
+      "missedTrue": 378,
+      "selected": 4625,
+      "missesAfterRetrieval": 314
+    }
+  },
+  "examples": [
+    {
+      "id": "a-004342a9ef028f/b-e2cb473babf961",
+      "left": "deakin secomb",
+      "right": "deakin secokib",
+      "nameScore": 88.89,
+      "splinkProbability": 0.999995,
+      "truePair": true,
+      "category": "Recovered by Splink"
+    },
+    {
+      "id": "a-02fa533714d190/b-04ce0918b70c37",
+      "left": "painter",
+      "right": "pai nter",
+      "nameScore": 53.33,
+      "splinkProbability": 0.999995,
+      "truePair": true,
+      "category": "Recovered by Splink"
+    },
+    {
+      "id": "a-03cb04b26e31f3/b-3475e1c996529a",
+      "left": "lucy rees",
+      "right": "lucy rewe",
+      "nameScore": 88.89,
+      "splinkProbability": 0.999995,
+      "truePair": true,
+      "category": "Recovered by Splink"
+    },
+    {
+      "id": "a-05efc9bfbe3437/b-ef4d5652866f89",
+      "left": "ethan mccarthy",
+      "right": "ethan mcacrt hy",
+      "nameScore": 75.86,
+      "splinkProbability": 0.999995,
+      "truePair": true,
+      "category": "Recovered by Splink"
+    },
+    {
+      "id": "a-08517b241d3dfd/b-c27eefac7f2449",
+      "left": "jacob",
+      "right": "jacb",
+      "nameScore": 88.89,
+      "splinkProbability": 0.999995,
+      "truePair": true,
+      "category": "Recovered by Splink"
+    },
+    {
+      "id": "a-08aec54a8078cb/b-2ecd429945880c",
+      "left": "taliah ryan",
+      "right": "tali ah ryavn",
+      "nameScore": 75.0,
+      "splinkProbability": 0.999995,
+      "truePair": true,
+      "category": "Recovered by Splink"
+    },
+    {
+      "id": "a-f670c0930ea7e6/b-58d35b95d7fe81",
+      "left": "lachlan nguyen",
+      "right": "lachlan nguyen",
+      "nameScore": 100.0,
+      "splinkProbability": 0.97652,
+      "truePair": false,
+      "category": "False link"
+    },
+    {
+      "id": "a-461d7d23d626e6/b-ee78623af75aa4",
+      "left": "aidan campbell",
+      "right": "aidan webb",
+      "nameScore": 58.33,
+      "splinkProbability": 0.842776,
+      "truePair": false,
+      "category": "False link"
+    },
+    {
+      "id": "a-5171cb542dc601/b-61a39a4fa28fa7",
+      "left": "aidan webb",
+      "right": "aidan campbell",
+      "nameScore": 58.33,
+      "splinkProbability": 0.842776,
+      "truePair": false,
+      "category": "False link"
+    },
+    {
+      "id": "a-16cf53fdaeea55/b-92c5f09f412ed1",
+      "left": "jessica hanna",
+      "right": "jesdicai hanna",
+      "nameScore": 88.89,
+      "splinkProbability": 0.672542,
+      "truePair": true,
+      "category": "Miss after retrieval"
+    },
+    {
+      "id": "a-19dfa91ac58066/b-5acca4fb37759e",
+      "left": "emiily choi-lundberg",
+      "right": "emiily choi-lunkdberg",
+      "nameScore": 97.56,
+      "splinkProbability": 0.672542,
+      "truePair": true,
+      "category": "Miss after retrieval"
+    },
+    {
+      "id": "a-1a23ebb6277b3e/b-a998a38dac838f",
+      "left": "kane grainger",
+      "right": "kane graihner",
+      "nameScore": 92.31,
+      "splinkProbability": 0.672542,
+      "truePair": true,
+      "category": "Miss after retrieval"
+    },
+    {
+      "id": "a-2bc612fb110c01/b-ca5b4f86cbace1",
+      "left": "liam white",
+      "right": "liam whiitn",
+      "nameScore": 85.71,
+      "splinkProbability": 0.672542,
+      "truePair": true,
+      "category": "Miss after retrieval"
+    },
+    {
+      "id": "a-2c7de10338a4d7/b-8de84f19cce5a1",
+      "left": "lucy krzempek",
+      "right": "lucy krzemmpek",
+      "nameScore": 96.3,
+      "splinkProbability": 0.672542,
+      "truePair": true,
+      "category": "Miss after retrieval"
+    },
+    {
+      "id": "a-2d5687d5bde0de/b-2820515f1cdb06",
+      "left": "vanessa george",
+      "right": "vanessa geogre",
+      "nameScore": 92.86,
+      "splinkProbability": 0.672542,
+      "truePair": true,
+      "category": "Miss after retrieval"
+    },
+    {
+      "id": "a-0014ace7e66811/b-b83fd103d8125c",
+      "left": "lachlan balasubramaniam",
+      "right": "lachlan balasubramaniam",
+      "nameScore": 100.0,
+      "splinkProbability": 1.0,
+      "truePair": true,
+      "category": "Both link"
+    },
+    {
+      "id": "a-001e96ecd134a2/b-51833e3a89ea4f",
+      "left": "mya hoffman",
+      "right": "mya hoffman",
+      "nameScore": 100.0,
+      "splinkProbability": 1.0,
+      "truePair": true,
+      "category": "Both link"
+    },
+    {
+      "id": "a-0029b7f40dc2c2/b-1ea9dd1a3e6235",
+      "left": "tiahnee moody",
+      "right": "tiahnee moody",
+      "nameScore": 100.0,
+      "splinkProbability": 1.0,
+      "truePair": true,
+      "category": "Both link"
+    },
+    {
+      "id": "a-009d4aff5c4f62/b-577de04b8c0fd9",
+      "left": "kyle wegman",
+      "right": "kyle wegman",
+      "nameScore": 100.0,
+      "splinkProbability": 1.0,
+      "truePair": true,
+      "category": "Both link"
+    },
+    {
+      "id": "a-00b574b7f5817a/b-961529ff2c66fe",
+      "left": "shenae campbell",
+      "right": "shenae campbell",
+      "nameScore": 100.0,
+      "splinkProbability": 1.0,
+      "truePair": true,
+      "category": "Both link"
+    },
+    {
+      "id": "a-00c065edb508cc/b-64a131cb6ab25c",
+      "left": "zane dixon",
+      "right": "zane dixon",
+      "nameScore": 100.0,
+      "splinkProbability": 1.0,
+      "truePair": true,
+      "category": "Both link"
+    }
+  ]
+}

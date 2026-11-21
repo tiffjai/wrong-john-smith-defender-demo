@@ -1,0 +1,283 @@
+{
+  "evaluated_at": "2026-11-20T21:19:48+00:00",
+  "frozen_at": "2026-11-20T21:12:37+00:00",
+  "config_sha256": "6353b1ed1f7698c9f56902671e0e24d1def78df666228b8edebe4f8a5ebce8d8",
+  "thresholds": {
+    "name_only": {
+      "scorer": "rapidfuzz.fuzz.token_sort_ratio",
+      "link_threshold": 90.0,
+      "review_threshold": 75.0
+    },
+    "splink": {
+      "link_threshold_probability": 0.8,
+      "review_threshold_probability": 0.3
+    }
+  },
+  "labels_sha256": "b40cb72f3367231b8a74f323146917a0a281e9217aecfc401f4a9813e5810d5c",
+  "denominators": {
+    "candidate_pairs": 5,
+    "labelled_true_matches": 2,
+    "labelled_non_matches": 3
+  },
+  "metrics": {
+    "candidate_recall": {
+      "n": 2,
+      "d": 2,
+      "text": "2/2",
+      "pct": 100.0
+    },
+    "candidate_pairs_total": 5,
+    "candidate_pairs_missing_a_true_match": [],
+    "by_method": {
+      "name_only": {
+        "name": "Name-only (RapidFuzz)",
+        "false_positives": {
+          "n": 3,
+          "d": 3,
+          "text": "3/3",
+          "pct": 100.0,
+          "pairs": [
+            "SYN-01-A|SYN-01-B",
+            "SYN-08-A|SYN-08-C",
+            "SYN-08-B|SYN-08-C"
+          ],
+          "definition": "labelled non-match pairs auto-linked (decision LINK) / labelled non-match pairs"
+        },
+        "missed_true_matches": {
+          "n": 1,
+          "d": 2,
+          "text": "1/2",
+          "pct": 50.0,
+          "pairs": [
+            "SYN-03-A|SYN-03-B"
+          ],
+          "definition": "labelled true-match pairs with neither LINK nor REVIEW (incl. pairs not in the candidate set) / labelled true-match pairs"
+        },
+        "manual_review": {
+          "n": 0,
+          "d": 5,
+          "text": "0/5",
+          "pct": 0.0,
+          "pairs": [],
+          "definition": "candidate pairs routed to analyst review / candidate pairs"
+        },
+        "true_matches_linked": {
+          "n": 1,
+          "d": 2,
+          "text": "1/2",
+          "pct": 50.0,
+          "pairs": [
+            "SYN-08-A|SYN-08-B"
+          ]
+        },
+        "true_matches_in_review": {
+          "n": 0,
+          "d": 2,
+          "text": "0/2",
+          "pct": 0.0,
+          "pairs": []
+        },
+        "non_matches_in_review": {
+          "n": 0,
+          "d": 3,
+          "text": "0/3",
+          "pct": 0.0,
+          "pairs": []
+        },
+        "decisions": {
+          "SYN-08-A|SYN-08-C": "LINK",
+          "SYN-08-A|SYN-08-B": "LINK",
+          "SYN-01-A|SYN-01-B": "LINK",
+          "SYN-03-A|SYN-03-B": "NO_LINK",
+          "SYN-08-B|SYN-08-C": "LINK"
+        }
+      },
+      "splink": {
+        "name": "Splink",
+        "false_positives": {
+          "n": 2,
+          "d": 3,
+          "text": "2/3",
+          "pct": 66.7,
+          "pairs": [
+            "SYN-01-A|SYN-01-B",
+            "SYN-08-B|SYN-08-C"
+          ],
+          "definition": "labelled non-match pairs auto-linked (decision LINK) / labelled non-match pairs"
+        },
+        "missed_true_matches": {
+          "n": 0,
+          "d": 2,
+          "text": "0/2",
+          "pct": 0.0,
+          "pairs": [],
+          "definition": "labelled true-match pairs with neither LINK nor REVIEW (incl. pairs not in the candidate set) / labelled true-match pairs"
+        },
+        "manual_review": {
+          "n": 0,
+          "d": 5,
+          "text": "0/5",
+          "pct": 0.0,
+          "pairs": [],
+          "definition": "candidate pairs routed to analyst review / candidate pairs"
+        },
+        "true_matches_linked": {
+          "n": 2,
+          "d": 2,
+          "text": "2/2",
+          "pct": 100.0,
+          "pairs": [
+            "SYN-03-A|SYN-03-B",
+            "SYN-08-A|SYN-08-B"
+          ]
+        },
+        "true_matches_in_review": {
+          "n": 0,
+          "d": 2,
+          "text": "0/2",
+          "pct": 0.0,
+          "pairs": []
+        },
+        "non_matches_in_review": {
+          "n": 0,
+          "d": 3,
+          "text": "0/3",
+          "pct": 0.0,
+          "pairs": []
+        },
+        "decisions": {
+          "SYN-08-A|SYN-08-C": "NO_LINK",
+          "SYN-08-A|SYN-08-B": "LINK",
+          "SYN-01-A|SYN-01-B": "LINK",
+          "SYN-03-A|SYN-03-B": "LINK",
+          "SYN-08-B|SYN-08-C": "LINK"
+        }
+      },
+      "splink_guard": {
+        "name": "Splink + contradiction guard",
+        "false_positives": {
+          "n": 0,
+          "d": 3,
+          "text": "0/3",
+          "pct": 0.0,
+          "pairs": [],
+          "definition": "labelled non-match pairs auto-linked (decision LINK) / labelled non-match pairs"
+        },
+        "missed_true_matches": {
+          "n": 0,
+          "d": 2,
+          "text": "0/2",
+          "pct": 0.0,
+          "pairs": [],
+          "definition": "labelled true-match pairs with neither LINK nor REVIEW (incl. pairs not in the candidate set) / labelled true-match pairs"
+        },
+        "manual_review": {
+          "n": 4,
+          "d": 5,
+          "text": "4/5",
+          "pct": 80.0,
+          "pairs": [
+            "SYN-01-A|SYN-01-B",
+            "SYN-08-A|SYN-08-B",
+            "SYN-08-A|SYN-08-C",
+            "SYN-08-B|SYN-08-C"
+          ],
+          "definition": "candidate pairs routed to analyst review / candidate pairs"
+        },
+        "true_matches_linked": {
+          "n": 1,
+          "d": 2,
+          "text": "1/2",
+          "pct": 50.0,
+          "pairs": [
+            "SYN-03-A|SYN-03-B"
+          ]
+        },
+        "true_matches_in_review": {
+          "n": 1,
+          "d": 2,
+          "text": "1/2",
+          "pct": 50.0,
+          "pairs": [
+            "SYN-08-A|SYN-08-B"
+          ]
+        },
+        "non_matches_in_review": {
+          "n": 3,
+          "d": 3,
+          "text": "3/3",
+          "pct": 100.0,
+          "pairs": [
+            "SYN-01-A|SYN-01-B",
+            "SYN-08-A|SYN-08-C",
+            "SYN-08-B|SYN-08-C"
+          ]
+        },
+        "decisions": {
+          "SYN-08-A|SYN-08-C": "REVIEW",
+          "SYN-08-A|SYN-08-B": "REVIEW",
+          "SYN-01-A|SYN-01-B": "REVIEW",
+          "SYN-03-A|SYN-03-B": "LINK",
+          "SYN-08-B|SYN-08-C": "REVIEW"
+        }
+      }
+    },
+    "per_case": {
+      "CASE-01": {
+        "scenario": {
+          "scenario_no": "#01",
+          "title": "Same-name decoy with conflicting verified full dates of birth"
+        },
+        "routes": {
+          "name_only": "CANDIDATE_VISIBLE",
+          "splink": "CANDIDATE_VISIBLE",
+          "splink_guard": "ANALYST_REVIEW"
+        },
+        "pairs": 1,
+        "true_matches": 0,
+        "non_matches": 1
+      },
+      "CASE-03": {
+        "scenario": {
+          "scenario_no": "#03",
+          "title": "Plausible match found via a sourced Cantonese/Pinyin alias"
+        },
+        "routes": {
+          "name_only": "NO_CANDIDATE",
+          "splink": "CANDIDATE_VISIBLE",
+          "splink_guard": "CANDIDATE_VISIBLE"
+        },
+        "pairs": 1,
+        "true_matches": 1,
+        "non_matches": 0
+      },
+      "CASE-08": {
+        "scenario": {
+          "scenario_no": "#08",
+          "title": "Misleading A-B-C links; A and C have contradictory verified full dates of birth"
+        },
+        "routes": {
+          "name_only": "CANDIDATE_VISIBLE",
+          "splink": "CANDIDATE_VISIBLE",
+          "splink_guard": "ANALYST_REVIEW"
+        },
+        "pairs": 3,
+        "true_matches": 1,
+        "non_matches": 2
+      }
+    },
+    "ablation_no_alias_table": {
+      "description": "Same frozen config, alias table disabled (no alias blocking rule hits, no alias comparison level)",
+      "candidate_pairs_total": 4,
+      "candidate_recall": {
+        "n": 1,
+        "d": 2,
+        "text": "1/2",
+        "pct": 50.0
+      },
+      "true_matches_not_candidates": [
+        "SYN-03-A|SYN-03-B"
+      ]
+    }
+  }
+}

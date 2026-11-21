@@ -1,0 +1,11 @@
+{
+  "replay": true,
+  "replay_label": "REPLAY - saved sample for the offline demo. Written by DefenderBuilder in the Challenger output format as an illustration; NOT produced by a live Grok call.",
+  "case_id": "RESCREEN-B",
+  "evidence_ids": ["EV-bc3a528f805f", "EV-de2c9c7efc6f", "EV-01211ab8dd1c", "EV-873850088ed5", "EV-0095760f846c", "EV-4d497f168a76", "EV-93156134c0a3"],
+  "contradictions": [],
+  "missing_evidence": [
+    "No identifier for SYN-CUST-B: national ID unknown (EV-4d497f168a76), so it cannot be compared with the listed ID EV-93156134c0a3."
+  ],
+  "suggested_next_check": "The approval rested on customer DOB EV-bc3a528f805f vs listed DOB EV-de2c9c7efc6f. V2 replaced the listed DOB with EV-01211ab8dd1c (now equal) and added alias EV-873850088ed5, which matches B's documented alias EV-0095760f846c. Obtain an independent verified identifier for B and compare it with EV-93156134c0a3 before any closure, and confirm the provenance of the V2 alias."
+}

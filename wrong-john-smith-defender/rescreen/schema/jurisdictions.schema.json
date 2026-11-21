@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "rescreen-contract/1.0/jurisdictions.schema.json",
+  "title": "jurisdictions",
+  "type": "object",
+  "required": [
+    "contract_version",
+    "case_id",
+    "primary_view",
+    "ordering",
+    "default_queue",
+    "rows",
+    "potential_conflict"
+  ],
+  "properties": {
+    "primary_view": {
+      "enum": [
+        "UK",
+        "US",
+        "CN"
+      ]
+    },
+    "rows": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "required": [
+          "jurisdiction",
+          "source_id",
+          "snapshot_id",
+          "coverage",
+          "check_status",
+          "measures",
+          "applicability",
+          "list_difference"
+        ],
+        "properties": {
+          "check_status": {
+            "enum": [
+              "HIT",
+              "NO_HIT_COMPLETE",
+              "PENDING",
+              "NOT_CHECKED_NO_VALID_SNAPSHOT"
+            ]
+          }
+        }
+      }
+    },
+    "potential_conflict": {
+      "type": "object",
+      "required": [
+        "status",
+        "specific_measure",
+        "factual_nexus"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "POTENTIAL_CONFLICT_ROUTE_TO_LEGAL",
+            "NOT_ESTABLISHED"
+          ]
+        }
+      }
+    }
+  }
+}

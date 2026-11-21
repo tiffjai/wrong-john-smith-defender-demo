@@ -1,0 +1,21 @@
+{
+  "_notice": "SYNTHETIC. Fictional Mainland China measure list. Authorities and measures are invented for the demo and mapped by authority and measure as the BRD asks.",
+  "source_id": "FICT-CN-ML",
+  "source_name": "Fictional Mainland China Measures List (synthetic)",
+  "jurisdiction": "CN",
+  "authority": "Fictional PRC Ministry Measure Office (synthetic)",
+  "version": "V1",
+  "published_at": "2026-11-03T02:00:00Z",
+  "entries": [
+    {
+      "entry_id": "DEMO-CN-019",
+      "entry_type": "individual",
+      "names": [{"value": "LIN Mei", "type": "primary", "family": "LIN", "given": "Mei", "script": "Latin"}],
+      "aliases": [],
+      "dob": {"value": "1982-02", "verification": "listed_by_authority"},
+      "national_id": {"value": null, "verification": "unknown"},
+      "nationality": "CN",
+      "measures": [{"measure_id": "CN-FM-07", "description": "Fictional counter-measure: restricts giving effect to specified foreign listings (synthetic)"}]
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "case_id": "CASE-11",
+  "evidence_ids": ["EV-OWN-001", "EV-OWN-002", "EV-OWN-003", "EV-OWN-004"],
+  "contradictions": [],
+  "missing_evidence": [
+    {
+      "finding": "Harbourline has no direct list hit, but it may be exposed indirectly: North Quay holds 68% of it, Cedar Bridge holds 61% of North Quay (about 41.5% look-through), and Cedar Bridge has a possible related-party match. Ownership or control exposure needs human review.",
+      "evidence_ids": ["EV-OWN-001", "EV-OWN-002", "EV-OWN-003", "EV-OWN-004"]
+    },
+    {
+      "finding": "The Cedar Bridge to North Quay link was observed on 2024-04-18, about 947 days before the as-of date and beyond the 365-day maximum registry age, so the current shareholding is unknown.",
+      "evidence_ids": ["EV-OWN-003"]
+    },
+    {
+      "finding": "The Cedar Bridge alert is only a possible match. The packet has no matched list entry, identifiers or resolution.",
+      "evidence_ids": ["EV-OWN-004"]
+    },
+    {
+      "finding": "The packet has no evidence of control rights, voting rights, directors or other shareholders at either level.",
+      "evidence_ids": ["EV-OWN-002", "EV-OWN-003"]
+    }
+  ],
+  "suggested_next_check": "Request a current original North Quay Holdings shareholder register to refresh the stale Cedar Bridge Capital 61% link (EV-OWN-003), then resolve the Cedar Bridge related-party match (EV-OWN-004) against its original list entry.",
+  "review_priority": "medium"
+}

@@ -1,0 +1,17 @@
+{
+  "_notice": "SYNTHETIC alias table. The concordance below is fictional and exists only for the demo. A name pair is treated as a documented alias only if both forms appear in the same entry; each entry must cite a source_id.",
+  "aliases": [
+    {
+      "alias_group": "ALIAS-0001",
+      "description": "Cantonese romanisation / Mandarin Hanyu Pinyin / Chinese-script forms of one fictional personal name",
+      "source_id": "SRC-SYN-ALIAS-001",
+      "source_name": "Synthetic Cantonese-Pinyin name concordance (fictional)",
+      "forms": [
+        {"form": "Wong Siu Ming",  "scheme": "Cantonese romanisation (Jyutping-like, fictional)"},
+        {"form": "Huang Xiaoming", "scheme": "Hanyu Pinyin"},
+        {"form": "黃小明",          "scheme": "Traditional Chinese script"},
+        {"form": "黄小明",          "scheme": "Simplified Chinese script"}
+      ]
+    }
+  ]
+}

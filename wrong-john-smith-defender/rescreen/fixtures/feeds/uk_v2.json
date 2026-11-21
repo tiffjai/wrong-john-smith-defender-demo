@@ -1,0 +1,82 @@
+{
+  "_notice": "SYNTHETIC. Fictional list modelled loosely on the shape of a UK sanctions list feed. No real person, designation or measure.",
+  "source_id": "FICT-UK-SL",
+  "source_name": "Fictional UK Sanctions List (synthetic analogue)",
+  "jurisdiction": "UK",
+  "authority": "Fictional UK Office of Sanctions (synthetic)",
+  "version": "V2",
+  "published_at": "2026-11-15T09:00:00Z",
+  "entries": [
+    {
+      "entry_id": "DEMO-WL-410",
+      "entry_type": "individual",
+      "names": [
+        {
+          "value": "CHAN Wai Man",
+          "type": "primary",
+          "family": "CHAN",
+          "given": "Wai Man",
+          "script": "Latin"
+        },
+        {
+          "value": "陳偉文",
+          "type": "original_script",
+          "script": "Han (Traditional)"
+        }
+      ],
+      "aliases": [
+        {
+          "value": "Chan Wai Mun",
+          "type": "alias",
+          "scheme": "Cantonese romanisation (fictional)",
+          "added_in": "V2"
+        }
+      ],
+      "dob": {
+        "value": "1991-06-14",
+        "verification": "listed_by_authority",
+        "amendment_note": "DOB corrected by the fictional authority in V2"
+      },
+      "national_id": {
+        "value": "SYN-WLID-410-7731",
+        "verification": "listed_by_authority"
+      },
+      "nationality": "HK",
+      "measures": [
+        {
+          "measure_id": "UK-FM-12",
+          "description": "Fictional asset freeze (synthetic)"
+        }
+      ]
+    },
+    {
+      "entry_id": "DEMO-WL-233",
+      "entry_type": "individual",
+      "names": [
+        {
+          "value": "TESTOV Ivan",
+          "type": "primary",
+          "family": "TESTOV",
+          "given": "Ivan",
+          "script": "Latin"
+        }
+      ],
+      "aliases": [],
+      "dob": {
+        "value": "1966",
+        "verification": "listed_by_authority"
+      },
+      "national_id": {
+        "value": null,
+        "verification": "unknown"
+      },
+      "nationality": "TL",
+      "measures": [
+        {
+          "measure_id": "UK-FM-12",
+          "description": "Fictional asset freeze (synthetic)"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "contract_version": "rescreen-contract/1.0",
+  "packet_type": "challenger-handoff",
+  "synthetic": true,
+  "case_id": "RESCREEN-B",
+  "changed_fields": [
+    {
+      "subject_type": "list_entry",
+      "field": "alias",
+      "before": [],
+      "after": [
+        {
+          "evidence_id": "EV-873850088ed5",
+          "value": "Chan Wai Mun"
+        }
+      ],
+      "before_snapshot_id": "SNAP-FICT-UK-SL-V1-6c2174ec",
+      "after_snapshot_id": "SNAP-FICT-UK-SL-V2-50c30ade",
+      "now_matches_evidence_ids": [
+        "EV-0095760f846c"
+      ]
+    },
+    {
+      "subject_type": "list_entry",
+      "field": "dob",
+      "before": [
+        {
+          "evidence_id": "EV-de2c9c7efc6f",
+          "value": "1987-09-03"
+        }
+      ],
+      "after": [
+        {
+          "evidence_id": "EV-01211ab8dd1c",
+          "value": "1991-06-14"
+        }
+      ],
+      "before_snapshot_id": "SNAP-FICT-UK-SL-V1-6c2174ec",
+      "after_snapshot_id": "SNAP-FICT-UK-SL-V2-50c30ade"
+    }
+  ],
+  "approval_basis": [
+    {
+      "decision_id": "DEC-4f51c3c4b4c9",
+      "type": "verified_full_dob_conflict",
+      "statement": "verified full DOBs differ (1991-06-14 vs 1987-09-03): customer EV-bc3a528f805f vs list EV-de2c9c7efc6f",
+      "cited_evidence_ids": [
+        "EV-bc3a528f805f",
+        "EV-de2c9c7efc6f"
+      ],
+      "evidence_ids_used": [
+        "EV-bc3a528f805f",
+        "EV-de2c9c7efc6f"
+      ],
+      "snapshots_at_decision": {
+        "list_snapshot_id": "SNAP-FICT-UK-SL-V1-6c2174ec",
+        "kyc_snapshot_id": "KYC-SNAP-2026-11-01",
+        "kyc_version": 1
+      }
+    }
+  ],
+  "evidence_ids": [
+    "EV-0095760f846c",
+    "EV-01211ab8dd1c",
+    "EV-873850088ed5",
+    "EV-bc3a528f805f",
+    "EV-de2c9c7efc6f"
+  ],
+  "requested_output": {
+    "fields": [
+      "case_id",
+      "evidence_ids",
+      "contradictions",
+      "missing_evidence",
+      "suggested_next_check"
+    ],
+    "instruction": "Explain what changed and the next verification. Cite evidence IDs. Leave the disposition to the analyst and designated reviewer."
+  }
+}

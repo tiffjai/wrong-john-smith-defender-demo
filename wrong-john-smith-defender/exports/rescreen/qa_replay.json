@@ -1,0 +1,452 @@
+{
+  "contract_version": "rescreen-contract/1.0",
+  "replays": [
+    {
+      "proposal": "P1-raise-thresholds",
+      "description": "Proposed by screening admin: raise Splink thresholds (link 0.80->0.95, review 0.30->0.90) to cut review volume.",
+      "baseline_version": "CFG-a795600c2ff8",
+      "proposal_version": "CFG-39cd1d8f60ee",
+      "changed_parameters": [
+        {
+          "parameter": "splink.link_threshold_probability",
+          "baseline": 0.8,
+          "proposed": 0.95
+        },
+        {
+          "parameter": "splink.review_threshold_probability",
+          "baseline": 0.3,
+          "proposed": 0.9
+        }
+      ],
+      "baseline_metrics": {
+        "candidate_recall": {
+          "n": 3,
+          "d": 3,
+          "text": "3/3"
+        },
+        "missed_true_matches": {
+          "n": 0,
+          "d": 3,
+          "text": "0/3"
+        },
+        "false_positives": {
+          "n": 0,
+          "d": 4,
+          "text": "0/4"
+        },
+        "review_volume": {
+          "n": 5,
+          "d": 7,
+          "text": "5/7"
+        }
+      },
+      "proposal_metrics": {
+        "candidate_recall": {
+          "n": 3,
+          "d": 3,
+          "text": "3/3"
+        },
+        "missed_true_matches": {
+          "n": 1,
+          "d": 3,
+          "text": "1/3"
+        },
+        "false_positives": {
+          "n": 0,
+          "d": 4,
+          "text": "0/4"
+        },
+        "review_volume": {
+          "n": 0,
+          "d": 7,
+          "text": "0/7"
+        }
+      },
+      "lost_true_links": [
+        {
+          "pair": "SYN-08-A|SYN-08-B",
+          "dataset": "milestone1",
+          "critical": true,
+          "stage": "scoring",
+          "detail": "retrieved, but P(match)=0.8896 < proposed review threshold 0.9",
+          "baseline": {
+            "retrieved": true,
+            "decision": "REVIEW",
+            "probability": 0.889550018594273
+          },
+          "proposed": {
+            "retrieved": true,
+            "decision": "NO_LINK",
+            "probability": 0.889550018594273
+          }
+        }
+      ],
+      "policy_outcome": "HELD_FOR_REVIEW",
+      "policy": "A proposed setting that turns any labelled critical true link into a miss is held for review.",
+      "reviewer_action": {
+        "reviewer": "rio.senior",
+        "action": "HOLD"
+      },
+      "rows": {
+        "baseline": [
+          {
+            "pair": "SYN-01-A|SYN-01-B",
+            "truth": "non_match",
+            "critical": false,
+            "dataset": "milestone1",
+            "retrieved": true,
+            "decision": "REVIEW",
+            "probability": 0.8843769168278115
+          },
+          {
+            "pair": "SYN-03-A|SYN-03-B",
+            "truth": "match",
+            "critical": true,
+            "dataset": "milestone1",
+            "retrieved": true,
+            "decision": "LINK",
+            "probability": 0.9983884707835722
+          },
+          {
+            "pair": "SYN-08-A|SYN-08-B",
+            "truth": "match",
+            "critical": true,
+            "dataset": "milestone1",
+            "retrieved": true,
+            "decision": "REVIEW",
+            "probability": 0.889550018594273
+          },
+          {
+            "pair": "SYN-08-B|SYN-08-C",
+            "truth": "non_match",
+            "critical": false,
+            "dataset": "milestone1",
+            "retrieved": true,
+            "decision": "REVIEW",
+            "probability": 0.889550018594273
+          },
+          {
+            "pair": "SYN-08-A|SYN-08-C",
+            "truth": "non_match",
+            "critical": false,
+            "dataset": "milestone1",
+            "retrieved": true,
+            "decision": "REVIEW",
+            "probability": 0.18147120380039786
+          },
+          {
+            "pair": "SYN-CUST-B|FICT-UK-SL|DEMO-WL-410",
+            "truth": "match",
+            "critical": true,
+            "dataset": "rescreen_v2",
+            "retrieved": true,
+            "decision": "LINK",
+            "probability": 0.9999924338208345
+          },
+          {
+            "pair": "SYN-CUST-A|FICT-UK-SL|DEMO-WL-410",
+            "truth": "non_match",
+            "critical": false,
+            "dataset": "rescreen_v2",
+            "retrieved": true,
+            "decision": "REVIEW",
+            "probability": 0.4493001333343226
+          }
+        ],
+        "proposal": [
+          {
+            "pair": "SYN-01-A|SYN-01-B",
+            "truth": "non_match",
+            "critical": false,
+            "dataset": "milestone1",
+            "retrieved": true,
+            "decision": "NO_LINK",
+            "probability": 0.8843769168278115
+          },
+          {
+            "pair": "SYN-03-A|SYN-03-B",
+            "truth": "match",
+            "critical": true,
+            "dataset": "milestone1",
+            "retrieved": true,
+            "decision": "LINK",
+            "probability": 0.9983884707835722
+          },
+          {
+            "pair": "SYN-08-A|SYN-08-B",
+            "truth": "match",
+            "critical": true,
+            "dataset": "milestone1",
+            "retrieved": true,
+            "decision": "NO_LINK",
+            "probability": 0.889550018594273
+          },
+          {
+            "pair": "SYN-08-B|SYN-08-C",
+            "truth": "non_match",
+            "critical": false,
+            "dataset": "milestone1",
+            "retrieved": true,
+            "decision": "NO_LINK",
+            "probability": 0.889550018594273
+          },
+          {
+            "pair": "SYN-08-A|SYN-08-C",
+            "truth": "non_match",
+            "critical": false,
+            "dataset": "milestone1",
+            "retrieved": true,
+            "decision": "NO_LINK",
+            "probability": 0.18147120380039786
+          },
+          {
+            "pair": "SYN-CUST-B|FICT-UK-SL|DEMO-WL-410",
+            "truth": "match",
+            "critical": true,
+            "dataset": "rescreen_v2",
+            "retrieved": true,
+            "decision": "LINK",
+            "probability": 0.9999924338208345
+          },
+          {
+            "pair": "SYN-CUST-A|FICT-UK-SL|DEMO-WL-410",
+            "truth": "non_match",
+            "critical": false,
+            "dataset": "rescreen_v2",
+            "retrieved": true,
+            "decision": "NO_LINK",
+            "probability": 0.4493001333343226
+          }
+        ]
+      }
+    },
+    {
+      "proposal": "P2-drop-alias-blocking",
+      "description": "Contrast case: drop the documented-alias blocking rule (retrieval change, thresholds unchanged).",
+      "baseline_version": "CFG-a795600c2ff8",
+      "proposal_version": "CFG-8d207370a089",
+      "changed_parameters": [
+        {
+          "parameter": "splink.blocking_rules",
+          "baseline": [
+            {
+              "key": "same_family_name",
+              "sql": "l.case_id = r.case_id AND l.family_key = r.family_key"
+            },
+            {
+              "key": "same_alias_group",
+              "sql": "l.case_id = r.case_id AND l.alias_group IS NOT NULL AND l.alias_group = r.alias_group"
+            }
+          ],
+          "proposed": [
+            {
+              "key": "same_family_name",
+              "sql": "l.case_id = r.case_id AND l.family_key = r.family_key"
+            }
+          ]
+        }
+      ],
+      "baseline_metrics": {
+        "candidate_recall": {
+          "n": 3,
+          "d": 3,
+          "text": "3/3"
+        },
+        "missed_true_matches": {
+          "n": 0,
+          "d": 3,
+          "text": "0/3"
+        },
+        "false_positives": {
+          "n": 0,
+          "d": 4,
+          "text": "0/4"
+        },
+        "review_volume": {
+          "n": 5,
+          "d": 7,
+          "text": "5/7"
+        }
+      },
+      "proposal_metrics": {
+        "candidate_recall": {
+          "n": 2,
+          "d": 3,
+          "text": "2/3"
+        },
+        "missed_true_matches": {
+          "n": 1,
+          "d": 3,
+          "text": "1/3"
+        },
+        "false_positives": {
+          "n": 0,
+          "d": 4,
+          "text": "0/4"
+        },
+        "review_volume": {
+          "n": 5,
+          "d": 6,
+          "text": "5/6"
+        }
+      },
+      "lost_true_links": [
+        {
+          "pair": "SYN-03-A|SYN-03-B",
+          "dataset": "milestone1",
+          "critical": true,
+          "stage": "retrieval",
+          "detail": "blocking never generated this pair under the proposed rules",
+          "baseline": {
+            "retrieved": true,
+            "decision": "LINK",
+            "probability": 0.9983884707835722
+          },
+          "proposed": {
+            "retrieved": false,
+            "decision": null,
+            "probability": null
+          }
+        }
+      ],
+      "policy_outcome": "HELD_FOR_REVIEW",
+      "policy": "A proposed setting that turns any labelled critical true link into a miss is held for review.",
+      "reviewer_action": {
+        "reviewer": "rio.senior",
+        "action": "HOLD"
+      },
+      "rows": {
+        "baseline": [
+          {
+            "pair": "SYN-01-A|SYN-01-B",
+            "truth": "non_match",
+            "critical": false,
+            "dataset": "milestone1",
+            "retrieved": true,
+            "decision": "REVIEW",
+            "probability": 0.8843769168278115
+          },
+          {
+            "pair": "SYN-03-A|SYN-03-B",
+            "truth": "match",
+            "critical": true,
+            "dataset": "milestone1",
+            "retrieved": true,
+            "decision": "LINK",
+            "probability": 0.9983884707835722
+          },
+          {
+            "pair": "SYN-08-A|SYN-08-B",
+            "truth": "match",
+            "critical": true,
+            "dataset": "milestone1",
+            "retrieved": true,
+            "decision": "REVIEW",
+            "probability": 0.889550018594273
+          },
+          {
+            "pair": "SYN-08-B|SYN-08-C",
+            "truth": "non_match",
+            "critical": false,
+            "dataset": "milestone1",
+            "retrieved": true,
+            "decision": "REVIEW",
+            "probability": 0.889550018594273
+          },
+          {
+            "pair": "SYN-08-A|SYN-08-C",
+            "truth": "non_match",
+            "critical": false,
+            "dataset": "milestone1",
+            "retrieved": true,
+            "decision": "REVIEW",
+            "probability": 0.18147120380039786
+          },
+          {
+            "pair": "SYN-CUST-B|FICT-UK-SL|DEMO-WL-410",
+            "truth": "match",
+            "critical": true,
+            "dataset": "rescreen_v2",
+            "retrieved": true,
+            "decision": "LINK",
+            "probability": 0.9999924338208345
+          },
+          {
+            "pair": "SYN-CUST-A|FICT-UK-SL|DEMO-WL-410",
+            "truth": "non_match",
+            "critical": false,
+            "dataset": "rescreen_v2",
+            "retrieved": true,
+            "decision": "REVIEW",
+            "probability": 0.4493001333343226
+          }
+        ],
+        "proposal": [
+          {
+            "pair": "SYN-01-A|SYN-01-B",
+            "truth": "non_match",
+            "critical": false,
+            "dataset": "milestone1",
+            "retrieved": true,
+            "decision": "REVIEW",
+            "probability": 0.8843769168278115
+          },
+          {
+            "pair": "SYN-03-A|SYN-03-B",
+            "truth": "match",
+            "critical": true,
+            "dataset": "milestone1",
+            "retrieved": false,
+            "decision": null,
+            "probability": null
+          },
+          {
+            "pair": "SYN-08-A|SYN-08-B",
+            "truth": "match",
+            "critical": true,
+            "dataset": "milestone1",
+            "retrieved": true,
+            "decision": "REVIEW",
+            "probability": 0.889550018594273
+          },
+          {
+            "pair": "SYN-08-B|SYN-08-C",
+            "truth": "non_match",
+            "critical": false,
+            "dataset": "milestone1",
+            "retrieved": true,
+            "decision": "REVIEW",
+            "probability": 0.889550018594273
+          },
+          {
+            "pair": "SYN-08-A|SYN-08-C",
+            "truth": "non_match",
+            "critical": false,
+            "dataset": "milestone1",
+            "retrieved": true,
+            "decision": "REVIEW",
+            "probability": 0.18147120380039786
+          },
+          {
+            "pair": "SYN-CUST-B|FICT-UK-SL|DEMO-WL-410",
+            "truth": "match",
+            "critical": true,
+            "dataset": "rescreen_v2",
+            "retrieved": true,
+            "decision": "LINK",
+            "probability": 0.9999924338208345
+          },
+          {
+            "pair": "SYN-CUST-A|FICT-UK-SL|DEMO-WL-410",
+            "truth": "non_match",
+            "critical": false,
+            "dataset": "rescreen_v2",
+            "retrieved": true,
+            "decision": "REVIEW",
+            "probability": 0.4493001333343226
+          }
+        ]
+      }
+    }
+  ]
+}

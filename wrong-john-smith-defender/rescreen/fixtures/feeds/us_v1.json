@@ -1,0 +1,21 @@
+{
+  "_notice": "SYNTHETIC. Fictional list modelled loosely on the shape of a US sanctions list feed.",
+  "source_id": "FICT-US-SL",
+  "source_name": "Fictional US Sanctions List (synthetic analogue)",
+  "jurisdiction": "US",
+  "authority": "Fictional US Sanctions Office (synthetic)",
+  "version": "V1",
+  "published_at": "2026-11-02T14:00:00Z",
+  "entries": [
+    {
+      "entry_id": "DEMO-US-077",
+      "entry_type": "individual",
+      "names": [{"value": "QUILL Ada", "type": "primary", "family": "QUILL", "given": "Ada", "script": "Latin"}],
+      "aliases": [],
+      "dob": {"value": "1970-01-20", "verification": "listed_by_authority"},
+      "national_id": {"value": null, "verification": "unknown"},
+      "nationality": "TL",
+      "measures": [{"measure_id": "US-FM-3", "description": "Fictional blocking measure (synthetic)"}]
+    }
+  ]
+}

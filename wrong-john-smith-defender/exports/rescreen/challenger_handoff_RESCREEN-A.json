@@ -1,0 +1,93 @@
+{
+  "contract_version": "rescreen-contract/1.0",
+  "packet_type": "challenger-handoff",
+  "synthetic": true,
+  "case_id": "RESCREEN-A",
+  "changed_fields": [
+    {
+      "subject_type": "list_entry",
+      "field": "alias",
+      "before": [],
+      "after": [
+        {
+          "evidence_id": "EV-873850088ed5",
+          "value": "Chan Wai Mun"
+        }
+      ],
+      "before_snapshot_id": "SNAP-FICT-UK-SL-V1-6c2174ec",
+      "after_snapshot_id": "SNAP-FICT-UK-SL-V2-50c30ade"
+    },
+    {
+      "subject_type": "list_entry",
+      "field": "dob",
+      "before": [
+        {
+          "evidence_id": "EV-de2c9c7efc6f",
+          "value": "1987-09-03"
+        }
+      ],
+      "after": [
+        {
+          "evidence_id": "EV-01211ab8dd1c",
+          "value": "1991-06-14"
+        }
+      ],
+      "before_snapshot_id": "SNAP-FICT-UK-SL-V1-6c2174ec",
+      "after_snapshot_id": "SNAP-FICT-UK-SL-V2-50c30ade"
+    },
+    {
+      "subject_type": "customer",
+      "field": "alias",
+      "before": [],
+      "after": [
+        {
+          "evidence_id": "EV-a77e9ec0bef1",
+          "value": "Chan W. M."
+        }
+      ],
+      "before_snapshot_id": "KYC-SNAP-2026-11-01",
+      "after_snapshot_id": "KYC-SNAP-2026-11-01"
+    }
+  ],
+  "approval_basis": [
+    {
+      "decision_id": "DEC-f3a87fe0316e",
+      "type": "verified_identifier_conflict",
+      "statement": "verified identifiers differ (SYN-HKID-A-552019 vs SYN-WLID-410-7731): customer EV-b1e7363003d3 vs list EV-93156134c0a3",
+      "cited_evidence_ids": [
+        "EV-b1e7363003d3",
+        "EV-93156134c0a3"
+      ],
+      "evidence_ids_used": [
+        "EV-93156134c0a3",
+        "EV-b1e7363003d3",
+        "EV-c78c5b233b12",
+        "EV-de2c9c7efc6f"
+      ],
+      "snapshots_at_decision": {
+        "list_snapshot_id": "SNAP-FICT-UK-SL-V1-6c2174ec",
+        "kyc_snapshot_id": "KYC-SNAP-2026-11-01",
+        "kyc_version": 1
+      }
+    }
+  ],
+  "evidence_ids": [
+    "EV-01211ab8dd1c",
+    "EV-873850088ed5",
+    "EV-93156134c0a3",
+    "EV-a77e9ec0bef1",
+    "EV-b1e7363003d3",
+    "EV-c78c5b233b12",
+    "EV-de2c9c7efc6f"
+  ],
+  "requested_output": {
+    "fields": [
+      "case_id",
+      "evidence_ids",
+      "contradictions",
+      "missing_evidence",
+      "suggested_next_check"
+    ],
+    "instruction": "Explain what changed and the next verification. Cite evidence IDs. Leave the disposition to the analyst and designated reviewer."
+  }
+}

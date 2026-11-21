@@ -1,0 +1,377 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "check": "V1 screening raises alerts for both customers against DEMO-WL-410",
+      "passed": true,
+      "observed": {
+        "RESCREEN-A": "OPEN",
+        "RESCREEN-B": "OPEN"
+      }
+    },
+    {
+      "check": "analyst cannot approve (role)",
+      "passed": true,
+      "observed": "ROLE_NOT_ALLOWED"
+    },
+    {
+      "check": "analyst cannot approve own proposal",
+      "passed": true,
+      "observed": "ROLE_NOT_ALLOWED"
+    },
+    {
+      "check": "before V2: both cases RESOLVED with a current approval",
+      "passed": true,
+      "observed": {
+        "RESCREEN-A": {
+          "state": "RESOLVED",
+          "reopen_count": 0,
+          "disposition": "FALSE_POSITIVE_CLOSED_APPROVED",
+          "approvals": [
+            [
+              "DEC-f3a87fe0316e",
+              "CURRENT"
+            ]
+          ]
+        },
+        "RESCREEN-B": {
+          "state": "RESOLVED",
+          "reopen_count": 0,
+          "disposition": "FALSE_POSITIVE_CLOSED_APPROVED",
+          "approvals": [
+            [
+              "DEC-4f51c3c4b4c9",
+              "CURRENT"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "check": "V2 activated and rescreen ran",
+      "passed": true,
+      "observed": {
+        "customers": 2,
+        "entries": 4,
+        "pairs_retrieved": 2,
+        "no_hit": 0,
+        "alert_created": 0,
+        "rescreened": 0,
+        "basis_holds": 1,
+        "reopened": 1,
+        "pairs_not_retrieved": 6
+      }
+    },
+    {
+      "check": "A keeps its approval (identifier basis HOLDS)",
+      "passed": true,
+      "observed": {
+        "state": "RESOLVED",
+        "reopen_count": 0,
+        "disposition": "FALSE_POSITIVE_CLOSED_APPROVED",
+        "approvals": [
+          [
+            "DEC-f3a87fe0316e",
+            "CURRENT"
+          ]
+        ]
+      }
+    },
+    {
+      "check": "B reopens (DOB conflict cited in approval disappeared)",
+      "passed": true,
+      "observed": {
+        "state": "OPEN",
+        "reopen_count": 1,
+        "disposition": "REOPENED_NEEDS_HUMAN_REVIEW",
+        "approvals": [
+          [
+            "DEC-4f51c3c4b4c9",
+            "INVALIDATED"
+          ]
+        ]
+      }
+    },
+    {
+      "check": "exactly one REOPENED event overall (B only)",
+      "passed": true,
+      "observed": 1
+    },
+    {
+      "check": "both approval histories retained",
+      "passed": true,
+      "observed": "A:1 approval (CURRENT), B:1 approval (INVALIDATED)"
+    },
+    {
+      "check": "B back with a human (owner = original proposer, analyst queue, allowed actions)",
+      "passed": true,
+      "observed": {
+        "owner": "sam.analyst",
+        "allowed_actions": [
+          "propose_closure",
+          "request_evidence",
+          "escalate"
+        ]
+      }
+    },
+    {
+      "check": "B V2 now matches via documented alias and exact DOB",
+      "passed": true,
+      "observed": {
+        "alias": "Chan Wai Mun",
+        "P": 0.9999924338208345
+      }
+    },
+    {
+      "check": "repeat V2 load is NO_UPDATE (no job queued)",
+      "passed": true,
+      "observed": "NO_UPDATE"
+    },
+    {
+      "check": "still exactly one REOPENED event after repeat load + sweep + manual rescreen",
+      "passed": true,
+      "observed": {
+        "REOPENED": 1,
+        "sweep": "COMPLETED_WITH_HITS",
+        "manual": "COMPLETED_WITH_HITS"
+      }
+    },
+    {
+      "check": "still exactly one alert per customer/source/entry",
+      "passed": true,
+      "observed": 2
+    },
+    {
+      "check": "malformed V3 rejected, last-good V2 stays active, coverage DEGRADED",
+      "passed": true,
+      "observed": {
+        "result": "FAILED_VALIDATION",
+        "errors": [
+          "malformed JSON: Unterminated string starting at at line 31"
+        ],
+        "active": "SNAP-FICT-UK-SL-V2-50c30ade",
+        "coverage": "DEGRADED: serving last-good SNAP-FICT-UK-SL-V2-50c30ade"
+      }
+    },
+    {
+      "check": "sweep still runs on last-good snapshot",
+      "passed": true,
+      "observed": [
+        "SNAP-FICT-CN-ML-V1-28f94799",
+        "SNAP-FICT-UK-SL-V2-50c30ade",
+        "SNAP-FICT-US-SL-V1-00f72fe1"
+      ]
+    },
+    {
+      "check": "failed job recorded and retry completes without duplicate alerts/events",
+      "passed": true,
+      "observed": {
+        "failed": "JOB-0006-manual",
+        "error": "SimulatedJobFailure: simulated failure after 1 result(s)",
+        "retry": "JOB-0007-retry",
+        "events_before": 14,
+        "events_after": 14
+      }
+    },
+    {
+      "check": "KYC alias update is material, triggers rescreen of A only; A approval still holds",
+      "passed": true,
+      "observed": {
+        "version": 2,
+        "job": "JOB-0008-kyc_change",
+        "A_state": "RESOLVED"
+      }
+    },
+    {
+      "check": "case view usable with live Challenger unavailable",
+      "passed": true,
+      "observed": {
+        "available": false,
+        "reason": "offline demo: no live Grok/Challenger connection is used at runtime"
+      }
+    },
+    {
+      "check": "replay is labelled and stored apart from the human response",
+      "passed": true,
+      "observed": {
+        "suggestion_id": "AIS-420c19626fc9",
+        "origin": "replay",
+        "is_replay": true
+      }
+    },
+    {
+      "check": "B cannot be re-closed on the vanished DOB basis",
+      "passed": true,
+      "observed": "BASIS_INVALID: basis verified_full_dob_conflict needs current dob evidence IDs for the customer and the list entry"
+    },
+    {
+      "check": "B can go to AWAITING_EVIDENCE without Grok",
+      "passed": true,
+      "observed": {
+        "case_id": "RESCREEN-B",
+        "state": "AWAITING_EVIDENCE",
+        "action": "REQUEST_EVIDENCE"
+      }
+    },
+    {
+      "check": "Reviews: pending = [RESCREEN-B]; completed = 2 approvals (A current, B invalidated)",
+      "passed": true,
+      "observed": {
+        "pending": [
+          [
+            "RESCREEN-B",
+            "AWAITING_EVIDENCE"
+          ]
+        ],
+        "completed": [
+          [
+            "RESCREEN-A",
+            "APPROVED",
+            "CURRENT"
+          ],
+          [
+            "RESCREEN-B",
+            "APPROVED",
+            "INVALIDATED"
+          ]
+        ]
+      }
+    },
+    {
+      "check": "senior cannot approve own proposal (self-approval)",
+      "passed": true,
+      "observed": "SELF_APPROVAL_FORBIDDEN"
+    }
+  ],
+  "states_before_v2": {
+    "RESCREEN-A": {
+      "state": "RESOLVED",
+      "reopen_count": 0,
+      "disposition": "FALSE_POSITIVE_CLOSED_APPROVED",
+      "approvals": [
+        [
+          "DEC-f3a87fe0316e",
+          "CURRENT"
+        ]
+      ]
+    },
+    "RESCREEN-B": {
+      "state": "RESOLVED",
+      "reopen_count": 0,
+      "disposition": "FALSE_POSITIVE_CLOSED_APPROVED",
+      "approvals": [
+        [
+          "DEC-4f51c3c4b4c9",
+          "CURRENT"
+        ]
+      ]
+    }
+  },
+  "states_after_v2": {
+    "RESCREEN-A": {
+      "state": "RESOLVED",
+      "reopen_count": 0,
+      "disposition": "FALSE_POSITIVE_CLOSED_APPROVED",
+      "approvals": [
+        [
+          "DEC-f3a87fe0316e",
+          "CURRENT"
+        ]
+      ]
+    },
+    "RESCREEN-B": {
+      "state": "OPEN",
+      "reopen_count": 1,
+      "disposition": "REOPENED_NEEDS_HUMAN_REVIEW",
+      "approvals": [
+        [
+          "DEC-4f51c3c4b4c9",
+          "INVALIDATED"
+        ]
+      ]
+    }
+  },
+  "final_states": {
+    "RESCREEN-A": {
+      "state": "RESOLVED",
+      "reopen_count": 0,
+      "disposition": "FALSE_POSITIVE_CLOSED_APPROVED",
+      "approvals": [
+        [
+          "DEC-f3a87fe0316e",
+          "CURRENT"
+        ]
+      ]
+    },
+    "RESCREEN-B": {
+      "state": "AWAITING_EVIDENCE",
+      "reopen_count": 1,
+      "disposition": "AWAITING_EVIDENCE",
+      "approvals": [
+        [
+          "DEC-4f51c3c4b4c9",
+          "INVALIDATED"
+        ]
+      ]
+    }
+  },
+  "reopen_events": 1,
+  "exports": [
+    "feeds_status.json",
+    "jobs.json",
+    "reviews.json",
+    "case_view_RESCREEN-A.json",
+    "evidence_packet_RESCREEN-A.json",
+    "challenger_handoff_RESCREEN-A.json",
+    "jurisdictions_RESCREEN-A_UK.json",
+    "jurisdictions_RESCREEN-A_US.json",
+    "jurisdictions_RESCREEN-A_CN.json",
+    "case_view_RESCREEN-B.json",
+    "evidence_packet_RESCREEN-B.json",
+    "challenger_handoff_RESCREEN-B.json",
+    "jurisdictions_RESCREEN-B_UK.json",
+    "jurisdictions_RESCREEN-B_US.json",
+    "jurisdictions_RESCREEN-B_CN.json"
+  ],
+  "log": [
+    "STEP 1 reset: KYC KYC-SNAP-2026-11-01 imported=2 rejected=0 active=2; UK ACTIVATED SNAP-FICT-UK-SL-V1-6c2174ec; US ACTIVATED SNAP-FICT-US-SL-V1-00f72fe1; CN ACTIVATED SNAP-FICT-CN-ML-V1-28f94799; job JOB-0001-initial_screening COMPLETED_WITH_HITS",
+    "  [PASS] V1 screening raises alerts for both customers against DEMO-WL-410 -> {'RESCREEN-A': 'OPEN', 'RESCREEN-B': 'OPEN'}",
+    "STEP 2 V1 analyst proposals and independent senior approvals",
+    "  ana.analyst proposed PRP-c3b746e301bd basis: verified identifiers differ (SYN-HKID-A-552019 vs SYN-WLID-410-7731): customer EV-b1e7363003d3 vs list EV-93156134c0a3",
+    "  [PASS] analyst cannot approve (role) -> ROLE_NOT_ALLOWED",
+    "  rio.senior approved DEC-f3a87fe0316e",
+    "  sam.analyst proposed PRP-99d7c5945a38 basis: verified full DOBs differ (1991-06-14 vs 1987-09-03): customer EV-bc3a528f805f vs list EV-de2c9c7efc6f",
+    "  [PASS] analyst cannot approve own proposal -> ROLE_NOT_ALLOWED",
+    "  kai.senior approved DEC-4f51c3c4b4c9",
+    "  [PASS] before V2: both cases RESOLVED with a current approval -> {'RESCREEN-A': {'state': 'RESOLVED', 'reopen_count': 0, 'disposition': 'FALSE_POSITIVE_CLOSED_APPROVED', 'approvals': [('DEC-f3a87fe0316e', 'CURRENT')]}, 'RESCREEN-B': {'state': 'RESOLVED', 'reopen_count': 0, 'disposition': 'FALSE_POSITIVE_CLOSED_APPROVED', 'approvals': [('DEC-4f51c3c4b4c9', 'CURRENT')]}}",
+    "STEP 3 load V2 (validated, activated, rescreen job queued)",
+    "  feed ACTIVATED SNAP-FICT-UK-SL-V2-50c30ade diff={'added': [], 'amended': [{'entry_id': 'DEMO-WL-410', 'changed_fields': ['aliases', 'dob']}], 'removed': []} job=JOB-0002-list_change COMPLETED_WITH_HITS counts={'customers': 2, 'entries': 4, 'pairs_retrieved': 2, 'no_hit': 0, 'alert_created': 0, 'rescreened': 0, 'basis_holds': 1, 'reopened': 1, 'pairs_not_retrieved': 6}",
+    "  [PASS] V2 activated and rescreen ran -> {'customers': 2, 'entries': 4, 'pairs_retrieved': 2, 'no_hit': 0, 'alert_created': 0, 'rescreened': 0, 'basis_holds': 1, 'reopened': 1, 'pairs_not_retrieved': 6}",
+    "  [PASS] A keeps its approval (identifier basis HOLDS) -> {'state': 'RESOLVED', 'reopen_count': 0, 'disposition': 'FALSE_POSITIVE_CLOSED_APPROVED', 'approvals': [('DEC-f3a87fe0316e', 'CURRENT')]}",
+    "  [PASS] B reopens (DOB conflict cited in approval disappeared) -> {'state': 'OPEN', 'reopen_count': 1, 'disposition': 'REOPENED_NEEDS_HUMAN_REVIEW', 'approvals': [('DEC-4f51c3c4b4c9', 'INVALIDATED')]}",
+    "  [PASS] exactly one REOPENED event overall (B only) -> 1",
+    "  reopen evaluation: BASIS_NO_LONGER_HOLDS - DOBs now agree (1991-06-14); changed fields: list_entry.alias, list_entry.dob",
+    "  [PASS] both approval histories retained -> A:1 approval (CURRENT), B:1 approval (INVALIDATED)",
+    "  [PASS] B back with a human (owner = original proposer, analyst queue, allowed actions) -> {'owner': 'sam.analyst', 'allowed_actions': ['propose_closure', 'request_evidence', 'escalate']}",
+    "  [PASS] B V2 now matches via documented alias and exact DOB -> {'alias': 'Chan Wai Mun', 'P': 0.9999924338208345}",
+    "STEP 4 repeat V2 load, manual rescreen and daily sweep (idempotency)",
+    "  [PASS] repeat V2 load is NO_UPDATE (no job queued) -> NO_UPDATE",
+    "  [PASS] still exactly one REOPENED event after repeat load + sweep + manual rescreen -> {'REOPENED': 1, 'sweep': 'COMPLETED_WITH_HITS', 'manual': 'COMPLETED_WITH_HITS'}",
+    "  [PASS] still exactly one alert per customer/source/entry -> 2",
+    "STEP 5 simulated feed failure (malformed V3)",
+    "  [PASS] malformed V3 rejected, last-good V2 stays active, coverage DEGRADED -> {'result': 'FAILED_VALIDATION', 'errors': ['malformed JSON: Unterminated string starting at at line 31'], 'active': 'SNAP-FICT-UK-SL-V2-50c30ade', 'coverage': 'DEGRADED: serving last-good SNAP-FICT-UK-SL-V2-50c30ade'}",
+    "  [PASS] sweep still runs on last-good snapshot -> ['SNAP-FICT-CN-ML-V1-28f94799', 'SNAP-FICT-UK-SL-V2-50c30ade', 'SNAP-FICT-US-SL-V1-00f72fe1']",
+    "STEP 6 failed job + retry (no duplicates)",
+    "  [PASS] failed job recorded and retry completes without duplicate alerts/events -> {'failed': 'JOB-0006-manual', 'error': 'SimulatedJobFailure: simulated failure after 1 result(s)', 'retry': 'JOB-0007-retry', 'events_before': 14, 'events_after': 14}",
+    "STEP 7 material KYC change on A (same job logic, trigger kyc_change)",
+    "  [PASS] KYC alias update is material, triggers rescreen of A only; A approval still holds -> {'version': 2, 'job': 'JOB-0008-kyc_change', 'A_state': 'RESOLVED'}",
+    "STEP 8 Grok/Challenger unavailable path + labelled replay",
+    "  [PASS] case view usable with live Challenger unavailable -> {'available': False, 'reason': 'offline demo: no live Grok/Challenger connection is used at runtime'}",
+    "  [PASS] replay is labelled and stored apart from the human response -> {'suggestion_id': 'AIS-420c19626fc9', 'origin': 'replay', 'is_replay': True}",
+    "  [PASS] B cannot be re-closed on the vanished DOB basis -> BASIS_INVALID: basis verified_full_dob_conflict needs current dob evidence IDs for the customer and the list entry",
+    "  [PASS] B can go to AWAITING_EVIDENCE without Grok -> {'case_id': 'RESCREEN-B', 'state': 'AWAITING_EVIDENCE', 'action': 'REQUEST_EVIDENCE'}",
+    "  [PASS] Reviews: pending = [RESCREEN-B]; completed = 2 approvals (A current, B invalidated) -> {'pending': [('RESCREEN-B', 'AWAITING_EVIDENCE')], 'completed': [('RESCREEN-A', 'APPROVED', 'CURRENT'), ('RESCREEN-B', 'APPROVED', 'INVALIDATED')]}",
+    "STEP 9 senior self-approval guard (scratch database, so the main demo state is untouched)",
+    "  [PASS] senior cannot approve own proposal (self-approval) -> SELF_APPROVAL_FORBIDDEN"
+  ]
+}

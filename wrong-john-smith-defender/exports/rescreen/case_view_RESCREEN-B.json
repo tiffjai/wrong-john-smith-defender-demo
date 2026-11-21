@@ -1,0 +1,1769 @@
+{
+  "contract_version": "rescreen-contract/1.0",
+  "synthetic": true,
+  "case": {
+    "case_id": "RESCREEN-B",
+    "alert_id": "ALR-6c938a93ecc5",
+    "customer_id": "SYN-CUST-B",
+    "alert_key": {
+      "customer_id": "SYN-CUST-B",
+      "source_id": "FICT-UK-SL",
+      "entry_id": "DEMO-WL-410"
+    },
+    "booking_entity": "FICT-BANK-UK",
+    "state": "AWAITING_EVIDENCE",
+    "disposition": "AWAITING_EVIDENCE",
+    "owner": "sam.analyst",
+    "priority": "high",
+    "reason": "name-only LINK (91.6667), Splink NO_LINK (P=0.053), guard CONTRADICTION_NOTED_NOT_SURFACED",
+    "created_at": "2026-11-21T09:09:00Z",
+    "updated_at": "2026-11-21T10:02:00Z",
+    "reopen_count": 1
+  },
+  "names": {
+    "customer": {
+      "names": [
+        {
+          "value": "Chan Wei Man",
+          "type": "primary",
+          "family": "Chan",
+          "given": "Wei Man",
+          "script": "Latin"
+        }
+      ],
+      "original_script_name": null,
+      "documented_aliases": [
+        {
+          "value": "Chan Wai Mun",
+          "type": "documented_alias",
+          "scheme": "Cantonese romanisation (fictional)",
+          "document_ref": "DOC-SYN-B-02"
+        }
+      ]
+    },
+    "list_entry": {
+      "names": [
+        {
+          "evidence_id": "EV-5c5b65710260",
+          "subject_type": "list_entry",
+          "subject_id": "DEMO-WL-410",
+          "field": "name",
+          "observed_value": "CHAN Wai Man",
+          "normalised_value": "chan wai man",
+          "precision": "exact",
+          "status": "known",
+          "verification": {
+            "status": "verified",
+            "method": "published by the (fictional) listing authority",
+            "document_ref": null
+          },
+          "source_id": "FICT-UK-SL",
+          "source_snapshot_id": "SNAP-FICT-UK-SL-V2-50c30ade",
+          "scheme": null,
+          "name_type": "primary",
+          "script": "Latin",
+          "address_from": null,
+          "address_to": null,
+          "description": null
+        },
+        {
+          "evidence_id": "EV-f9269f836a7f",
+          "subject_type": "list_entry",
+          "subject_id": "DEMO-WL-410",
+          "field": "original_script_name",
+          "observed_value": "陳偉文",
+          "normalised_value": "陳偉文",
+          "precision": "exact",
+          "status": "known",
+          "verification": {
+            "status": "verified",
+            "method": "published by the (fictional) listing authority",
+            "document_ref": null
+          },
+          "source_id": "FICT-UK-SL",
+          "source_snapshot_id": "SNAP-FICT-UK-SL-V2-50c30ade",
+          "scheme": null,
+          "name_type": "original_script",
+          "script": "Han (Traditional)",
+          "address_from": null,
+          "address_to": null,
+          "description": null
+        }
+      ],
+      "aliases": [
+        {
+          "evidence_id": "EV-873850088ed5",
+          "subject_type": "list_entry",
+          "subject_id": "DEMO-WL-410",
+          "field": "alias",
+          "observed_value": "Chan Wai Mun",
+          "normalised_value": "chan wai mun",
+          "precision": "exact",
+          "status": "known",
+          "verification": {
+            "status": "verified",
+            "method": "published by the (fictional) listing authority",
+            "document_ref": null
+          },
+          "source_id": "FICT-UK-SL",
+          "source_snapshot_id": "SNAP-FICT-UK-SL-V2-50c30ade",
+          "scheme": "Cantonese romanisation (fictional)",
+          "name_type": null,
+          "script": null,
+          "address_from": null,
+          "address_to": null,
+          "description": null
+        }
+      ]
+    }
+  },
+  "current_screening": {
+    "snapshot_id": "SNAP-FICT-UK-SL-V2-50c30ade",
+    "kyc_snapshot_id": "KYC-SNAP-2026-11-01",
+    "kyc_version": 1,
+    "retrieval": {
+      "blocking_rules": [
+        "same_family_name",
+        "same_alias_group"
+      ]
+    },
+    "alias_match": {
+      "form": "Chan Wai Mun",
+      "customer_field": "alias",
+      "entry_field": "alias",
+      "evidence_ids": [
+        "EV-0095760f846c",
+        "EV-873850088ed5"
+      ],
+      "key": "chanwaimun"
+    },
+    "name_only": {
+      "score": 91.6667,
+      "decision": "LINK",
+      "thresholds": {
+        "link": 90.0,
+        "review": 75.0
+      }
+    },
+    "splink": {
+      "match_probability": 0.9999924338208345,
+      "match_weight": 17.011992714084542,
+      "decision": "LINK",
+      "field_contributions": [
+        {
+          "field": "name",
+          "level_key": "alias",
+          "level_description": "Documented alias (sourced alias table)",
+          "m_probability": 0.08,
+          "u_probability": 0.0002,
+          "bayes_factor": 400.0,
+          "match_weight": 8.643856189774725
+        },
+        {
+          "field": "dob",
+          "level_key": "full_exact",
+          "level_description": "Full date exact match",
+          "m_probability": 0.8,
+          "u_probability": 5e-05,
+          "bayes_factor": 16000.0,
+          "match_weight": 13.965784284662087
+        },
+        {
+          "field": "country",
+          "level_key": "same",
+          "level_description": "Same country",
+          "m_probability": 0.92,
+          "u_probability": 0.45,
+          "bayes_factor": 2.0444444444444443,
+          "match_weight": 1.031708859727338
+        },
+        {
+          "field": "city",
+          "level_key": "null",
+          "level_description": "city unknown on at least one record (neutral: not imputed, not a mismatch)",
+          "m_probability": null,
+          "u_probability": null,
+          "bayes_factor": 1.0,
+          "match_weight": 0.0
+        }
+      ]
+    },
+    "guard": {
+      "decision": "LINK",
+      "outcome": "PASS_NO_CONTRADICTION",
+      "reasons": [
+        "no verified full-DOB contradiction applies to this pair"
+      ],
+      "dob_check_status": "consistent"
+    },
+    "raise_alert": true,
+    "evidence_classification": [
+      {
+        "dimension": "name",
+        "classification": "supporting",
+        "detail": "Splink name level 'alias': 'Chan Wei Man' vs 'CHAN Wai Man'",
+        "evidence_ids": [
+          "EV-be545b97422b",
+          "EV-5c5b65710260"
+        ]
+      },
+      {
+        "dimension": "documented_alias",
+        "classification": "supporting",
+        "detail": "documented alias match on 'Chan Wai Mun' (alias ↔ alias)",
+        "evidence_ids": [
+          "EV-0095760f846c",
+          "EV-873850088ed5"
+        ]
+      },
+      {
+        "dimension": "dob",
+        "classification": "supporting",
+        "detail": "DOB agrees at shared precision (1991-06-14 vs 1991-06-14)",
+        "precision": [
+          "full",
+          "full"
+        ],
+        "verification": [
+          "verified",
+          "verified"
+        ],
+        "evidence_ids": [
+          "EV-bc3a528f805f",
+          "EV-01211ab8dd1c"
+        ]
+      },
+      {
+        "dimension": "national_id",
+        "classification": "missing",
+        "detail": "national ID unknown on at least one side",
+        "evidence_ids": [
+          "EV-4d497f168a76",
+          "EV-93156134c0a3"
+        ]
+      },
+      {
+        "dimension": "nationality",
+        "classification": "supporting",
+        "detail": "HK vs HK",
+        "evidence_ids": [
+          "EV-73e50cd521b4",
+          "EV-a800ff867754"
+        ]
+      }
+    ]
+  },
+  "screening_history": [
+    {
+      "snapshot_id": "SNAP-FICT-UK-SL-V1-6c2174ec",
+      "kyc_snapshot_id": "KYC-SNAP-2026-11-01",
+      "kyc_version": 1,
+      "retrieval": {
+        "blocking_rules": [
+          "same_family_name"
+        ]
+      },
+      "alias_match": null,
+      "name_only": {
+        "score": 91.6667,
+        "decision": "LINK",
+        "thresholds": {
+          "link": 90.0,
+          "review": 75.0
+        }
+      },
+      "splink": {
+        "match_probability": 0.05283841447496879,
+        "match_weight": -4.163951488774229,
+        "decision": "NO_LINK",
+        "field_contributions": [
+          {
+            "field": "name",
+            "level_key": "jw_092",
+            "level_description": "Jaro-Winkler >= 0.92",
+            "m_probability": 0.08,
+            "u_probability": 0.003,
+            "bayes_factor": 26.666666666666668,
+            "match_weight": 4.7369655941662066
+          },
+          {
+            "field": "dob",
+            "level_key": "mismatch",
+            "level_description": "Differ at the precision both dates share",
+            "m_probability": 0.1,
+            "u_probability": 0.98715,
+            "bayes_factor": 0.10130172719444867,
+            "match_weight": -3.303269322588164
+          },
+          {
+            "field": "country",
+            "level_key": "same",
+            "level_description": "Same country",
+            "m_probability": 0.92,
+            "u_probability": 0.45,
+            "bayes_factor": 2.0444444444444443,
+            "match_weight": 1.031708859727338
+          },
+          {
+            "field": "city",
+            "level_key": "null",
+            "level_description": "city unknown on at least one record (neutral: not imputed, not a mismatch)",
+            "m_probability": null,
+            "u_probability": null,
+            "bayes_factor": 1.0,
+            "match_weight": 0.0
+          }
+        ]
+      },
+      "guard": {
+        "decision": "NO_LINK",
+        "outcome": "CONTRADICTION_NOTED_NOT_SURFACED",
+        "reasons": [
+          "direct: verified full dates of birth differ: 1991-06-14 vs 1987-09-03; pair decision is NO_LINK and it is in no linked chain, so nothing to escalate"
+        ],
+        "dob_check_status": "contradiction"
+      },
+      "raise_alert": true,
+      "evidence_classification": [
+        {
+          "dimension": "name",
+          "classification": "supporting",
+          "detail": "Splink name level 'jw_092': 'Chan Wei Man' vs 'CHAN Wai Man'",
+          "evidence_ids": [
+            "EV-be545b97422b",
+            "EV-5c5b65710260"
+          ]
+        },
+        {
+          "dimension": "dob",
+          "classification": "conflicting",
+          "detail": "verified full DOBs differ: 1991-06-14 vs 1987-09-03",
+          "precision": [
+            "full",
+            "full"
+          ],
+          "verification": [
+            "verified",
+            "verified"
+          ],
+          "evidence_ids": [
+            "EV-bc3a528f805f",
+            "EV-de2c9c7efc6f"
+          ]
+        },
+        {
+          "dimension": "national_id",
+          "classification": "missing",
+          "detail": "national ID unknown on at least one side",
+          "evidence_ids": [
+            "EV-4d497f168a76",
+            "EV-93156134c0a3"
+          ]
+        },
+        {
+          "dimension": "nationality",
+          "classification": "supporting",
+          "detail": "HK vs HK",
+          "evidence_ids": [
+            "EV-73e50cd521b4",
+            "EV-a800ff867754"
+          ]
+        }
+      ]
+    },
+    {
+      "snapshot_id": "SNAP-FICT-UK-SL-V2-50c30ade",
+      "kyc_snapshot_id": "KYC-SNAP-2026-11-01",
+      "kyc_version": 1,
+      "retrieval": {
+        "blocking_rules": [
+          "same_family_name",
+          "same_alias_group"
+        ]
+      },
+      "alias_match": {
+        "form": "Chan Wai Mun",
+        "customer_field": "alias",
+        "entry_field": "alias",
+        "evidence_ids": [
+          "EV-0095760f846c",
+          "EV-873850088ed5"
+        ],
+        "key": "chanwaimun"
+      },
+      "name_only": {
+        "score": 91.6667,
+        "decision": "LINK",
+        "thresholds": {
+          "link": 90.0,
+          "review": 75.0
+        }
+      },
+      "splink": {
+        "match_probability": 0.9999924338208345,
+        "match_weight": 17.011992714084542,
+        "decision": "LINK",
+        "field_contributions": [
+          {
+            "field": "name",
+            "level_key": "alias",
+            "level_description": "Documented alias (sourced alias table)",
+            "m_probability": 0.08,
+            "u_probability": 0.0002,
+            "bayes_factor": 400.0,
+            "match_weight": 8.643856189774725
+          },
+          {
+            "field": "dob",
+            "level_key": "full_exact",
+            "level_description": "Full date exact match",
+            "m_probability": 0.8,
+            "u_probability": 5e-05,
+            "bayes_factor": 16000.0,
+            "match_weight": 13.965784284662087
+          },
+          {
+            "field": "country",
+            "level_key": "same",
+            "level_description": "Same country",
+            "m_probability": 0.92,
+            "u_probability": 0.45,
+            "bayes_factor": 2.0444444444444443,
+            "match_weight": 1.031708859727338
+          },
+          {
+            "field": "city",
+            "level_key": "null",
+            "level_description": "city unknown on at least one record (neutral: not imputed, not a mismatch)",
+            "m_probability": null,
+            "u_probability": null,
+            "bayes_factor": 1.0,
+            "match_weight": 0.0
+          }
+        ]
+      },
+      "guard": {
+        "decision": "LINK",
+        "outcome": "PASS_NO_CONTRADICTION",
+        "reasons": [
+          "no verified full-DOB contradiction applies to this pair"
+        ],
+        "dob_check_status": "consistent"
+      },
+      "raise_alert": true,
+      "evidence_classification": [
+        {
+          "dimension": "name",
+          "classification": "supporting",
+          "detail": "Splink name level 'alias': 'Chan Wei Man' vs 'CHAN Wai Man'",
+          "evidence_ids": [
+            "EV-be545b97422b",
+            "EV-5c5b65710260"
+          ]
+        },
+        {
+          "dimension": "documented_alias",
+          "classification": "supporting",
+          "detail": "documented alias match on 'Chan Wai Mun' (alias ↔ alias)",
+          "evidence_ids": [
+            "EV-0095760f846c",
+            "EV-873850088ed5"
+          ]
+        },
+        {
+          "dimension": "dob",
+          "classification": "supporting",
+          "detail": "DOB agrees at shared precision (1991-06-14 vs 1991-06-14)",
+          "precision": [
+            "full",
+            "full"
+          ],
+          "verification": [
+            "verified",
+            "verified"
+          ],
+          "evidence_ids": [
+            "EV-bc3a528f805f",
+            "EV-01211ab8dd1c"
+          ]
+        },
+        {
+          "dimension": "national_id",
+          "classification": "missing",
+          "detail": "national ID unknown on at least one side",
+          "evidence_ids": [
+            "EV-4d497f168a76",
+            "EV-93156134c0a3"
+          ]
+        },
+        {
+          "dimension": "nationality",
+          "classification": "supporting",
+          "detail": "HK vs HK",
+          "evidence_ids": [
+            "EV-73e50cd521b4",
+            "EV-a800ff867754"
+          ]
+        }
+      ]
+    }
+  ],
+  "evidence_side_by_side": {
+    "columns": [
+      "SNAP-FICT-UK-SL-V1-6c2174ec|kyc_v1",
+      "SNAP-FICT-UK-SL-V2-50c30ade|kyc_v1"
+    ],
+    "rows": [
+      {
+        "subject_type": "customer",
+        "field": "address",
+        "values": {
+          "SNAP-FICT-UK-SL-V1-6c2174ec|kyc_v1": [
+            {
+              "evidence_id": "EV-1b57497dc9c8",
+              "value": "8 Synthetic Lane, Testloon",
+              "precision": "exact",
+              "verification": "unverified",
+              "source_id": "SYN-KYC",
+              "source_snapshot_id": "KYC-SNAP-2026-11-01"
+            }
+          ],
+          "SNAP-FICT-UK-SL-V2-50c30ade|kyc_v1": [
+            {
+              "evidence_id": "EV-1b57497dc9c8",
+              "value": "8 Synthetic Lane, Testloon",
+              "precision": "exact",
+              "verification": "unverified",
+              "source_id": "SYN-KYC",
+              "source_snapshot_id": "KYC-SNAP-2026-11-01"
+            }
+          ]
+        },
+        "changed": false
+      },
+      {
+        "subject_type": "customer",
+        "field": "alias",
+        "values": {
+          "SNAP-FICT-UK-SL-V1-6c2174ec|kyc_v1": [
+            {
+              "evidence_id": "EV-0095760f846c",
+              "value": "Chan Wai Mun",
+              "precision": "exact",
+              "verification": "documented",
+              "source_id": "SYN-KYC",
+              "source_snapshot_id": "KYC-SNAP-2026-11-01"
+            }
+          ],
+          "SNAP-FICT-UK-SL-V2-50c30ade|kyc_v1": [
+            {
+              "evidence_id": "EV-0095760f846c",
+              "value": "Chan Wai Mun",
+              "precision": "exact",
+              "verification": "documented",
+              "source_id": "SYN-KYC",
+              "source_snapshot_id": "KYC-SNAP-2026-11-01"
+            }
+          ]
+        },
+        "changed": false
+      },
+      {
+        "subject_type": "customer",
+        "field": "booking_entity",
+        "values": {
+          "SNAP-FICT-UK-SL-V1-6c2174ec|kyc_v1": [
+            {
+              "evidence_id": "EV-ac4df8d8f170",
+              "value": "FICT-BANK-UK",
+              "precision": "exact",
+              "verification": "unverified",
+              "source_id": "SYN-KYC",
+              "source_snapshot_id": "KYC-SNAP-2026-11-01"
+            }
+          ],
+          "SNAP-FICT-UK-SL-V2-50c30ade|kyc_v1": [
+            {
+              "evidence_id": "EV-ac4df8d8f170",
+              "value": "FICT-BANK-UK",
+              "precision": "exact",
+              "verification": "unverified",
+              "source_id": "SYN-KYC",
+              "source_snapshot_id": "KYC-SNAP-2026-11-01"
+            }
+          ]
+        },
+        "changed": false
+      },
+      {
+        "subject_type": "customer",
+        "field": "dob",
+        "values": {
+          "SNAP-FICT-UK-SL-V1-6c2174ec|kyc_v1": [
+            {
+              "evidence_id": "EV-bc3a528f805f",
+              "value": "1991-06-14",
+              "precision": "full",
+              "verification": "verified",
+              "source_id": "SYN-KYC",
+              "source_snapshot_id": "KYC-SNAP-2026-11-01"
+            }
+          ],
+          "SNAP-FICT-UK-SL-V2-50c30ade|kyc_v1": [
+            {
+              "evidence_id": "EV-bc3a528f805f",
+              "value": "1991-06-14",
+              "precision": "full",
+              "verification": "verified",
+              "source_id": "SYN-KYC",
+              "source_snapshot_id": "KYC-SNAP-2026-11-01"
+            }
+          ]
+        },
+        "changed": false
+      },
+      {
+        "subject_type": "customer",
+        "field": "name",
+        "values": {
+          "SNAP-FICT-UK-SL-V1-6c2174ec|kyc_v1": [
+            {
+              "evidence_id": "EV-be545b97422b",
+              "value": "Chan Wei Man",
+              "precision": "exact",
+              "verification": "unverified",
+              "source_id": "SYN-KYC",
+              "source_snapshot_id": "KYC-SNAP-2026-11-01"
+            }
+          ],
+          "SNAP-FICT-UK-SL-V2-50c30ade|kyc_v1": [
+            {
+              "evidence_id": "EV-be545b97422b",
+              "value": "Chan Wei Man",
+              "precision": "exact",
+              "verification": "unverified",
+              "source_id": "SYN-KYC",
+              "source_snapshot_id": "KYC-SNAP-2026-11-01"
+            }
+          ]
+        },
+        "changed": false
+      },
+      {
+        "subject_type": "customer",
+        "field": "national_id",
+        "values": {
+          "SNAP-FICT-UK-SL-V1-6c2174ec|kyc_v1": [
+            {
+              "evidence_id": "EV-4d497f168a76",
+              "value": null,
+              "precision": "unknown",
+              "verification": "unknown",
+              "source_id": "SYN-KYC",
+              "source_snapshot_id": "KYC-SNAP-2026-11-01"
+            }
+          ],
+          "SNAP-FICT-UK-SL-V2-50c30ade|kyc_v1": [
+            {
+              "evidence_id": "EV-4d497f168a76",
+              "value": null,
+              "precision": "unknown",
+              "verification": "unknown",
+              "source_id": "SYN-KYC",
+              "source_snapshot_id": "KYC-SNAP-2026-11-01"
+            }
+          ]
+        },
+        "changed": false
+      },
+      {
+        "subject_type": "customer",
+        "field": "nationality",
+        "values": {
+          "SNAP-FICT-UK-SL-V1-6c2174ec|kyc_v1": [
+            {
+              "evidence_id": "EV-73e50cd521b4",
+              "value": "HK",
+              "precision": "exact",
+              "verification": "unverified",
+              "source_id": "SYN-KYC",
+              "source_snapshot_id": "KYC-SNAP-2026-11-01"
+            }
+          ],
+          "SNAP-FICT-UK-SL-V2-50c30ade|kyc_v1": [
+            {
+              "evidence_id": "EV-73e50cd521b4",
+              "value": "HK",
+              "precision": "exact",
+              "verification": "unverified",
+              "source_id": "SYN-KYC",
+              "source_snapshot_id": "KYC-SNAP-2026-11-01"
+            }
+          ]
+        },
+        "changed": false
+      },
+      {
+        "subject_type": "customer",
+        "field": "original_script_name",
+        "values": {
+          "SNAP-FICT-UK-SL-V1-6c2174ec|kyc_v1": [
+            {
+              "evidence_id": "EV-25a4c7655c84",
+              "value": null,
+              "precision": "unknown",
+              "verification": "unknown",
+              "source_id": "SYN-KYC",
+              "source_snapshot_id": "KYC-SNAP-2026-11-01"
+            }
+          ],
+          "SNAP-FICT-UK-SL-V2-50c30ade|kyc_v1": [
+            {
+              "evidence_id": "EV-25a4c7655c84",
+              "value": null,
+              "precision": "unknown",
+              "verification": "unknown",
+              "source_id": "SYN-KYC",
+              "source_snapshot_id": "KYC-SNAP-2026-11-01"
+            }
+          ]
+        },
+        "changed": false
+      },
+      {
+        "subject_type": "list_entry",
+        "field": "alias",
+        "values": {
+          "SNAP-FICT-UK-SL-V1-6c2174ec|kyc_v1": [],
+          "SNAP-FICT-UK-SL-V2-50c30ade|kyc_v1": [
+            {
+              "evidence_id": "EV-873850088ed5",
+              "value": "Chan Wai Mun",
+              "precision": "exact",
+              "verification": "verified",
+              "source_id": "FICT-UK-SL",
+              "source_snapshot_id": "SNAP-FICT-UK-SL-V2-50c30ade"
+            }
+          ]
+        },
+        "changed": true
+      },
+      {
+        "subject_type": "list_entry",
+        "field": "dob",
+        "values": {
+          "SNAP-FICT-UK-SL-V1-6c2174ec|kyc_v1": [
+            {
+              "evidence_id": "EV-de2c9c7efc6f",
+              "value": "1987-09-03",
+              "precision": "full",
+              "verification": "verified",
+              "source_id": "FICT-UK-SL",
+              "source_snapshot_id": "SNAP-FICT-UK-SL-V1-6c2174ec"
+            }
+          ],
+          "SNAP-FICT-UK-SL-V2-50c30ade|kyc_v1": [
+            {
+              "evidence_id": "EV-01211ab8dd1c",
+              "value": "1991-06-14",
+              "precision": "full",
+              "verification": "verified",
+              "source_id": "FICT-UK-SL",
+              "source_snapshot_id": "SNAP-FICT-UK-SL-V2-50c30ade"
+            }
+          ]
+        },
+        "changed": true
+      },
+      {
+        "subject_type": "list_entry",
+        "field": "measure",
+        "values": {
+          "SNAP-FICT-UK-SL-V1-6c2174ec|kyc_v1": [
+            {
+              "evidence_id": "EV-cedcb55b1140",
+              "value": "UK-FM-12",
+              "precision": "exact",
+              "verification": "verified",
+              "source_id": "FICT-UK-SL",
+              "source_snapshot_id": "SNAP-FICT-UK-SL-V1-6c2174ec"
+            }
+          ],
+          "SNAP-FICT-UK-SL-V2-50c30ade|kyc_v1": [
+            {
+              "evidence_id": "EV-cedcb55b1140",
+              "value": "UK-FM-12",
+              "precision": "exact",
+              "verification": "verified",
+              "source_id": "FICT-UK-SL",
+              "source_snapshot_id": "SNAP-FICT-UK-SL-V2-50c30ade"
+            }
+          ]
+        },
+        "changed": false
+      },
+      {
+        "subject_type": "list_entry",
+        "field": "name",
+        "values": {
+          "SNAP-FICT-UK-SL-V1-6c2174ec|kyc_v1": [
+            {
+              "evidence_id": "EV-5c5b65710260",
+              "value": "CHAN Wai Man",
+              "precision": "exact",
+              "verification": "verified",
+              "source_id": "FICT-UK-SL",
+              "source_snapshot_id": "SNAP-FICT-UK-SL-V1-6c2174ec"
+            }
+          ],
+          "SNAP-FICT-UK-SL-V2-50c30ade|kyc_v1": [
+            {
+              "evidence_id": "EV-5c5b65710260",
+              "value": "CHAN Wai Man",
+              "precision": "exact",
+              "verification": "verified",
+              "source_id": "FICT-UK-SL",
+              "source_snapshot_id": "SNAP-FICT-UK-SL-V2-50c30ade"
+            }
+          ]
+        },
+        "changed": false
+      },
+      {
+        "subject_type": "list_entry",
+        "field": "national_id",
+        "values": {
+          "SNAP-FICT-UK-SL-V1-6c2174ec|kyc_v1": [
+            {
+              "evidence_id": "EV-93156134c0a3",
+              "value": "SYN-WLID-410-7731",
+              "precision": "exact",
+              "verification": "verified",
+              "source_id": "FICT-UK-SL",
+              "source_snapshot_id": "SNAP-FICT-UK-SL-V1-6c2174ec"
+            }
+          ],
+          "SNAP-FICT-UK-SL-V2-50c30ade|kyc_v1": [
+            {
+              "evidence_id": "EV-93156134c0a3",
+              "value": "SYN-WLID-410-7731",
+              "precision": "exact",
+              "verification": "verified",
+              "source_id": "FICT-UK-SL",
+              "source_snapshot_id": "SNAP-FICT-UK-SL-V2-50c30ade"
+            }
+          ]
+        },
+        "changed": false
+      },
+      {
+        "subject_type": "list_entry",
+        "field": "nationality",
+        "values": {
+          "SNAP-FICT-UK-SL-V1-6c2174ec|kyc_v1": [
+            {
+              "evidence_id": "EV-a800ff867754",
+              "value": "HK",
+              "precision": "exact",
+              "verification": "verified",
+              "source_id": "FICT-UK-SL",
+              "source_snapshot_id": "SNAP-FICT-UK-SL-V1-6c2174ec"
+            }
+          ],
+          "SNAP-FICT-UK-SL-V2-50c30ade|kyc_v1": [
+            {
+              "evidence_id": "EV-a800ff867754",
+              "value": "HK",
+              "precision": "exact",
+              "verification": "verified",
+              "source_id": "FICT-UK-SL",
+              "source_snapshot_id": "SNAP-FICT-UK-SL-V2-50c30ade"
+            }
+          ]
+        },
+        "changed": false
+      },
+      {
+        "subject_type": "list_entry",
+        "field": "original_script_name",
+        "values": {
+          "SNAP-FICT-UK-SL-V1-6c2174ec|kyc_v1": [
+            {
+              "evidence_id": "EV-f9269f836a7f",
+              "value": "陳偉文",
+              "precision": "exact",
+              "verification": "verified",
+              "source_id": "FICT-UK-SL",
+              "source_snapshot_id": "SNAP-FICT-UK-SL-V1-6c2174ec"
+            }
+          ],
+          "SNAP-FICT-UK-SL-V2-50c30ade|kyc_v1": [
+            {
+              "evidence_id": "EV-f9269f836a7f",
+              "value": "陳偉文",
+              "precision": "exact",
+              "verification": "verified",
+              "source_id": "FICT-UK-SL",
+              "source_snapshot_id": "SNAP-FICT-UK-SL-V2-50c30ade"
+            }
+          ]
+        },
+        "changed": false
+      }
+    ]
+  },
+  "current_evidence": [
+    {
+      "evidence_id": "EV-be545b97422b",
+      "subject_type": "customer",
+      "subject_id": "SYN-CUST-B",
+      "field": "name",
+      "observed_value": "Chan Wei Man",
+      "normalised_value": "chan wei man",
+      "precision": "exact",
+      "status": "known",
+      "verification": {
+        "status": "unverified",
+        "method": null,
+        "document_ref": null
+      },
+      "source_id": "SYN-KYC",
+      "source_snapshot_id": "KYC-SNAP-2026-11-01",
+      "scheme": null,
+      "name_type": "primary",
+      "script": "Latin",
+      "address_from": null,
+      "address_to": null,
+      "description": null
+    },
+    {
+      "evidence_id": "EV-25a4c7655c84",
+      "subject_type": "customer",
+      "subject_id": "SYN-CUST-B",
+      "field": "original_script_name",
+      "observed_value": null,
+      "normalised_value": null,
+      "precision": "unknown",
+      "status": "unknown",
+      "verification": {
+        "status": "unknown",
+        "method": null,
+        "document_ref": null
+      },
+      "source_id": "SYN-KYC",
+      "source_snapshot_id": "KYC-SNAP-2026-11-01",
+      "scheme": null,
+      "name_type": null,
+      "script": null,
+      "address_from": null,
+      "address_to": null,
+      "description": null
+    },
+    {
+      "evidence_id": "EV-0095760f846c",
+      "subject_type": "customer",
+      "subject_id": "SYN-CUST-B",
+      "field": "alias",
+      "observed_value": "Chan Wai Mun",
+      "normalised_value": "chan wai mun",
+      "precision": "exact",
+      "status": "known",
+      "verification": {
+        "status": "documented",
+        "method": "documented_alias",
+        "document_ref": "DOC-SYN-B-02"
+      },
+      "source_id": "SYN-KYC",
+      "source_snapshot_id": "KYC-SNAP-2026-11-01",
+      "scheme": "Cantonese romanisation (fictional)",
+      "name_type": null,
+      "script": null,
+      "address_from": null,
+      "address_to": null,
+      "description": null
+    },
+    {
+      "evidence_id": "EV-bc3a528f805f",
+      "subject_type": "customer",
+      "subject_id": "SYN-CUST-B",
+      "field": "dob",
+      "observed_value": "1991-06-14",
+      "normalised_value": "1991-06-14",
+      "precision": "full",
+      "status": "known",
+      "verification": {
+        "status": "verified",
+        "method": "synthetic passport inspection (fictional)",
+        "document_ref": "DOC-SYN-B-01"
+      },
+      "source_id": "SYN-KYC",
+      "source_snapshot_id": "KYC-SNAP-2026-11-01",
+      "scheme": null,
+      "name_type": null,
+      "script": null,
+      "address_from": null,
+      "address_to": null,
+      "description": null
+    },
+    {
+      "evidence_id": "EV-4d497f168a76",
+      "subject_type": "customer",
+      "subject_id": "SYN-CUST-B",
+      "field": "national_id",
+      "observed_value": null,
+      "normalised_value": null,
+      "precision": "unknown",
+      "status": "unknown",
+      "verification": {
+        "status": "unknown",
+        "method": null,
+        "document_ref": null
+      },
+      "source_id": "SYN-KYC",
+      "source_snapshot_id": "KYC-SNAP-2026-11-01",
+      "scheme": null,
+      "name_type": null,
+      "script": null,
+      "address_from": null,
+      "address_to": null,
+      "description": null
+    },
+    {
+      "evidence_id": "EV-73e50cd521b4",
+      "subject_type": "customer",
+      "subject_id": "SYN-CUST-B",
+      "field": "nationality",
+      "observed_value": "HK",
+      "normalised_value": "hk",
+      "precision": "exact",
+      "status": "known",
+      "verification": {
+        "status": "unverified",
+        "method": null,
+        "document_ref": null
+      },
+      "source_id": "SYN-KYC",
+      "source_snapshot_id": "KYC-SNAP-2026-11-01",
+      "scheme": null,
+      "name_type": null,
+      "script": null,
+      "address_from": null,
+      "address_to": null,
+      "description": null
+    },
+    {
+      "evidence_id": "EV-1b57497dc9c8",
+      "subject_type": "customer",
+      "subject_id": "SYN-CUST-B",
+      "field": "address",
+      "observed_value": "8 Synthetic Lane, Testloon",
+      "normalised_value": "8 synthetic lane testloon",
+      "precision": "exact",
+      "status": "known",
+      "verification": {
+        "status": "unverified",
+        "method": null,
+        "document_ref": null
+      },
+      "source_id": "SYN-KYC",
+      "source_snapshot_id": "KYC-SNAP-2026-11-01",
+      "scheme": null,
+      "name_type": null,
+      "script": null,
+      "address_from": "2021-07-01",
+      "address_to": null,
+      "description": null
+    },
+    {
+      "evidence_id": "EV-ac4df8d8f170",
+      "subject_type": "customer",
+      "subject_id": "SYN-CUST-B",
+      "field": "booking_entity",
+      "observed_value": "FICT-BANK-UK",
+      "normalised_value": "fict bank uk",
+      "precision": "exact",
+      "status": "known",
+      "verification": {
+        "status": "unverified",
+        "method": null,
+        "document_ref": null
+      },
+      "source_id": "SYN-KYC",
+      "source_snapshot_id": "KYC-SNAP-2026-11-01",
+      "scheme": null,
+      "name_type": null,
+      "script": null,
+      "address_from": null,
+      "address_to": null,
+      "description": null
+    },
+    {
+      "evidence_id": "EV-5c5b65710260",
+      "subject_type": "list_entry",
+      "subject_id": "DEMO-WL-410",
+      "field": "name",
+      "observed_value": "CHAN Wai Man",
+      "normalised_value": "chan wai man",
+      "precision": "exact",
+      "status": "known",
+      "verification": {
+        "status": "verified",
+        "method": "published by the (fictional) listing authority",
+        "document_ref": null
+      },
+      "source_id": "FICT-UK-SL",
+      "source_snapshot_id": "SNAP-FICT-UK-SL-V2-50c30ade",
+      "scheme": null,
+      "name_type": "primary",
+      "script": "Latin",
+      "address_from": null,
+      "address_to": null,
+      "description": null
+    },
+    {
+      "evidence_id": "EV-f9269f836a7f",
+      "subject_type": "list_entry",
+      "subject_id": "DEMO-WL-410",
+      "field": "original_script_name",
+      "observed_value": "陳偉文",
+      "normalised_value": "陳偉文",
+      "precision": "exact",
+      "status": "known",
+      "verification": {
+        "status": "verified",
+        "method": "published by the (fictional) listing authority",
+        "document_ref": null
+      },
+      "source_id": "FICT-UK-SL",
+      "source_snapshot_id": "SNAP-FICT-UK-SL-V2-50c30ade",
+      "scheme": null,
+      "name_type": "original_script",
+      "script": "Han (Traditional)",
+      "address_from": null,
+      "address_to": null,
+      "description": null
+    },
+    {
+      "evidence_id": "EV-873850088ed5",
+      "subject_type": "list_entry",
+      "subject_id": "DEMO-WL-410",
+      "field": "alias",
+      "observed_value": "Chan Wai Mun",
+      "normalised_value": "chan wai mun",
+      "precision": "exact",
+      "status": "known",
+      "verification": {
+        "status": "verified",
+        "method": "published by the (fictional) listing authority",
+        "document_ref": null
+      },
+      "source_id": "FICT-UK-SL",
+      "source_snapshot_id": "SNAP-FICT-UK-SL-V2-50c30ade",
+      "scheme": "Cantonese romanisation (fictional)",
+      "name_type": null,
+      "script": null,
+      "address_from": null,
+      "address_to": null,
+      "description": null
+    },
+    {
+      "evidence_id": "EV-01211ab8dd1c",
+      "subject_type": "list_entry",
+      "subject_id": "DEMO-WL-410",
+      "field": "dob",
+      "observed_value": "1991-06-14",
+      "normalised_value": "1991-06-14",
+      "precision": "full",
+      "status": "known",
+      "verification": {
+        "status": "verified",
+        "method": "published by the (fictional) listing authority",
+        "document_ref": null
+      },
+      "source_id": "FICT-UK-SL",
+      "source_snapshot_id": "SNAP-FICT-UK-SL-V2-50c30ade",
+      "scheme": null,
+      "name_type": null,
+      "script": null,
+      "address_from": null,
+      "address_to": null,
+      "description": null
+    },
+    {
+      "evidence_id": "EV-93156134c0a3",
+      "subject_type": "list_entry",
+      "subject_id": "DEMO-WL-410",
+      "field": "national_id",
+      "observed_value": "SYN-WLID-410-7731",
+      "normalised_value": "syn wlid 410 7731",
+      "precision": "exact",
+      "status": "known",
+      "verification": {
+        "status": "verified",
+        "method": "published by the (fictional) listing authority",
+        "document_ref": null
+      },
+      "source_id": "FICT-UK-SL",
+      "source_snapshot_id": "SNAP-FICT-UK-SL-V2-50c30ade",
+      "scheme": null,
+      "name_type": null,
+      "script": null,
+      "address_from": null,
+      "address_to": null,
+      "description": null
+    },
+    {
+      "evidence_id": "EV-a800ff867754",
+      "subject_type": "list_entry",
+      "subject_id": "DEMO-WL-410",
+      "field": "nationality",
+      "observed_value": "HK",
+      "normalised_value": "hk",
+      "precision": "exact",
+      "status": "known",
+      "verification": {
+        "status": "verified",
+        "method": "published by the (fictional) listing authority",
+        "document_ref": null
+      },
+      "source_id": "FICT-UK-SL",
+      "source_snapshot_id": "SNAP-FICT-UK-SL-V2-50c30ade",
+      "scheme": null,
+      "name_type": null,
+      "script": null,
+      "address_from": null,
+      "address_to": null,
+      "description": null
+    },
+    {
+      "evidence_id": "EV-cedcb55b1140",
+      "subject_type": "list_entry",
+      "subject_id": "DEMO-WL-410",
+      "field": "measure",
+      "observed_value": "UK-FM-12",
+      "normalised_value": "uk fm 12",
+      "precision": "exact",
+      "status": "known",
+      "verification": {
+        "status": "verified",
+        "method": "published by the (fictional) listing authority",
+        "document_ref": null
+      },
+      "source_id": "FICT-UK-SL",
+      "source_snapshot_id": "SNAP-FICT-UK-SL-V2-50c30ade",
+      "scheme": null,
+      "name_type": null,
+      "script": null,
+      "address_from": null,
+      "address_to": null,
+      "description": "Fictional asset freeze (synthetic)"
+    }
+  ],
+  "earlier_rationale_and_decisions": [
+    {
+      "decision_id": "DEC-4f51c3c4b4c9",
+      "decision": "APPROVED",
+      "validity": "INVALIDATED",
+      "invalidated_by_event": "EVT-fe944ee317d6",
+      "decided_at": "2026-11-21T09:19:00Z",
+      "reviewer": "kai.senior",
+      "reviewer_role": "senior_reviewer",
+      "reviewer_comment": "DOB conflict verified on both sides.",
+      "proposal_id": "PRP-99d7c5945a38",
+      "proposer": "sam.analyst",
+      "proposed_at": "2026-11-21T09:17:00Z",
+      "rationale": "Different person: B's verified passport DOB 1991-06-14 conflicts with the listed full DOB 1987-09-03.",
+      "evidence_ids_used": [
+        "EV-bc3a528f805f",
+        "EV-de2c9c7efc6f"
+      ],
+      "basis": {
+        "type": "verified_full_dob_conflict",
+        "field": "dob",
+        "customer_evidence_id": "EV-bc3a528f805f",
+        "list_evidence_id": "EV-de2c9c7efc6f",
+        "statement": "verified full DOBs differ (1991-06-14 vs 1987-09-03): customer EV-bc3a528f805f vs list EV-de2c9c7efc6f",
+        "cited_values": {
+          "customer": "1991-06-14",
+          "list": "1987-09-03"
+        }
+      },
+      "snapshots_at_decision": {
+        "list_snapshot_id": "SNAP-FICT-UK-SL-V1-6c2174ec",
+        "kyc_snapshot_id": "KYC-SNAP-2026-11-01",
+        "kyc_version": 1
+      }
+    }
+  ],
+  "pending_proposal": null,
+  "human_actions": [
+    {
+      "action_id": "ACT-2fb2ec41895e",
+      "case_id": "RESCREEN-B",
+      "actor": "sam.analyst",
+      "role": "analyst",
+      "action": "PROPOSE_FALSE_POSITIVE_CLOSURE",
+      "from_state": "OPEN",
+      "to_state": "IN_REVIEW",
+      "comment": "Different person: B's verified passport DOB 1991-06-14 conflicts with the listed full DOB 1987-09-03.",
+      "payload": {
+        "proposal_id": "PRP-99d7c5945a38",
+        "evidence_ids": [
+          "EV-bc3a528f805f",
+          "EV-de2c9c7efc6f"
+        ],
+        "basis": {
+          "type": "verified_full_dob_conflict",
+          "field": "dob",
+          "customer_evidence_id": "EV-bc3a528f805f",
+          "list_evidence_id": "EV-de2c9c7efc6f",
+          "statement": "verified full DOBs differ (1991-06-14 vs 1987-09-03): customer EV-bc3a528f805f vs list EV-de2c9c7efc6f",
+          "cited_values": {
+            "customer": "1991-06-14",
+            "list": "1987-09-03"
+          }
+        }
+      },
+      "at": "2026-11-21T09:17:00Z"
+    },
+    {
+      "action_id": "ACT-4de21e6c5aa0",
+      "case_id": "RESCREEN-B",
+      "actor": "kai.senior",
+      "role": "senior_reviewer",
+      "action": "APPROVED",
+      "from_state": "IN_REVIEW",
+      "to_state": "RESOLVED",
+      "comment": "DOB conflict verified on both sides.",
+      "payload": {
+        "decision_id": "DEC-4f51c3c4b4c9",
+        "proposal_id": "PRP-99d7c5945a38"
+      },
+      "at": "2026-11-21T09:19:00Z"
+    },
+    {
+      "action_id": "ACT-1e2c8466c088",
+      "case_id": "RESCREEN-B",
+      "actor": "system",
+      "role": "system",
+      "action": "REOPEN",
+      "from_state": "RESOLVED",
+      "to_state": "OPEN",
+      "comment": "Approval basis BASIS_NO_LONGER_HOLDS: DOBs now agree (1991-06-14)",
+      "payload": {
+        "decision_id": "DEC-4f51c3c4b4c9",
+        "basis": {
+          "type": "verified_full_dob_conflict",
+          "field": "dob",
+          "customer_evidence_id": "EV-bc3a528f805f",
+          "list_evidence_id": "EV-de2c9c7efc6f",
+          "statement": "verified full DOBs differ (1991-06-14 vs 1987-09-03): customer EV-bc3a528f805f vs list EV-de2c9c7efc6f",
+          "cited_values": {
+            "customer": "1991-06-14",
+            "list": "1987-09-03"
+          }
+        },
+        "evaluation": {
+          "status": "BASIS_NO_LONGER_HOLDS",
+          "holds": false,
+          "reason": "DOBs now agree (1991-06-14)",
+          "cited": {
+            "customer_evidence_id": "EV-bc3a528f805f",
+            "list_evidence_id": "EV-de2c9c7efc6f"
+          },
+          "current": {
+            "customer_evidence_id": "EV-bc3a528f805f",
+            "customer_value": "1991-06-14",
+            "list_evidence_id": "EV-01211ab8dd1c",
+            "list_value": "1991-06-14"
+          }
+        },
+        "changed_fields": [
+          {
+            "subject_type": "list_entry",
+            "field": "alias",
+            "before": [],
+            "after": [
+              {
+                "evidence_id": "EV-873850088ed5",
+                "value": "Chan Wai Mun"
+              }
+            ],
+            "before_snapshot_id": "SNAP-FICT-UK-SL-V1-6c2174ec",
+            "after_snapshot_id": "SNAP-FICT-UK-SL-V2-50c30ade",
+            "before_kyc_version": 1,
+            "after_kyc_version": 1
+          },
+          {
+            "subject_type": "list_entry",
+            "field": "dob",
+            "before": [
+              {
+                "evidence_id": "EV-de2c9c7efc6f",
+                "value": "1987-09-03"
+              }
+            ],
+            "after": [
+              {
+                "evidence_id": "EV-01211ab8dd1c",
+                "value": "1991-06-14"
+              }
+            ],
+            "before_snapshot_id": "SNAP-FICT-UK-SL-V1-6c2174ec",
+            "after_snapshot_id": "SNAP-FICT-UK-SL-V2-50c30ade",
+            "before_kyc_version": 1,
+            "after_kyc_version": 1
+          }
+        ],
+        "next_step": "Return to a human: request independent evidence or escalate."
+      },
+      "at": "2026-11-21T09:27:00Z"
+    },
+    {
+      "action_id": "ACT-c14ff14ad388",
+      "case_id": "RESCREEN-B",
+      "actor": "sam.analyst",
+      "role": "analyst",
+      "action": "AI_SUGGESTION_AMEND",
+      "from_state": null,
+      "to_state": null,
+      "comment": "Agree an independent identifier is needed; also confirm the V2 alias source before deciding.",
+      "payload": {
+        "suggestion_id": "AIS-420c19626fc9"
+      },
+      "at": "2026-11-21T10:01:00Z"
+    },
+    {
+      "action_id": "ACT-d1d17b0630f9",
+      "case_id": "RESCREEN-B",
+      "actor": "sam.analyst",
+      "role": "analyst",
+      "action": "REQUEST_EVIDENCE",
+      "from_state": "OPEN",
+      "to_state": "AWAITING_EVIDENCE",
+      "comment": "Request an independent verified identifier for B.",
+      "payload": {},
+      "at": "2026-11-21T10:02:00Z"
+    }
+  ],
+  "ai": {
+    "challenger": {
+      "live": {
+        "available": false,
+        "reason": "offline demo: no live Grok/Challenger connection is used at runtime"
+      },
+      "replay": {
+        "replay": true,
+        "replay_label": "REPLAY - saved sample for the offline demo. Written by DefenderBuilder in the Challenger output format as an illustration; NOT produced by a live Grok call.",
+        "case_id": "RESCREEN-B",
+        "evidence_ids": [
+          "EV-bc3a528f805f",
+          "EV-de2c9c7efc6f",
+          "EV-01211ab8dd1c",
+          "EV-873850088ed5",
+          "EV-0095760f846c",
+          "EV-4d497f168a76",
+          "EV-93156134c0a3"
+        ],
+        "contradictions": [],
+        "missing_evidence": [
+          "No identifier for SYN-CUST-B: national ID unknown (EV-4d497f168a76), so it cannot be compared with the listed ID EV-93156134c0a3."
+        ],
+        "suggested_next_check": "The approval rested on customer DOB EV-bc3a528f805f vs listed DOB EV-de2c9c7efc6f. V2 replaced the listed DOB with EV-01211ab8dd1c (now equal) and added alias EV-873850088ed5, which matches B's documented alias EV-0095760f846c. Obtain an independent verified identifier for B and compare it with EV-93156134c0a3 before any closure, and confirm the provenance of the V2 alias."
+      },
+      "workflow_blocked": false
+    },
+    "suggestions_recorded": [
+      {
+        "suggestion_id": "AIS-420c19626fc9",
+        "case_id": "RESCREEN-B",
+        "origin": "replay",
+        "is_replay": true,
+        "payload": {
+          "replay": true,
+          "replay_label": "REPLAY - saved sample for the offline demo. Written by DefenderBuilder in the Challenger output format as an illustration; NOT produced by a live Grok call.",
+          "case_id": "RESCREEN-B",
+          "evidence_ids": [
+            "EV-bc3a528f805f",
+            "EV-de2c9c7efc6f",
+            "EV-01211ab8dd1c",
+            "EV-873850088ed5",
+            "EV-0095760f846c",
+            "EV-4d497f168a76",
+            "EV-93156134c0a3"
+          ],
+          "contradictions": [],
+          "missing_evidence": [
+            "No identifier for SYN-CUST-B: national ID unknown (EV-4d497f168a76), so it cannot be compared with the listed ID EV-93156134c0a3."
+          ],
+          "suggested_next_check": "The approval rested on customer DOB EV-bc3a528f805f vs listed DOB EV-de2c9c7efc6f. V2 replaced the listed DOB with EV-01211ab8dd1c (now equal) and added alias EV-873850088ed5, which matches B's documented alias EV-0095760f846c. Obtain an independent verified identifier for B and compare it with EV-93156134c0a3 before any closure, and confirm the provenance of the V2 alias."
+        },
+        "at": "2026-11-21T10:00:00Z"
+      }
+    ],
+    "human_responses": [
+      {
+        "response_id": "AIR-4be409e747fb",
+        "case_id": "RESCREEN-B",
+        "suggestion_id": "AIS-420c19626fc9",
+        "actor": "sam.analyst",
+        "action": "AMEND",
+        "text": "Agree an independent identifier is needed; also confirm the V2 alias source before deciding.",
+        "at": "2026-11-21T10:01:00Z"
+      }
+    ]
+  },
+  "events": [
+    {
+      "event_id": "EVT-30829401a28c",
+      "seq": 3,
+      "type": "ALERT_CREATED",
+      "payload": {
+        "key": [
+          "SYN-CUST-B",
+          "FICT-UK-SL",
+          "DEMO-WL-410"
+        ],
+        "reason": "name-only LINK (91.6667), Splink NO_LINK (P=0.053), guard CONTRADICTION_NOTED_NOT_SURFACED",
+        "snapshot_id": "SNAP-FICT-UK-SL-V1-6c2174ec"
+      },
+      "job_id": "JOB-0001-initial_screening",
+      "actor": null,
+      "at": "2026-11-21T09:10:00Z"
+    },
+    {
+      "event_id": "EVT-785a811dcae8",
+      "seq": 4,
+      "type": "SCREENED",
+      "payload": {
+        "snapshot_id": "SNAP-FICT-UK-SL-V1-6c2174ec",
+        "kyc_version": 1,
+        "raise_alert": true,
+        "name_only": "LINK",
+        "splink": "NO_LINK",
+        "guard": "NO_LINK",
+        "match_probability": 0.05283841447496879
+      },
+      "job_id": "JOB-0001-initial_screening",
+      "actor": null,
+      "at": "2026-11-21T09:11:00Z"
+    },
+    {
+      "event_id": "EVT-47a1e5dac2e2",
+      "seq": 7,
+      "type": "CLOSURE_PROPOSED",
+      "payload": {
+        "proposal_id": "PRP-99d7c5945a38",
+        "basis": {
+          "type": "verified_full_dob_conflict",
+          "field": "dob",
+          "customer_evidence_id": "EV-bc3a528f805f",
+          "list_evidence_id": "EV-de2c9c7efc6f",
+          "statement": "verified full DOBs differ (1991-06-14 vs 1987-09-03): customer EV-bc3a528f805f vs list EV-de2c9c7efc6f",
+          "cited_values": {
+            "customer": "1991-06-14",
+            "list": "1987-09-03"
+          }
+        },
+        "evidence_ids": [
+          "EV-bc3a528f805f",
+          "EV-de2c9c7efc6f"
+        ]
+      },
+      "job_id": null,
+      "actor": "sam.analyst",
+      "at": "2026-11-21T09:18:00Z"
+    },
+    {
+      "event_id": "EVT-61b038303045",
+      "seq": 8,
+      "type": "CLOSURE_APPROVED",
+      "payload": {
+        "decision_id": "DEC-4f51c3c4b4c9",
+        "proposal_id": "PRP-99d7c5945a38",
+        "proposer": "sam.analyst",
+        "reviewer": "kai.senior",
+        "basis": {
+          "type": "verified_full_dob_conflict",
+          "field": "dob",
+          "customer_evidence_id": "EV-bc3a528f805f",
+          "list_evidence_id": "EV-de2c9c7efc6f",
+          "statement": "verified full DOBs differ (1991-06-14 vs 1987-09-03): customer EV-bc3a528f805f vs list EV-de2c9c7efc6f",
+          "cited_values": {
+            "customer": "1991-06-14",
+            "list": "1987-09-03"
+          }
+        },
+        "evidence_ids": [
+          "EV-bc3a528f805f",
+          "EV-de2c9c7efc6f"
+        ]
+      },
+      "job_id": null,
+      "actor": "kai.senior",
+      "at": "2026-11-21T09:20:00Z"
+    },
+    {
+      "event_id": "EVT-08fbc3e6c927",
+      "seq": 12,
+      "type": "MATERIAL_CHANGE",
+      "payload": {
+        "changed_fields": [
+          {
+            "subject_type": "list_entry",
+            "field": "alias",
+            "before": [],
+            "after": [
+              {
+                "evidence_id": "EV-873850088ed5",
+                "value": "Chan Wai Mun"
+              }
+            ],
+            "before_snapshot_id": "SNAP-FICT-UK-SL-V1-6c2174ec",
+            "after_snapshot_id": "SNAP-FICT-UK-SL-V2-50c30ade",
+            "before_kyc_version": 1,
+            "after_kyc_version": 1
+          },
+          {
+            "subject_type": "list_entry",
+            "field": "dob",
+            "before": [
+              {
+                "evidence_id": "EV-de2c9c7efc6f",
+                "value": "1987-09-03"
+              }
+            ],
+            "after": [
+              {
+                "evidence_id": "EV-01211ab8dd1c",
+                "value": "1991-06-14"
+              }
+            ],
+            "before_snapshot_id": "SNAP-FICT-UK-SL-V1-6c2174ec",
+            "after_snapshot_id": "SNAP-FICT-UK-SL-V2-50c30ade",
+            "before_kyc_version": 1,
+            "after_kyc_version": 1
+          }
+        ],
+        "from": [
+          "SNAP-FICT-UK-SL-V1-6c2174ec",
+          1
+        ],
+        "to": [
+          "SNAP-FICT-UK-SL-V2-50c30ade",
+          1
+        ]
+      },
+      "job_id": "JOB-0002-list_change",
+      "actor": null,
+      "at": "2026-11-21T09:28:00Z"
+    },
+    {
+      "event_id": "EVT-12a381dac463",
+      "seq": 13,
+      "type": "SCREENED",
+      "payload": {
+        "snapshot_id": "SNAP-FICT-UK-SL-V2-50c30ade",
+        "kyc_version": 1,
+        "raise_alert": true,
+        "name_only": "LINK",
+        "splink": "LINK",
+        "guard": "LINK",
+        "match_probability": 0.9999924338208345
+      },
+      "job_id": "JOB-0002-list_change",
+      "actor": null,
+      "at": "2026-11-21T09:29:00Z"
+    },
+    {
+      "event_id": "EVT-fe944ee317d6",
+      "seq": 14,
+      "type": "REOPENED",
+      "payload": {
+        "decision_id": "DEC-4f51c3c4b4c9",
+        "basis": {
+          "type": "verified_full_dob_conflict",
+          "field": "dob",
+          "customer_evidence_id": "EV-bc3a528f805f",
+          "list_evidence_id": "EV-de2c9c7efc6f",
+          "statement": "verified full DOBs differ (1991-06-14 vs 1987-09-03): customer EV-bc3a528f805f vs list EV-de2c9c7efc6f",
+          "cited_values": {
+            "customer": "1991-06-14",
+            "list": "1987-09-03"
+          }
+        },
+        "evaluation": {
+          "status": "BASIS_NO_LONGER_HOLDS",
+          "holds": false,
+          "reason": "DOBs now agree (1991-06-14)",
+          "cited": {
+            "customer_evidence_id": "EV-bc3a528f805f",
+            "list_evidence_id": "EV-de2c9c7efc6f"
+          },
+          "current": {
+            "customer_evidence_id": "EV-bc3a528f805f",
+            "customer_value": "1991-06-14",
+            "list_evidence_id": "EV-01211ab8dd1c",
+            "list_value": "1991-06-14"
+          }
+        },
+        "changed_fields": [
+          {
+            "subject_type": "list_entry",
+            "field": "alias",
+            "before": [],
+            "after": [
+              {
+                "evidence_id": "EV-873850088ed5",
+                "value": "Chan Wai Mun"
+              }
+            ],
+            "before_snapshot_id": "SNAP-FICT-UK-SL-V1-6c2174ec",
+            "after_snapshot_id": "SNAP-FICT-UK-SL-V2-50c30ade",
+            "before_kyc_version": 1,
+            "after_kyc_version": 1
+          },
+          {
+            "subject_type": "list_entry",
+            "field": "dob",
+            "before": [
+              {
+                "evidence_id": "EV-de2c9c7efc6f",
+                "value": "1987-09-03"
+              }
+            ],
+            "after": [
+              {
+                "evidence_id": "EV-01211ab8dd1c",
+                "value": "1991-06-14"
+              }
+            ],
+            "before_snapshot_id": "SNAP-FICT-UK-SL-V1-6c2174ec",
+            "after_snapshot_id": "SNAP-FICT-UK-SL-V2-50c30ade",
+            "before_kyc_version": 1,
+            "after_kyc_version": 1
+          }
+        ],
+        "next_step": "Return to a human: request independent evidence or escalate."
+      },
+      "job_id": "JOB-0002-list_change",
+      "actor": null,
+      "at": "2026-11-21T09:30:00Z"
+    },
+    {
+      "event_id": "EVT-8f285838e3a9",
+      "seq": 18,
+      "type": "REQUEST_EVIDENCE",
+      "payload": {
+        "comment": "Request an independent verified identifier for B."
+      },
+      "job_id": null,
+      "actor": "sam.analyst",
+      "at": "2026-11-21T10:03:00Z"
+    }
+  ],
+  "allowed_actions": [
+    "propose_closure",
+    "escalate"
+  ]
+}

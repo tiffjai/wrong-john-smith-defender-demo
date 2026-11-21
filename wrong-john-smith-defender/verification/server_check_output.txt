@@ -1,0 +1,11 @@
+health: ok (HTTP 200)
+page: HTTP 200, 7863 bytes
+page contains Streamlit shell: yes
+external URLs referenced in page HTML:
+http://www.apache.org/licenses/LICENSE-2.0
+server log tail:
+
+  You can now view your Streamlit app in your browser.
+
+  URL: http://127.0.0.1:8599
+

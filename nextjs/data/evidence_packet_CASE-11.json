@@ -1,0 +1,15 @@
+{
+  "case_id": "CASE-11", "synthetic": true, "schema_version": "1.0", "case_type": "ownership",
+  "case_outcome": {"name_only":"NO_CANDIDATE","splink":"NO_CANDIDATE","splink_with_guard":"ANALYST_REVIEW"},
+  "records": [], "candidate_pairs": [],
+  "ownership": {
+    "as_of": "2026-11-21", "maximum_registry_age_days": 365,
+    "company": "Harbourline Trading (synthetic)",
+    "direct_checks": [{"company":"Harbourline Trading (synthetic)","result":"No direct list hit","evidence_id":"EV-OWN-001","source":"Synthetic company screening result","observed_on":"2026-11-20"}],
+    "links": [
+      {"parent":"North Quay Holdings","child":"Harbourline Trading","percentage":68,"observed_on":"2026-08-15","evidence_id":"EV-OWN-002","source":"Synthetic operating company share register"},
+      {"parent":"Cedar Bridge Capital","child":"North Quay Holdings","percentage":61,"observed_on":"2024-04-18","evidence_id":"EV-OWN-003","source":"Synthetic parent company shareholder register"}
+    ],
+    "related_alert": {"company":"Cedar Bridge Capital","result":"Possible related-party list match","evidence_id":"EV-OWN-004","source":"Synthetic related-party screening record","observed_on":"2026-11-20"}
+  }
+}

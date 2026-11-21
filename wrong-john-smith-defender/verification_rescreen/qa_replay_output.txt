@@ -1,0 +1,33 @@
+Blocking time: 0.00 seconds
+Predict time: 0.07 seconds
+Blocking time: 0.00 seconds
+Predict time: 0.07 seconds
+Blocking time: 0.00 seconds
+Predict time: 0.07 seconds
+Blocking time: 0.00 seconds
+Predict time: 0.07 seconds
+Blocking time: 0.00 seconds
+Predict time: 0.12 seconds
+Blocking time: 0.00 seconds
+Predict time: 0.09 seconds
+Blocking time: 0.00 seconds
+Predict time: 0.08 seconds
+Blocking time: 0.00 seconds
+Predict time: 0.07 seconds
+P1-raise-thresholds: Proposed by screening admin: raise Splink thresholds (link 0.80->0.95, review 0.30->0.90) to cut review volume.
+  versions CFG-a795600c2ff8 -> CFG-39cd1d8f60ee; changed [('splink.link_threshold_probability', 0.8, 0.95), ('splink.review_threshold_probability', 0.3, 0.9)]
+  candidate_recall     baseline   3/3  proposal   3/3
+  missed_true_matches  baseline   0/3  proposal   1/3
+  false_positives      baseline   0/4  proposal   0/4
+  review_volume        baseline   5/7  proposal   0/7
+  LOST SYN-08-A|SYN-08-B (milestone1, critical=True): stage=SCORING - retrieved, but P(match)=0.8896 < proposed review threshold 0.9
+  policy -> HELD_FOR_REVIEW; reviewer rio.senior: HOLD
+P2-drop-alias-blocking: Contrast case: drop the documented-alias blocking rule (retrieval change, thresholds unchanged).
+  versions CFG-a795600c2ff8 -> CFG-8d207370a089; changed [('splink.blocking_rules', [{'key': 'same_family_name', 'sql': 'l.case_id = r.case_id AND l.family_key = r.family_key'}, {'key': 'same_alias_group', 'sql': 'l.case_id = r.case_id AND l.alias_group IS NOT NULL AND l.alias_group = r.alias_group'}], [{'key': 'same_family_name', 'sql': 'l.case_id = r.case_id AND l.family_key = r.family_key'}])]
+  candidate_recall     baseline   3/3  proposal   2/3
+  missed_true_matches  baseline   0/3  proposal   1/3
+  false_positives      baseline   0/4  proposal   0/4
+  review_volume        baseline   5/7  proposal   5/6
+  LOST SYN-03-A|SYN-03-B (milestone1, critical=True): stage=RETRIEVAL - blocking never generated this pair under the proposed rules
+  policy -> HELD_FOR_REVIEW; reviewer rio.senior: HOLD
+wrote /workspace/wrong-john-smith-defender/exports/rescreen/qa_replay.json

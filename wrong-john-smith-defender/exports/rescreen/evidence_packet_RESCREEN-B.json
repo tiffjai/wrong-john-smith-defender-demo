@@ -1,0 +1,517 @@
+{
+  "contract_version": "rescreen-contract/1.0",
+  "packet_type": "rescreen-evidence-packet",
+  "synthetic": true,
+  "case_id": "RESCREEN-B",
+  "customer_id": "SYN-CUST-B",
+  "booking_entity": "FICT-BANK-UK",
+  "source_snapshot_ids": {
+    "list": "SNAP-FICT-UK-SL-V2-50c30ade",
+    "kyc": "KYC-SNAP-2026-11-01",
+    "kyc_version": 1
+  },
+  "candidate_edges": [
+    {
+      "edge_id": "SYN-CUST-B->FICT-UK-SL/DEMO-WL-410",
+      "from": "SYN-CUST-B",
+      "to": "FICT-UK-SL/DEMO-WL-410",
+      "retrieval": {
+        "blocking_rules": [
+          "same_family_name",
+          "same_alias_group"
+        ]
+      },
+      "alias_match": {
+        "form": "Chan Wai Mun",
+        "customer_field": "alias",
+        "entry_field": "alias",
+        "evidence_ids": [
+          "EV-0095760f846c",
+          "EV-873850088ed5"
+        ],
+        "key": "chanwaimun"
+      },
+      "name_only": {
+        "score": 91.6667,
+        "decision": "LINK",
+        "thresholds": {
+          "link": 90.0,
+          "review": 75.0
+        }
+      },
+      "splink": {
+        "match_probability": 0.9999924338208345,
+        "match_weight": 17.011992714084542,
+        "decision": "LINK",
+        "field_contributions": [
+          {
+            "field": "name",
+            "level_key": "alias",
+            "level_description": "Documented alias (sourced alias table)",
+            "m_probability": 0.08,
+            "u_probability": 0.0002,
+            "bayes_factor": 400.0,
+            "match_weight": 8.643856189774725
+          },
+          {
+            "field": "dob",
+            "level_key": "full_exact",
+            "level_description": "Full date exact match",
+            "m_probability": 0.8,
+            "u_probability": 5e-05,
+            "bayes_factor": 16000.0,
+            "match_weight": 13.965784284662087
+          },
+          {
+            "field": "country",
+            "level_key": "same",
+            "level_description": "Same country",
+            "m_probability": 0.92,
+            "u_probability": 0.45,
+            "bayes_factor": 2.0444444444444443,
+            "match_weight": 1.031708859727338
+          },
+          {
+            "field": "city",
+            "level_key": "null",
+            "level_description": "city unknown on at least one record (neutral: not imputed, not a mismatch)",
+            "m_probability": null,
+            "u_probability": null,
+            "bayes_factor": 1.0,
+            "match_weight": 0.0
+          }
+        ]
+      },
+      "guard": {
+        "decision": "LINK",
+        "outcome": "PASS_NO_CONTRADICTION",
+        "reasons": [
+          "no verified full-DOB contradiction applies to this pair"
+        ],
+        "dob_check_status": "consistent"
+      },
+      "raise_alert": true,
+      "evidence_classification": [
+        {
+          "dimension": "name",
+          "classification": "supporting",
+          "detail": "Splink name level 'alias': 'Chan Wei Man' vs 'CHAN Wai Man'",
+          "evidence_ids": [
+            "EV-be545b97422b",
+            "EV-5c5b65710260"
+          ]
+        },
+        {
+          "dimension": "documented_alias",
+          "classification": "supporting",
+          "detail": "documented alias match on 'Chan Wai Mun' (alias ↔ alias)",
+          "evidence_ids": [
+            "EV-0095760f846c",
+            "EV-873850088ed5"
+          ]
+        },
+        {
+          "dimension": "dob",
+          "classification": "supporting",
+          "detail": "DOB agrees at shared precision (1991-06-14 vs 1991-06-14)",
+          "precision": [
+            "full",
+            "full"
+          ],
+          "verification": [
+            "verified",
+            "verified"
+          ],
+          "evidence_ids": [
+            "EV-bc3a528f805f",
+            "EV-01211ab8dd1c"
+          ]
+        },
+        {
+          "dimension": "national_id",
+          "classification": "missing",
+          "detail": "national ID unknown on at least one side",
+          "evidence_ids": [
+            "EV-4d497f168a76",
+            "EV-93156134c0a3"
+          ]
+        },
+        {
+          "dimension": "nationality",
+          "classification": "supporting",
+          "detail": "HK vs HK",
+          "evidence_ids": [
+            "EV-73e50cd521b4",
+            "EV-a800ff867754"
+          ]
+        }
+      ]
+    }
+  ],
+  "evidence_items": [
+    {
+      "evidence_id": "EV-be545b97422b",
+      "subject_type": "customer",
+      "subject_id": "SYN-CUST-B",
+      "field": "name",
+      "observed_value": "Chan Wei Man",
+      "normalised_value": "chan wei man",
+      "precision": "exact",
+      "status": "known",
+      "verification": {
+        "status": "unverified",
+        "method": null,
+        "document_ref": null
+      },
+      "source_id": "SYN-KYC",
+      "source_snapshot_id": "KYC-SNAP-2026-11-01",
+      "scheme": null,
+      "name_type": "primary",
+      "script": "Latin",
+      "address_from": null,
+      "address_to": null,
+      "description": null
+    },
+    {
+      "evidence_id": "EV-25a4c7655c84",
+      "subject_type": "customer",
+      "subject_id": "SYN-CUST-B",
+      "field": "original_script_name",
+      "observed_value": null,
+      "normalised_value": null,
+      "precision": "unknown",
+      "status": "unknown",
+      "verification": {
+        "status": "unknown",
+        "method": null,
+        "document_ref": null
+      },
+      "source_id": "SYN-KYC",
+      "source_snapshot_id": "KYC-SNAP-2026-11-01",
+      "scheme": null,
+      "name_type": null,
+      "script": null,
+      "address_from": null,
+      "address_to": null,
+      "description": null
+    },
+    {
+      "evidence_id": "EV-0095760f846c",
+      "subject_type": "customer",
+      "subject_id": "SYN-CUST-B",
+      "field": "alias",
+      "observed_value": "Chan Wai Mun",
+      "normalised_value": "chan wai mun",
+      "precision": "exact",
+      "status": "known",
+      "verification": {
+        "status": "documented",
+        "method": "documented_alias",
+        "document_ref": "DOC-SYN-B-02"
+      },
+      "source_id": "SYN-KYC",
+      "source_snapshot_id": "KYC-SNAP-2026-11-01",
+      "scheme": "Cantonese romanisation (fictional)",
+      "name_type": null,
+      "script": null,
+      "address_from": null,
+      "address_to": null,
+      "description": null
+    },
+    {
+      "evidence_id": "EV-bc3a528f805f",
+      "subject_type": "customer",
+      "subject_id": "SYN-CUST-B",
+      "field": "dob",
+      "observed_value": "1991-06-14",
+      "normalised_value": "1991-06-14",
+      "precision": "full",
+      "status": "known",
+      "verification": {
+        "status": "verified",
+        "method": "synthetic passport inspection (fictional)",
+        "document_ref": "DOC-SYN-B-01"
+      },
+      "source_id": "SYN-KYC",
+      "source_snapshot_id": "KYC-SNAP-2026-11-01",
+      "scheme": null,
+      "name_type": null,
+      "script": null,
+      "address_from": null,
+      "address_to": null,
+      "description": null
+    },
+    {
+      "evidence_id": "EV-4d497f168a76",
+      "subject_type": "customer",
+      "subject_id": "SYN-CUST-B",
+      "field": "national_id",
+      "observed_value": null,
+      "normalised_value": null,
+      "precision": "unknown",
+      "status": "unknown",
+      "verification": {
+        "status": "unknown",
+        "method": null,
+        "document_ref": null
+      },
+      "source_id": "SYN-KYC",
+      "source_snapshot_id": "KYC-SNAP-2026-11-01",
+      "scheme": null,
+      "name_type": null,
+      "script": null,
+      "address_from": null,
+      "address_to": null,
+      "description": null
+    },
+    {
+      "evidence_id": "EV-73e50cd521b4",
+      "subject_type": "customer",
+      "subject_id": "SYN-CUST-B",
+      "field": "nationality",
+      "observed_value": "HK",
+      "normalised_value": "hk",
+      "precision": "exact",
+      "status": "known",
+      "verification": {
+        "status": "unverified",
+        "method": null,
+        "document_ref": null
+      },
+      "source_id": "SYN-KYC",
+      "source_snapshot_id": "KYC-SNAP-2026-11-01",
+      "scheme": null,
+      "name_type": null,
+      "script": null,
+      "address_from": null,
+      "address_to": null,
+      "description": null
+    },
+    {
+      "evidence_id": "EV-1b57497dc9c8",
+      "subject_type": "customer",
+      "subject_id": "SYN-CUST-B",
+      "field": "address",
+      "observed_value": "8 Synthetic Lane, Testloon",
+      "normalised_value": "8 synthetic lane testloon",
+      "precision": "exact",
+      "status": "known",
+      "verification": {
+        "status": "unverified",
+        "method": null,
+        "document_ref": null
+      },
+      "source_id": "SYN-KYC",
+      "source_snapshot_id": "KYC-SNAP-2026-11-01",
+      "scheme": null,
+      "name_type": null,
+      "script": null,
+      "address_from": "2021-07-01",
+      "address_to": null,
+      "description": null
+    },
+    {
+      "evidence_id": "EV-ac4df8d8f170",
+      "subject_type": "customer",
+      "subject_id": "SYN-CUST-B",
+      "field": "booking_entity",
+      "observed_value": "FICT-BANK-UK",
+      "normalised_value": "fict bank uk",
+      "precision": "exact",
+      "status": "known",
+      "verification": {
+        "status": "unverified",
+        "method": null,
+        "document_ref": null
+      },
+      "source_id": "SYN-KYC",
+      "source_snapshot_id": "KYC-SNAP-2026-11-01",
+      "scheme": null,
+      "name_type": null,
+      "script": null,
+      "address_from": null,
+      "address_to": null,
+      "description": null
+    },
+    {
+      "evidence_id": "EV-5c5b65710260",
+      "subject_type": "list_entry",
+      "subject_id": "DEMO-WL-410",
+      "field": "name",
+      "observed_value": "CHAN Wai Man",
+      "normalised_value": "chan wai man",
+      "precision": "exact",
+      "status": "known",
+      "verification": {
+        "status": "verified",
+        "method": "published by the (fictional) listing authority",
+        "document_ref": null
+      },
+      "source_id": "FICT-UK-SL",
+      "source_snapshot_id": "SNAP-FICT-UK-SL-V2-50c30ade",
+      "scheme": null,
+      "name_type": "primary",
+      "script": "Latin",
+      "address_from": null,
+      "address_to": null,
+      "description": null
+    },
+    {
+      "evidence_id": "EV-f9269f836a7f",
+      "subject_type": "list_entry",
+      "subject_id": "DEMO-WL-410",
+      "field": "original_script_name",
+      "observed_value": "陳偉文",
+      "normalised_value": "陳偉文",
+      "precision": "exact",
+      "status": "known",
+      "verification": {
+        "status": "verified",
+        "method": "published by the (fictional) listing authority",
+        "document_ref": null
+      },
+      "source_id": "FICT-UK-SL",
+      "source_snapshot_id": "SNAP-FICT-UK-SL-V2-50c30ade",
+      "scheme": null,
+      "name_type": "original_script",
+      "script": "Han (Traditional)",
+      "address_from": null,
+      "address_to": null,
+      "description": null
+    },
+    {
+      "evidence_id": "EV-873850088ed5",
+      "subject_type": "list_entry",
+      "subject_id": "DEMO-WL-410",
+      "field": "alias",
+      "observed_value": "Chan Wai Mun",
+      "normalised_value": "chan wai mun",
+      "precision": "exact",
+      "status": "known",
+      "verification": {
+        "status": "verified",
+        "method": "published by the (fictional) listing authority",
+        "document_ref": null
+      },
+      "source_id": "FICT-UK-SL",
+      "source_snapshot_id": "SNAP-FICT-UK-SL-V2-50c30ade",
+      "scheme": "Cantonese romanisation (fictional)",
+      "name_type": null,
+      "script": null,
+      "address_from": null,
+      "address_to": null,
+      "description": null
+    },
+    {
+      "evidence_id": "EV-01211ab8dd1c",
+      "subject_type": "list_entry",
+      "subject_id": "DEMO-WL-410",
+      "field": "dob",
+      "observed_value": "1991-06-14",
+      "normalised_value": "1991-06-14",
+      "precision": "full",
+      "status": "known",
+      "verification": {
+        "status": "verified",
+        "method": "published by the (fictional) listing authority",
+        "document_ref": null
+      },
+      "source_id": "FICT-UK-SL",
+      "source_snapshot_id": "SNAP-FICT-UK-SL-V2-50c30ade",
+      "scheme": null,
+      "name_type": null,
+      "script": null,
+      "address_from": null,
+      "address_to": null,
+      "description": null
+    },
+    {
+      "evidence_id": "EV-93156134c0a3",
+      "subject_type": "list_entry",
+      "subject_id": "DEMO-WL-410",
+      "field": "national_id",
+      "observed_value": "SYN-WLID-410-7731",
+      "normalised_value": "syn wlid 410 7731",
+      "precision": "exact",
+      "status": "known",
+      "verification": {
+        "status": "verified",
+        "method": "published by the (fictional) listing authority",
+        "document_ref": null
+      },
+      "source_id": "FICT-UK-SL",
+      "source_snapshot_id": "SNAP-FICT-UK-SL-V2-50c30ade",
+      "scheme": null,
+      "name_type": null,
+      "script": null,
+      "address_from": null,
+      "address_to": null,
+      "description": null
+    },
+    {
+      "evidence_id": "EV-a800ff867754",
+      "subject_type": "list_entry",
+      "subject_id": "DEMO-WL-410",
+      "field": "nationality",
+      "observed_value": "HK",
+      "normalised_value": "hk",
+      "precision": "exact",
+      "status": "known",
+      "verification": {
+        "status": "verified",
+        "method": "published by the (fictional) listing authority",
+        "document_ref": null
+      },
+      "source_id": "FICT-UK-SL",
+      "source_snapshot_id": "SNAP-FICT-UK-SL-V2-50c30ade",
+      "scheme": null,
+      "name_type": null,
+      "script": null,
+      "address_from": null,
+      "address_to": null,
+      "description": null
+    },
+    {
+      "evidence_id": "EV-cedcb55b1140",
+      "subject_type": "list_entry",
+      "subject_id": "DEMO-WL-410",
+      "field": "measure",
+      "observed_value": "UK-FM-12",
+      "normalised_value": "uk fm 12",
+      "precision": "exact",
+      "status": "known",
+      "verification": {
+        "status": "verified",
+        "method": "published by the (fictional) listing authority",
+        "document_ref": null
+      },
+      "source_id": "FICT-UK-SL",
+      "source_snapshot_id": "SNAP-FICT-UK-SL-V2-50c30ade",
+      "scheme": null,
+      "name_type": null,
+      "script": null,
+      "address_from": null,
+      "address_to": null,
+      "description": "Fictional asset freeze (synthetic)"
+    }
+  ],
+  "identified_conflicts": [],
+  "missing_fields": [
+    {
+      "dimension": "national_id",
+      "classification": "missing",
+      "detail": "national ID unknown on at least one side",
+      "evidence_ids": [
+        "EV-4d497f168a76",
+        "EV-93156134c0a3"
+      ]
+    },
+    {
+      "dimension": "original_script_name",
+      "subject_type": "customer",
+      "evidence_ids": [
+        "EV-25a4c7655c84"
+      ]
+    }
+  ]
+}

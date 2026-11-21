@@ -1,0 +1,9 @@
+pair                          name-only      splink P (decision)  guard decision  guard outcome / DOB check
+-- CASE-01: routes {'name_only': 'CANDIDATE_VISIBLE', 'splink': 'CANDIDATE_VISIBLE', 'splink_guard': 'ANALYST_REVIEW'}
+SYN-01-A|SYN-01-B        100.0     LINK         0.8844     LINK          REVIEW  ROUTED_TO_REVIEW_DIRECT_CONTRADICTION / contradiction
+-- CASE-03: routes {'name_only': 'NO_CANDIDATE', 'splink': 'CANDIDATE_VISIBLE', 'splink_guard': 'CANDIDATE_VISIBLE'}
+SYN-03-A|SYN-03-B      51.8519  NO_LINK         0.9984     LINK            LINK  PASS_NO_CONTRADICTION / not_assessable
+-- CASE-08: routes {'name_only': 'CANDIDATE_VISIBLE', 'splink': 'CANDIDATE_VISIBLE', 'splink_guard': 'ANALYST_REVIEW'}
+SYN-08-A|SYN-08-B        100.0     LINK         0.8896     LINK          REVIEW  ROUTED_TO_REVIEW_CHAIN_CONTRADICTION / not_assessable
+SYN-08-B|SYN-08-C        100.0     LINK         0.8896     LINK          REVIEW  ROUTED_TO_REVIEW_CHAIN_CONTRADICTION / not_assessable
+SYN-08-A|SYN-08-C        100.0     LINK         0.1815  NO_LINK          REVIEW  ROUTED_TO_REVIEW_DIRECT_CONTRADICTION / contradiction

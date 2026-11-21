@@ -1,0 +1,14 @@
+{
+  "_comment": "Rescreen policy. Scoring parameters are NOT duplicated here: they are the milestone-1 frozen config (config/frozen_config.json), pinned by its config_sha256 below. Freeze with: python -m rescreen freeze-policy",
+  "scoring_config_sha256": "6353b1ed1f7698c9f56902671e0e24d1def78df666228b8edebe4f8a5ebce8d8",
+  "alert_rule": "Raise or keep an alert for a customer/list-entry pair that blocking retrieved when the name-only OR Splink decision is LINK or REVIEW, or when the guard routes it to REVIEW.",
+  "material_kyc_fields": ["names", "aliases", "original_script_name", "dob", "national_id", "nationality"],
+  "approval_basis_types": {
+    "verified_identifier_conflict": "Customer's verified identifier differs from the listed identifier (cited evidence IDs must still be current and still differ).",
+    "verified_full_dob_conflict": "Customer's verified full DOB differs from the listed full DOB (cited evidence IDs must still be current and still differ)."
+  },
+  "approval_roles": ["senior_reviewer"],
+  "self_approval_allowed": false,
+  "qa_hold_policy": "A proposed setting that turns any labelled true link into a miss (no LINK and no REVIEW) is HELD for review.",
+  "simulated_clock_start": "2026-11-21T09:00:00Z"
+}

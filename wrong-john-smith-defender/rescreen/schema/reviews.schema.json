@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "rescreen-contract/1.0/reviews.schema.json",
+  "title": "reviews",
+  "type": "object",
+  "required": [
+    "contract_version",
+    "pending",
+    "completed",
+    "counts"
+  ],
+  "properties": {
+    "pending": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "case_id",
+          "state",
+          "disposition",
+          "queue",
+          "reopened"
+        ],
+        "properties": {
+          "state": {
+            "enum": [
+              "OPEN",
+              "IN_REVIEW",
+              "AWAITING_EVIDENCE",
+              "ESCALATED"
+            ]
+          }
+        }
+      }
+    },
+    "completed": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "decision_id",
+          "decision",
+          "validity",
+          "decided_at",
+          "reviewer",
+          "reviewer_role",
+          "proposer",
+          "rationale",
+          "evidence_ids_used",
+          "basis",
+          "snapshots_at_decision"
+        ],
+        "properties": {
+          "decision": {
+            "enum": [
+              "APPROVED",
+              "RETURNED"
+            ]
+          },
+          "validity": {
+            "enum": [
+              "CURRENT",
+              "INVALIDATED",
+              "N/A"
+            ]
+          },
+          "evidence_ids_used": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^EV-[0-9a-f]{12}$"
+            }
+          },
+          "basis": {
+            "type": "object",
+            "required": [
+              "type",
+              "field",
+              "customer_evidence_id",
+              "list_evidence_id",
+              "statement"
+            ],
+            "properties": {
+              "type": {
+                "enum": [
+                  "verified_identifier_conflict",
+                  "verified_full_dob_conflict"
+                ]
+              },
+              "customer_evidence_id": {
+                "type": "string",
+                "pattern": "^EV-[0-9a-f]{12}$"
+              },
+              "list_evidence_id": {
+                "type": "string",
+                "pattern": "^EV-[0-9a-f]{12}$"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

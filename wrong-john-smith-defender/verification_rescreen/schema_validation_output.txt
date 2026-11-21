@@ -1,0 +1,16 @@
+valid case_view exports/rescreen/case_view_RESCREEN-A.json
+valid case_view exports/rescreen/case_view_RESCREEN-B.json
+valid evidence_packet exports/rescreen/evidence_packet_RESCREEN-A.json
+valid evidence_packet exports/rescreen/evidence_packet_RESCREEN-B.json
+valid challenger_handoff exports/rescreen/challenger_handoff_RESCREEN-A.json
+valid challenger_handoff exports/rescreen/challenger_handoff_RESCREEN-B.json
+valid reviews exports/rescreen/reviews.json
+valid jurisdictions exports/rescreen/jurisdictions_RESCREEN-A_CN.json
+valid jurisdictions exports/rescreen/jurisdictions_RESCREEN-A_UK.json
+valid jurisdictions exports/rescreen/jurisdictions_RESCREEN-A_US.json
+valid jurisdictions exports/rescreen/jurisdictions_RESCREEN-B_CN.json
+valid jurisdictions exports/rescreen/jurisdictions_RESCREEN-B_UK.json
+valid jurisdictions exports/rescreen/jurisdictions_RESCREEN-B_US.json
+valid feeds_status exports/rescreen/feeds_status.json
+valid qa_replay exports/rescreen/qa_replay.json
+validated 15 files

@@ -1,0 +1,6 @@
+config_sha256=6353b1ed1f7698c9.. frozen_at=2026-11-20T21:12:37+00:00 evaluated_at=2026-11-20T21:19:48+00:00
+candidate pairs=5  candidate recall=2/2
+Name-only (RapidFuzz)            FP 3/3  missed 1/2  review 0/5
+Splink                           FP 2/3  missed 0/2  review 0/5
+Splink + contradiction guard     FP 0/3  missed 0/2  review 4/5
+ablation (no alias table): recall 1/2 pairs 4

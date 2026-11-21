@@ -1,0 +1,95 @@
+{
+  "contract_version": "rescreen-contract/1.0",
+  "pending": [
+    {
+      "case_id": "RESCREEN-B",
+      "state": "AWAITING_EVIDENCE",
+      "disposition": "AWAITING_EVIDENCE",
+      "queue": "analyst",
+      "owner": "sam.analyst",
+      "priority": "high",
+      "reopened": true,
+      "age_from": "2026-11-21T09:09:00Z",
+      "updated_at": "2026-11-21T10:02:00Z",
+      "reason": "name-only LINK (91.6667), Splink NO_LINK (P=0.053), guard CONTRADICTION_NOTED_NOT_SURFACED"
+    }
+  ],
+  "completed": [
+    {
+      "case_id": "RESCREEN-A",
+      "decision_id": "DEC-f3a87fe0316e",
+      "decision": "APPROVED",
+      "validity": "CURRENT",
+      "invalidated_by_event": null,
+      "decided_at": "2026-11-21T09:15:00Z",
+      "reviewer": "rio.senior",
+      "reviewer_role": "senior_reviewer",
+      "reviewer_comment": "Identifier conflict verified on both sides.",
+      "proposal_id": "PRP-c3b746e301bd",
+      "proposer": "ana.analyst",
+      "proposed_at": "2026-11-21T09:13:00Z",
+      "rationale": "Different person: A's verified identity card number differs from the listed national ID (independent of name and DOB).",
+      "evidence_ids_used": [
+        "EV-93156134c0a3",
+        "EV-b1e7363003d3",
+        "EV-c78c5b233b12",
+        "EV-de2c9c7efc6f"
+      ],
+      "basis": {
+        "type": "verified_identifier_conflict",
+        "field": "national_id",
+        "customer_evidence_id": "EV-b1e7363003d3",
+        "list_evidence_id": "EV-93156134c0a3",
+        "statement": "verified identifiers differ (SYN-HKID-A-552019 vs SYN-WLID-410-7731): customer EV-b1e7363003d3 vs list EV-93156134c0a3",
+        "cited_values": {
+          "customer": "SYN-HKID-A-552019",
+          "list": "SYN-WLID-410-7731"
+        }
+      },
+      "snapshots_at_decision": {
+        "list_snapshot_id": "SNAP-FICT-UK-SL-V1-6c2174ec",
+        "kyc_snapshot_id": "KYC-SNAP-2026-11-01",
+        "kyc_version": 1
+      }
+    },
+    {
+      "case_id": "RESCREEN-B",
+      "decision_id": "DEC-4f51c3c4b4c9",
+      "decision": "APPROVED",
+      "validity": "INVALIDATED",
+      "invalidated_by_event": "EVT-fe944ee317d6",
+      "decided_at": "2026-11-21T09:19:00Z",
+      "reviewer": "kai.senior",
+      "reviewer_role": "senior_reviewer",
+      "reviewer_comment": "DOB conflict verified on both sides.",
+      "proposal_id": "PRP-99d7c5945a38",
+      "proposer": "sam.analyst",
+      "proposed_at": "2026-11-21T09:17:00Z",
+      "rationale": "Different person: B's verified passport DOB 1991-06-14 conflicts with the listed full DOB 1987-09-03.",
+      "evidence_ids_used": [
+        "EV-bc3a528f805f",
+        "EV-de2c9c7efc6f"
+      ],
+      "basis": {
+        "type": "verified_full_dob_conflict",
+        "field": "dob",
+        "customer_evidence_id": "EV-bc3a528f805f",
+        "list_evidence_id": "EV-de2c9c7efc6f",
+        "statement": "verified full DOBs differ (1991-06-14 vs 1987-09-03): customer EV-bc3a528f805f vs list EV-de2c9c7efc6f",
+        "cited_values": {
+          "customer": "1991-06-14",
+          "list": "1987-09-03"
+        }
+      },
+      "snapshots_at_decision": {
+        "list_snapshot_id": "SNAP-FICT-UK-SL-V1-6c2174ec",
+        "kyc_snapshot_id": "KYC-SNAP-2026-11-01",
+        "kyc_version": 1
+      }
+    }
+  ],
+  "counts": {
+    "pending": 1,
+    "completed": 2
+  }
+}

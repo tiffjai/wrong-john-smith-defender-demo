@@ -1,0 +1,307 @@
+{
+  "contract_version": "rescreen-contract/1.0",
+  "jobs": [
+    {
+      "job_id": "JOB-0001-initial_screening",
+      "trigger": "initial_screening",
+      "scope": {
+        "customers": [
+          "SYN-CUST-A",
+          "SYN-CUST-B"
+        ],
+        "kyc_versions": {
+          "SYN-CUST-A": 1,
+          "SYN-CUST-B": 1
+        },
+        "population": "all current customers"
+      },
+      "snapshot_ids": [
+        "SNAP-FICT-CN-ML-V1-28f94799",
+        "SNAP-FICT-UK-SL-V1-6c2174ec",
+        "SNAP-FICT-US-SL-V1-00f72fe1"
+      ],
+      "config_sha256": "6353b1ed1f7698c9f56902671e0e24d1def78df666228b8edebe4f8a5ebce8d8",
+      "policy_sha256": "467a7218cb6c920330f167c2bf9fc91fcf90885621eb6b91208349f6ae59263f",
+      "status": "COMPLETED_WITH_HITS",
+      "started_at": "2026-11-21T09:05:00Z",
+      "finished_at": "2026-11-21T09:12:00Z",
+      "error": null,
+      "retry_of": null,
+      "summary": {
+        "customers": 2,
+        "entries": 4,
+        "pairs_retrieved": 2,
+        "no_hit": 0,
+        "alert_created": 2,
+        "rescreened": 0,
+        "basis_holds": 0,
+        "reopened": 0,
+        "pairs_not_retrieved": 6
+      }
+    },
+    {
+      "job_id": "JOB-0002-list_change",
+      "trigger": "list_change",
+      "scope": {
+        "customers": [
+          "SYN-CUST-A",
+          "SYN-CUST-B"
+        ],
+        "kyc_versions": {
+          "SYN-CUST-A": 1,
+          "SYN-CUST-B": 1
+        },
+        "population": "all current customers"
+      },
+      "snapshot_ids": [
+        "SNAP-FICT-CN-ML-V1-28f94799",
+        "SNAP-FICT-UK-SL-V2-50c30ade",
+        "SNAP-FICT-US-SL-V1-00f72fe1"
+      ],
+      "config_sha256": "6353b1ed1f7698c9f56902671e0e24d1def78df666228b8edebe4f8a5ebce8d8",
+      "policy_sha256": "467a7218cb6c920330f167c2bf9fc91fcf90885621eb6b91208349f6ae59263f",
+      "status": "COMPLETED_WITH_HITS",
+      "started_at": "2026-11-21T09:22:00Z",
+      "finished_at": "2026-11-21T09:31:00Z",
+      "error": null,
+      "retry_of": null,
+      "summary": {
+        "customers": 2,
+        "entries": 4,
+        "pairs_retrieved": 2,
+        "no_hit": 0,
+        "alert_created": 0,
+        "rescreened": 0,
+        "basis_holds": 1,
+        "reopened": 1,
+        "pairs_not_retrieved": 6
+      }
+    },
+    {
+      "job_id": "JOB-0003-daily_sweep",
+      "trigger": "daily_sweep",
+      "scope": {
+        "customers": [
+          "SYN-CUST-A",
+          "SYN-CUST-B"
+        ],
+        "kyc_versions": {
+          "SYN-CUST-A": 1,
+          "SYN-CUST-B": 1
+        },
+        "population": "all current customers"
+      },
+      "snapshot_ids": [
+        "SNAP-FICT-CN-ML-V1-28f94799",
+        "SNAP-FICT-UK-SL-V2-50c30ade",
+        "SNAP-FICT-US-SL-V1-00f72fe1"
+      ],
+      "config_sha256": "6353b1ed1f7698c9f56902671e0e24d1def78df666228b8edebe4f8a5ebce8d8",
+      "policy_sha256": "467a7218cb6c920330f167c2bf9fc91fcf90885621eb6b91208349f6ae59263f",
+      "status": "COMPLETED_WITH_HITS",
+      "started_at": "2026-11-21T09:33:00Z",
+      "finished_at": "2026-11-21T09:36:00Z",
+      "error": null,
+      "retry_of": null,
+      "summary": {
+        "customers": 2,
+        "entries": 4,
+        "pairs_retrieved": 2,
+        "no_hit": 0,
+        "alert_created": 0,
+        "rescreened": 1,
+        "basis_holds": 1,
+        "reopened": 0,
+        "pairs_not_retrieved": 6
+      }
+    },
+    {
+      "job_id": "JOB-0004-manual",
+      "trigger": "manual",
+      "scope": {
+        "customers": [
+          "SYN-CUST-A",
+          "SYN-CUST-B"
+        ],
+        "kyc_versions": {
+          "SYN-CUST-A": 1,
+          "SYN-CUST-B": 1
+        },
+        "population": "all current customers"
+      },
+      "snapshot_ids": [
+        "SNAP-FICT-CN-ML-V1-28f94799",
+        "SNAP-FICT-UK-SL-V2-50c30ade",
+        "SNAP-FICT-US-SL-V1-00f72fe1"
+      ],
+      "config_sha256": "6353b1ed1f7698c9f56902671e0e24d1def78df666228b8edebe4f8a5ebce8d8",
+      "policy_sha256": "467a7218cb6c920330f167c2bf9fc91fcf90885621eb6b91208349f6ae59263f",
+      "status": "COMPLETED_WITH_HITS",
+      "started_at": "2026-11-21T09:37:00Z",
+      "finished_at": "2026-11-21T09:40:00Z",
+      "error": null,
+      "retry_of": null,
+      "summary": {
+        "customers": 2,
+        "entries": 4,
+        "pairs_retrieved": 2,
+        "no_hit": 0,
+        "alert_created": 0,
+        "rescreened": 1,
+        "basis_holds": 1,
+        "reopened": 0,
+        "pairs_not_retrieved": 6
+      }
+    },
+    {
+      "job_id": "JOB-0005-daily_sweep",
+      "trigger": "daily_sweep",
+      "scope": {
+        "customers": [
+          "SYN-CUST-A",
+          "SYN-CUST-B"
+        ],
+        "kyc_versions": {
+          "SYN-CUST-A": 1,
+          "SYN-CUST-B": 1
+        },
+        "population": "all current customers"
+      },
+      "snapshot_ids": [
+        "SNAP-FICT-CN-ML-V1-28f94799",
+        "SNAP-FICT-UK-SL-V2-50c30ade",
+        "SNAP-FICT-US-SL-V1-00f72fe1"
+      ],
+      "config_sha256": "6353b1ed1f7698c9f56902671e0e24d1def78df666228b8edebe4f8a5ebce8d8",
+      "policy_sha256": "467a7218cb6c920330f167c2bf9fc91fcf90885621eb6b91208349f6ae59263f",
+      "status": "COMPLETED_WITH_HITS",
+      "started_at": "2026-11-21T09:42:00Z",
+      "finished_at": "2026-11-21T09:45:00Z",
+      "error": null,
+      "retry_of": null,
+      "summary": {
+        "customers": 2,
+        "entries": 4,
+        "pairs_retrieved": 2,
+        "no_hit": 0,
+        "alert_created": 0,
+        "rescreened": 1,
+        "basis_holds": 1,
+        "reopened": 0,
+        "pairs_not_retrieved": 6
+      }
+    },
+    {
+      "job_id": "JOB-0006-manual",
+      "trigger": "manual",
+      "scope": {
+        "customers": [
+          "SYN-CUST-A",
+          "SYN-CUST-B"
+        ],
+        "kyc_versions": {
+          "SYN-CUST-A": 1,
+          "SYN-CUST-B": 1
+        },
+        "population": "all current customers"
+      },
+      "snapshot_ids": [
+        "SNAP-FICT-CN-ML-V1-28f94799",
+        "SNAP-FICT-UK-SL-V2-50c30ade",
+        "SNAP-FICT-US-SL-V1-00f72fe1"
+      ],
+      "config_sha256": "6353b1ed1f7698c9f56902671e0e24d1def78df666228b8edebe4f8a5ebce8d8",
+      "policy_sha256": "467a7218cb6c920330f167c2bf9fc91fcf90885621eb6b91208349f6ae59263f",
+      "status": "FAILED",
+      "started_at": "2026-11-21T09:46:00Z",
+      "finished_at": "2026-11-21T09:48:00Z",
+      "error": "SimulatedJobFailure: simulated failure after 1 result(s)",
+      "retry_of": null,
+      "summary": {
+        "customers": 2,
+        "entries": 4,
+        "pairs_retrieved": 2,
+        "no_hit": 0,
+        "alert_created": 0,
+        "rescreened": 0,
+        "basis_holds": 1,
+        "reopened": 0,
+        "pairs_not_retrieved": 6
+      }
+    },
+    {
+      "job_id": "JOB-0007-retry",
+      "trigger": "retry",
+      "scope": {
+        "customers": [
+          "SYN-CUST-A",
+          "SYN-CUST-B"
+        ],
+        "kyc_versions": {
+          "SYN-CUST-A": 1,
+          "SYN-CUST-B": 1
+        },
+        "population": "all current customers"
+      },
+      "snapshot_ids": [
+        "SNAP-FICT-CN-ML-V1-28f94799",
+        "SNAP-FICT-UK-SL-V2-50c30ade",
+        "SNAP-FICT-US-SL-V1-00f72fe1"
+      ],
+      "config_sha256": "6353b1ed1f7698c9f56902671e0e24d1def78df666228b8edebe4f8a5ebce8d8",
+      "policy_sha256": "467a7218cb6c920330f167c2bf9fc91fcf90885621eb6b91208349f6ae59263f",
+      "status": "COMPLETED_WITH_HITS",
+      "started_at": "2026-11-21T09:49:00Z",
+      "finished_at": "2026-11-21T09:52:00Z",
+      "error": null,
+      "retry_of": "JOB-0006-manual",
+      "summary": {
+        "customers": 2,
+        "entries": 4,
+        "pairs_retrieved": 2,
+        "no_hit": 0,
+        "alert_created": 0,
+        "rescreened": 1,
+        "basis_holds": 1,
+        "reopened": 0,
+        "pairs_not_retrieved": 6
+      }
+    },
+    {
+      "job_id": "JOB-0008-kyc_change",
+      "trigger": "kyc_change",
+      "scope": {
+        "customers": [
+          "SYN-CUST-A"
+        ],
+        "kyc_versions": {
+          "SYN-CUST-A": 2
+        },
+        "population": "selected customers"
+      },
+      "snapshot_ids": [
+        "SNAP-FICT-CN-ML-V1-28f94799",
+        "SNAP-FICT-UK-SL-V2-50c30ade",
+        "SNAP-FICT-US-SL-V1-00f72fe1"
+      ],
+      "config_sha256": "6353b1ed1f7698c9f56902671e0e24d1def78df666228b8edebe4f8a5ebce8d8",
+      "policy_sha256": "467a7218cb6c920330f167c2bf9fc91fcf90885621eb6b91208349f6ae59263f",
+      "status": "COMPLETED_WITH_HITS",
+      "started_at": "2026-11-21T09:54:00Z",
+      "finished_at": "2026-11-21T09:59:00Z",
+      "error": null,
+      "retry_of": null,
+      "summary": {
+        "customers": 1,
+        "entries": 4,
+        "pairs_retrieved": 1,
+        "no_hit": 0,
+        "alert_created": 0,
+        "rescreened": 0,
+        "basis_holds": 1,
+        "reopened": 0,
+        "pairs_not_retrieved": 3
+      }
+    }
+  ]
+}

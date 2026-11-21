@@ -1,0 +1,140 @@
+{
+  "frozen_at": "2026-11-20T21:12:37+00:00",
+  "note": "Frozen before any evaluation run. Pipeline and evaluation refuse to run if config_sha256 does not match.",
+  "parameters": {
+    "name_only": {
+      "scorer": "rapidfuzz.fuzz.token_sort_ratio",
+      "link_threshold": 90.0,
+      "review_threshold": 75.0
+    },
+    "splink": {
+      "link_threshold_probability": 0.8,
+      "review_threshold_probability": 0.3,
+      "probability_two_random_records_match": 0.01,
+      "training": "none: fixed, documented m/u probabilities (see README: 5 synthetic records are far too few for EM)",
+      "comparisons": {
+        "name": {
+          "column": "name_norm",
+          "levels": [
+            {
+              "key": "exact",
+              "description": "Exact normalised name",
+              "m": 0.78,
+              "u": 0.002
+            },
+            {
+              "key": "alias",
+              "description": "Documented alias (sourced alias table)",
+              "m": 0.08,
+              "u": 0.0002
+            },
+            {
+              "key": "jw_092",
+              "description": "Jaro-Winkler >= 0.92",
+              "m": 0.08,
+              "u": 0.003
+            },
+            {
+              "key": "jw_080",
+              "description": "Jaro-Winkler >= 0.80",
+              "m": 0.04,
+              "u": 0.02
+            },
+            {
+              "key": "else",
+              "description": "All other comparisons",
+              "m": 0.02,
+              "u": 0.9748
+            }
+          ]
+        },
+        "dob": {
+          "column": "dob_year/dob_month/dob_day",
+          "levels": [
+            {
+              "key": "full_exact",
+              "description": "Full date exact match",
+              "m": 0.8,
+              "u": 5e-05
+            },
+            {
+              "key": "year_month",
+              "description": "Year+month agree (at least one date lacks a day)",
+              "m": 0.06,
+              "u": 0.0008
+            },
+            {
+              "key": "year_only",
+              "description": "Year agrees (at least one date lacks a month)",
+              "m": 0.04,
+              "u": 0.012
+            },
+            {
+              "key": "mismatch",
+              "description": "Differ at the precision both dates share",
+              "m": 0.1,
+              "u": 0.98715
+            }
+          ]
+        },
+        "country": {
+          "column": "country_norm",
+          "levels": [
+            {
+              "key": "same",
+              "description": "Same country",
+              "m": 0.92,
+              "u": 0.45
+            },
+            {
+              "key": "else",
+              "description": "Different country",
+              "m": 0.08,
+              "u": 0.55
+            }
+          ]
+        },
+        "city": {
+          "column": "city_norm",
+          "levels": [
+            {
+              "key": "same",
+              "description": "Same city",
+              "m": 0.75,
+              "u": 0.08
+            },
+            {
+              "key": "else",
+              "description": "Different city",
+              "m": 0.25,
+              "u": 0.92
+            }
+          ]
+        }
+      },
+      "blocking_rules": [
+        {
+          "key": "same_family_name",
+          "sql": "l.case_id = r.case_id AND l.family_key = r.family_key"
+        },
+        {
+          "key": "same_alias_group",
+          "sql": "l.case_id = r.case_id AND l.alias_group IS NOT NULL AND l.alias_group = r.alias_group"
+        }
+      ]
+    },
+    "guard": {
+      "rule": "A verified FULL-precision date of birth on both records that differs is a contradiction. Partial-precision, unverified or unknown dates are never contradictions.",
+      "apply_to_decisions": [
+        "LINK",
+        "REVIEW"
+      ],
+      "chain_check": true
+    }
+  },
+  "inputs_sha256": {
+    "records": "56c27e26ec0682614bbd1f4453ab318f3957ac244cdf5be61f0fa9eecdd8cb9c",
+    "alias_table": "b5ebb51d26927274152fda5f5d8176c28a7789735f04d9fdf58f571a44332e0b"
+  },
+  "config_sha256": "6353b1ed1f7698c9f56902671e0e24d1def78df666228b8edebe4f8a5ebce8d8"
+}

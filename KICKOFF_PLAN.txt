@@ -1,0 +1,58 @@
+WRONG JOHN SMITH DEFENDER
+Hackathon kickoff plan · Saturday 21 November 2026 · London time
+
+FIRST 15 MINUTES
+1. Open nextjs/README.md. In nextjs/, run npm ci and npm run dev -- --hostname 127.0.0.1. Open http://127.0.0.1:3000. Start with the offline demo while DefenderAuth prepares Supabase in parallel.
+2. Open the private Wrong John Smith Defender group in Grok Bot. Share the agreed checkout or hand over the necessary files so all four bots use the same version. Keep the previous Streamlit ZIP available as a fallback.
+3. Rehearse CASE-11. Open its ownership sources and the saved Grok recommendation, then save Request more evidence or escalate to Legal or Sanctions with a rationale. Open Reviews and check that the case moves from Unprocessed to Processed with its latest decision visible.
+
+BOT OWNERSHIP AND PASTE READY PROMPTS
+DefenderBuilder · defender-build
+Use nextjs/ as the dashboard entry point and the Builder exports as scoring evidence. Verify CASE-01, CASE-03 and CASE-08, then validate the V2 replay, CASE-11 ownership workflow, CASE-12 document timeline and Reviews filters. Keep the app runnable offline and give QA the exact checkout and run command.
+
+DefenderChallenger · defender-evidence-review
+Review this synthetic evidence packet. Cite evidence IDs for each finding. Identify missing or conflicting evidence and name the next source to verify. Flag possible ownership or control exposure for human review. Keep document replacement, overlapping validity and conflicting verified identifiers distinct. Leave identity confirmation, legal applicability, suppression approval and final disposition to the authorised reviewer. Return one six-field JSON object, then send the complete object to DefenderQA.
+
+DefenderQA · defender-release-qa
+Check the five dashboard cases and compare the FEBRL4 run to the stored results. Confirm a human review moves the case to Processed, persists on reload and retains the original AI recommendation and cites. Test the V2 replay twice. Record actual results and mark unrun BRD checks explicitly. Take DefenderAuth's results separately for cloud sign-off.
+
+DefenderAuth · Supabase integration
+The approved Supabase demo project is ready. Use the project and checkout identified in this chat. Fetch the project API URL and publishable key, follow nextjs/README.md, and report sign-in, scoped fetch, cross-entity write rejection, analyst versus reviewer permissions and review persistence to DefenderQA. Use the separate synthetic demo project and approved accounts.
+
+SATURDAY BUILD ORDER
+10:00  Check in on Luma and launch the offline dashboard locally.
+10:30  Kickoff. Claim Grok Bot and Supabase credits in #claim-credits after check-in. The Discord note places Supabase under Other credits. Give DefenderAuth the approved project and source location. The team admin applies the migration, loads the seed and assigns two confirmed demo users.
+11:00  Start building. Open CASE-08 and compare A with C directly. Run CASE-01 and load V2 twice to see CASE-03 only once. Preserve raw values, evidence IDs and DOB precision in the handoff packet. Open Matching benchmark and reproduce the frozen FEBRL4 run when needed.
+12:15  Run ownership and document reviews with the bots. For CASE-11 confirm the operating company has no direct hit, open the stale parent register and cite EV-OWN-003. Save a rationale under Request more evidence, Escalate to Sanctions or Escalate to Legal. Keep the saved original Grok output separate from the decision. For CASE-12 verify the replaced documents, legitimate expiry overlap and one distinct cross-customer conflict.
+13:00  Lunch. Finish the live Supabase smoke test in parallel. Sign in with both accounts, refresh, sign out, and reopen once. Save and reload a permitted decision. Use the offline demo during cloud setup or an outage.
+14:15  Run the release checks. After the demonstrable path is green, prioritise versioned feed ingestion and rescreen runs, jurisdiction referrals and held-out scenario replay from the BRD. The Next.js V2 control replays a fixture locally. A daily sweep, full jurisdiction workflow and expansion to ten BRD cases are remaining scope.
+15:00  Diligent office hours. Show CASE-11's stale register and ask what evidence the analyst needs to verify current control. Use CASE-08 to ask how to handle an indirect match when verified DOBs conflict.
+15:20  DefenderQA records the exact artifact, five case results, FEBRL4 counts and auth outcomes. Rehearse a live Challenger handoff once with raw field values and explicit evidence IDs. Show the saved replay if the tool is unavailable.
+16:30  Internal handoff. Launch from a fresh checkout and capture the run command, actual checks and any remaining BRD gaps. Keep the working local app readily available.
+17:00  Code freeze and submission. 17:30 live demos for the top five.
+
+THREE MINUTE DEMO
+0:00–1:05  CASE-11 ownership. Compare no direct hit with the reported chain, show the stale register and Grok's cited next step. Write a human rationale, save the decision and show the case in Reviews → Processed.
+1:05–1:50  CASE-12 documents. Show three superseded documents and the overlapping current documents. Open the evidence IDs for the shared document key across customers with different verified DOBs.
+1:50–2:25  CASE-08 and V2. Show the A–C contradiction and that the guard routes to review. Load the synthetic V2 alias replay and verify CASE-03 appears once.
+2:25–3:00  FEBRL4 results, the verified scope of the demo and the next integration milestone.
+
+DATASETS AND QA
+The local app includes five synthetic cases. The original three scored identity cases use the Builder evidence exports. CASE-11 and CASE-12 are additional ownership and document fixtures with explicit source IDs and fictional data. The OpenSanctions data dictionary informs the schema and provenance. A live watchlist import remains an extension for approved data. https://www.opensanctions.org/reference/
+
+FEBRL4 independent benchmark. Two synthetic tables contain 10,000 records and 5,000 labelled true links. One fixed blocking configuration produced 88,579 candidates and retrieved 4,936 / 5,000 true pairs. RapidFuzz linked 3,835 true pairs, with 487 false links. Splink on DuckDB linked 4,622 true pairs, with 3 false links. Run npm run benchmark to reproduce the measured scoring run. DOB verification is unknown in FEBRL4. Review the effect of the verified-DOB guard on the separate case fixtures. https://recordlinkage.readthedocs.io/en/stable/ref-datasets.html#febrl-datasets
+
+Reviews acceptance. Verify Unprocessed covers cases with no saved human event. Processed includes evidence requests, escalations and resolved decisions, with the last decision shown. A processed escalation still needs review. Read the original Grok recommendation alongside evidence and decision history.
+
+SUPABASE ACCEPTANCE
+Use nextjs/README.md, .env.example, supabase/migrations/202611210001_defender_demo.sql and scripts/seed.mjs. The migration scopes case and review reads by booking entity and permits review resolution only for the reviewer role. It is designed for the approved demo project. The seed is safe to run twice. Use DEFENDER_MODE=supabase after setting the project URL and publishable key. Passwords and secret keys belong in the approved credential flow.
+
+UK reviewer should fetch CASE-03, 08, 11 and 12. US analyst should fetch CASE-01. Verify unsigned requests, cross-entity writes and analyst resolution are rejected. Verify one permitted review survives reload. Local SQL policy checks used simulated claims. The first live Supabase sign-in and fetch are scheduled for kickoff after a project and demo users are available.
+
+Optional after local sign-off. Tavily can add a manual official-source lookup with URL and retrieval time. Keep transaction analysis with Elliptic or IBM AMLSim as a future extension.
+
+References
+Official event schedule https://luma.com/spacexai-kpi9
+Grok Bot collaboration https://docs.x.ai/grok-bot/chat-and-collaboration
+Supabase Next.js auth https://supabase.com/docs/guides/auth/server-side/creating-a-client?framework=nextjs
+Supabase row-level security https://supabase.com/docs/guides/database/postgres/row-level-security

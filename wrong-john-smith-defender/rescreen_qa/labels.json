@@ -1,0 +1,9 @@
+{
+  "_notice": "QA LABELS (synthetic), held apart from scoring and exports. Read only by rescreen_qa/replay.py. Milestone-1 pair labels are read from evaluation/labels.json by the same evaluation-side code.",
+  "fixed_snapshot": {"list": "rescreen/fixtures/feeds/uk_v2.json", "kyc": "rescreen/fixtures/kyc/customers_v1.json"},
+  "pair_labels": [
+    {"pair": "SYN-CUST-B|FICT-UK-SL|DEMO-WL-410", "truth": "match", "critical": true, "note": "B is the listed person once the V2 corrections are applied"},
+    {"pair": "SYN-CUST-A|FICT-UK-SL|DEMO-WL-410", "truth": "non_match", "critical": false, "note": "A is a different person (verified identifier differs)"}
+  ],
+  "milestone_critical_true_links": ["SYN-03-A|SYN-03-B", "SYN-08-A|SYN-08-B"]
+}

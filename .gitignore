@@ -1,0 +1,16 @@
+.DS_Store
+node_modules/
+.next/
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.tsbuildinfo
+.env*
+!.env.example
+*.log
+*.sqlite*
+*.db
+/tmp/
+wrong-john-smith-defender/reviews/*
+!wrong-john-smith-defender/reviews/.gitkeep
